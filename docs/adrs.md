@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document records the key architectural decisions of the Hostera frontend. Each record follows the usual Architecture Decision Record format (Michael Nygard and MADR conventions): the context that led to the decision, the decision itself, and its consequences.
+This document records the key architectural decisions of the Hostera frontend. ADR-014 to ADR-018 record the port from Vue 3 to Angular 19; the records they supersede are kept, with their status updated, so that the history of each decision stays visible. Each record follows the usual Architecture Decision Record format (Michael Nygard and MADR conventions): the context that led to the decision, the decision itself, and its consequences.
 
 ---
 
@@ -21,6 +21,11 @@ This document records the key architectural decisions of the Hostera frontend. E
 - [ADR-011: Calendar Days and Date-Times as ISO Strings](#adr-011-calendar-days-and-date-times-as-iso-strings)
 - [ADR-012: Simulated RFID Encoder behind an Infrastructure Adapter](#adr-012-simulated-rfid-encoder-behind-an-infrastructure-adapter)
 - [ADR-013: Development-Only JSON Server Mock API](#adr-013-development-only-json-server-mock-api)
+- [ADR-014: Angular 19 with Standalone Components, Signals, and Lazy Routes](#adr-014-angular-19-with-standalone-components-signals-and-lazy-routes)
+- [ADR-015: Signal-Based Injectable Stores as the Application Layer](#adr-015-signal-based-injectable-stores-as-the-application-layer)
+- [ADR-016: Angular Material 3 with a Hostera Theme and PrimeFlex Utilities](#adr-016-angular-material-3-with-a-hostera-theme-and-primeflex-utilities)
+- [ADR-017: ngx-translate over the Existing Locale Files](#adr-017-ngx-translate-over-the-existing-locale-files)
+- [ADR-018: HttpClient Base API Service and Typed Environment Files](#adr-018-httpclient-base-api-service-and-typed-environment-files)
 
 ---
 
@@ -39,10 +44,10 @@ Hostera supports several areas of hotel operations: bookings and stays, rooms an
 Organize `src/` by bounded context, and give every context the same four layers:
 
 - **Bounded contexts:** `overview`, `bookings`, `rooms` (including rates), `inventory`, and `access-control`. `shared` holds cross-context infrastructure and presentation code.
-- **Domain:** plain JavaScript classes for entities (`Booking`, `Room`, `Credential`, `InventoryItem`), commands (`CancelBookingCommand`, `SetRoomStatusCommand`), and errors. They have no Vue, Pinia, or HTTP dependencies.
-- **Application:** one Pinia store per context that orchestrates its use cases (`useBookingsStore`, `useRoomsStore`).
-- **Infrastructure:** context API clients (`BookingsApi`, `RoomsApi`), assemblers, and adapters such as `RfidEncoder`.
-- **Presentation:** views, components, and the context's route module (`bookings-routes.js`).
+- **Domain:** plain TypeScript classes for entities (`Booking`, `Room`, `Credential`, `InventoryItem`), commands (`CancelBookingCommand`, `SetRoomStatusCommand`), and errors. They have no Angular or HTTP dependencies.
+- **Application:** one store per context that orchestrates its use cases (`BookingsStore`, `RoomsStore`); see ADR-015.
+- **Infrastructure:** context API services (`BookingsApiService`, `RoomsApiService`), assemblers, and adapters such as `RfidEncoderService`.
+- **Presentation:** views, components, and the context's route module (`bookings.routes.ts`).
 
 ### Consequences
 
@@ -60,7 +65,7 @@ Organize `src/` by bounded context, and give every context the same four layers:
 
 ### Status
 
-Accepted
+Superseded by [ADR-014](#adr-014-angular-19-with-standalone-components-signals-and-lazy-routes)
 
 ### Context
 
@@ -85,7 +90,7 @@ Build the SPA with **Vue 3** single-file components using the Composition API (`
 
 ### Status
 
-Accepted
+Superseded by [ADR-015](#adr-015-signal-based-injectable-stores-as-the-application-layer)
 
 ### Context
 
@@ -161,7 +166,7 @@ Model the start page as the **Overview** bounded context (`src/overview/`, route
 
 - Its domain has `DailyPerformance` (revenue, sold rooms, and occupancy for a day, counting confirmed, checked-in, and checked-out bookings) and `PropertyOverview` (occupancy, available rooms, and alerts of a property).
 - Its store reads the Bookings and Rooms stores for the selected property.
-- `OverviewApi.getPortfolio` reads rooms, bookings, and status periods of every property for the property overview.
+- `OverviewApiService.getPortfolio` reads rooms, bookings, and status periods of every property for the property overview.
 - Overview never creates or changes data; its actions link to the owning workspace.
 
 ### Consequences
@@ -228,7 +233,7 @@ Each context defines an error class in its domain (`BookingsError`, `RoomsError`
 
 ### Status
 
-Accepted
+Superseded by [ADR-018](#adr-018-httpclient-base-api-service-and-typed-environment-files), which keeps the context APIs and assemblers and replaces the HTTP client and its configuration
 
 ### Context
 
@@ -255,7 +260,7 @@ API payloads (resources) can differ from the domain model and change independent
 
 ### Status
 
-Accepted
+Superseded by [ADR-016](#adr-016-angular-material-3-with-a-hostera-theme-and-primeflex-utilities)
 
 ### Context
 
@@ -284,7 +289,7 @@ Operational screens need accessible tables, forms, dialogs, drawers, steppers, c
 
 ### Status
 
-Accepted
+Superseded by [ADR-017](#adr-017-ngx-translate-over-the-existing-locale-files), which keeps the file organization by language, bounded context, and view
 
 ### Context
 
@@ -322,7 +327,7 @@ Stays, rates, and room statuses are defined by calendar nights, while operations
 
 - Represent calendar days as ISO `YYYY-MM-DD` strings, and date-times as ISO strings.
 - Domain classes compare and add days with private helpers on these strings.
-- Format values for display in `src/shared/presentation/calendar-format.js` (`formatDay`, `formatDayRange`, `formatDateTime`, `formatMoney`), using the selected language and the property's currency.
+- Format values for display in `src/shared/presentation/calendar-format.ts` (`formatDay`, `formatDayRange`, `formatDateTime`, `formatMoney`), using the selected language and the property's currency.
 
 ### Consequences
 
@@ -346,7 +351,7 @@ Guest key cards and staff credentials are written by a front desk RFID encoder. 
 
 ### Decision
 
-Encapsulate the encoder in the Access Control infrastructure as `RfidEncoder.encode(onState)`, which reports the `encoding` and `verifying` states and returns the written card ID. The current implementation simulates the write in the browser. The Access Control store exposes it through `encodeKeyCard` and `encoderState`, and the shared `RfidEncoderPanel` component is used by staff credential issuing, card replacement, and check-in. Access events are read-only demonstration data until door readers are connected.
+Encapsulate the encoder in the Access Control infrastructure as `RfidEncoderService.encode(onState)`, which reports the `encoding` and `verifying` states and returns the written card ID. The current implementation simulates the write in the browser. The Access Control store exposes it through `encodeKeyCard` and `encoderState`, and the shared `RfidEncoderPanel` component is used by staff credential issuing, card replacement, and check-in. Access events are read-only demonstration data until door readers are connected.
 
 ### Consequences
 
@@ -376,7 +381,7 @@ Provide a **JSON Server `^0.17.4`** mock in `server/`, separate from the SPA dep
 - `build-db.js` combines the fixtures into the ignored `db.json`;
 - `start.sh` rebuilds the database and starts the server.
 
-Resource names and routes follow REST conventions, so that the infrastructure layer can later point to the real backend through environment variables.
+Resource names and routes follow REST conventions, so that the infrastructure layer can later point to the real backend through the environment files (ADR-018).
 
 ### Consequences
 
@@ -385,3 +390,149 @@ Resource names and routes follow REST conventions, so that the infrastructure la
 - **Negative:**
   - JSON Server does not enforce business rules, so they must also be implemented by the real backend.
   - The mock data drifts from production data over time.
+
+---
+
+## ADR-014: Angular 19 with Standalone Components, Signals, and Lazy Routes
+
+### Status
+
+Accepted. Supersedes [ADR-002](#adr-002-vue-3-with-the-composition-api-and-vite).
+
+### Context
+
+The Open Source course requires the frontend in Angular with TypeScript. The Vue SPA already had a DDD structure by bounded context, domain classes without framework dependencies, and lazy-loaded views, so the port had to change the framework without changing the architecture, the contexts, or the business rules.
+
+### Decision
+
+- Build the SPA with **Angular 19** and **TypeScript** in strict mode, using **standalone components** (no NgModules), the built-in control flow (`@if`, `@for`), and **signals** (`signal`, `computed`, `effect`, `input`, `model`, `output`) for reactive state.
+- Keep the folder of each bounded context and its four layers. Each context exposes a route module (`<context>.routes.ts`) that `app.routes.ts` loads with `loadChildren`, and each view is loaded with `loadComponent`.
+- Bind route parameters to component inputs with `withComponentInputBinding`, and set page titles through the route `title` and a `TitleStrategy` that adds the `Hostera - ` prefix.
+- Use the Angular CLI application builder for the development server and production builds, published from `dist/browser/`.
+
+### Consequences
+
+- **Positive:**
+  - Types catch mistakes between layers at build time, and the production build type-checks every template.
+  - Signals map closely to the Vue `ref` and `computed` used before, so the domain and the use cases were ported almost line by line.
+  - Lazy routes keep each workspace out of the initial bundle.
+- **Negative:**
+  - More boilerplate per component than single-file components (decorators, imports of each Material module).
+  - Angular 19 requires Node.js `^18.19.1`, `^20.11.1`, or `^22.0.0`.
+
+---
+
+## ADR-015: Signal-Based Injectable Stores as the Application Layer
+
+### Status
+
+Accepted. Supersedes [ADR-003](#adr-003-pinia-setup-stores-as-the-application-layer).
+
+### Context
+
+Pinia is Vue-specific. The application layer still needs shared reactive state per context, loading and saving flags, request errors, and one place to run each use case.
+
+### Decision
+
+Each bounded context has one injectable store class, `providedIn: 'root'` (`OverviewStore`, `BookingsStore`, `RoomsStore`, `InventoryStore`, `AccessControlStore`), that:
+
+- keeps its collections, loaded flags, `saving` flag, and `errors` as signals, and derives queries with `computed`;
+- loads data through its context API service and assemblers, converting each request to a promise with `firstValueFrom`;
+- runs use cases with domain objects and commands, and rejects with a domain error when a rule is violated (ADR-007);
+- follows the selected property with an `effect` on `RoomsStore.currentPropertyId`, as required by ADR-004.
+
+Stores collaborate by injecting each other, never another context's infrastructure.
+
+### Consequences
+
+- **Positive:**
+  - The public actions of each store kept the names and behavior of the Pinia stores, so views and ADR-004 did not change.
+  - Signals give fine-grained change detection without manual subscriptions in the views.
+- **Negative:**
+  - Effects must use `untracked` around the loads they start, or they would also react to the state those loads change.
+  - Stores are application-wide singletons, so state stays in memory while the application is open.
+
+---
+
+## ADR-016: Angular Material 3 with a Hostera Theme and PrimeFlex Utilities
+
+### Status
+
+Accepted. Supersedes [ADR-009](#adr-009-primevue-5-with-a-hostera-material-preset-primeflex-and-primeicons).
+
+### Context
+
+PrimeVue does not run in Angular. The porting guide suggested PrimeNG, but the team chose **Angular Material**, the component library maintained with Angular, whose Material 3 design is close to the Material preset already used by Hostera. The screens still need tables, forms, dialogs, side drawers, steppers, date and time pickers, and a responsive sidebar.
+
+### Decision
+
+- Use **Angular Material 3** and the **CDK**: `mat-sidenav` for the application layout, `mat-table` with `MatSort` and `MatPaginator`, `MatDialog` for dialogs and for the right-side drawers, `mat-stepper` for check-in, and the date, date range, and time pickers.
+- Generate the theme from the Hostera palette into `src/_theme-colors.scss` and apply it in `src/styles.scss` with `mat.theme`, together with the Hostera design tokens as CSS custom properties.
+- Keep **PrimeFlex** as a CSS utility library for layout and spacing, so the existing templates kept their layout classes.
+- Use **Material Symbols** for icons, and draw charts directly with **Chart.js** through a small `ChartCanvasComponent`.
+- Replace PrimeVue components without a Material equivalent with small shared components (`StatusTagComponent`, `MessageComponent`, `ContextLayoutComponent`).
+
+### Consequences
+
+- **Positive:**
+  - No license key is needed, and components follow Angular's release cycle.
+  - One theme in `styles.scss` styles every screen.
+- **Negative:**
+  - PrimeFlex adds about 340 kB of uncompressed CSS to the initial bundle (about 20 kB transferred), so the initial bundle warning budget is 1.25 MB.
+  - Tags, inline messages, and the workspace chrome are maintained by the team instead of a library.
+
+---
+
+## ADR-017: ngx-translate over the Existing Locale Files
+
+### Status
+
+Accepted. Supersedes [ADR-010](#adr-010-internationalization-by-language-bounded-context-and-view).
+
+### Context
+
+The porting guide requires reusing the English and Spanish JSON files unchanged. They use Vue I18n syntax: named arguments (`{name}`), literal escapes (`{'@'}`), and plural forms separated by `|`.
+
+### Decision
+
+- Use **ngx-translate** with two adapters in `src/shared/infrastructure/`:
+  - `LocaleLoader` loads every file of a language from `src/locales/<language>/<context>/<file>.json`, served as assets, and nests it under the same `<context>.<file>` namespace that Vue I18n used.
+  - `VueI18nMessageParser` interpolates named arguments and literal escapes, and picks the plural form from the `count` argument.
+- Expose translations to components through `I18nService`, whose `t()` reads the active language signal so that computed texts update when the language changes, and which also localizes the Material date adapter and paginator.
+- Keep the file organization of ADR-010 and the `LanguageSwitcher` in the sidebar.
+
+### Consequences
+
+- **Positive:**
+  - The locale files are byte-for-byte the same as in the Vue version, and no text was translated again.
+  - Each view's texts remain easy to find, and each context owns its terms.
+- **Negative:**
+  - A new locale file must be added to the namespace list of `LocaleLoader`.
+  - The parser supports the subset of the Vue I18n syntax that the files use, not all of it.
+
+---
+
+## ADR-018: HttpClient Base API Service and Typed Environment Files
+
+### Status
+
+Accepted. Supersedes [ADR-008](#adr-008-shared-http-client-context-apis-and-assemblers).
+
+### Context
+
+Angular provides `HttpClient`, so Axios is no longer needed. Vite environment variables (`VITE_*`) are not available in Angular builds.
+
+### Decision
+
+- `BaseApiService` is an abstract class that injects `HttpClient`, reads the base URL from the environment, and creates endpoints with `createEndpoint<T>(path)`.
+- `BaseEndpoint<T>` provides the REST operations (`getAll`, `getById`, `create`, `update`, `delete`) for one resource path and returns observables of the full `HttpResponse`.
+- Each context has an API service that extends `BaseApiService` (`OverviewApiService`, `BookingsApiService`, `RoomsApiService`, `InventoryApiService`, `AccessControlApiService`). Assemblers still translate resources into domain entities and remain the anti-corruption layer.
+- The API URL and resource paths live in `src/environments/environment.ts`, which the production build replaces with `environment.production.ts` through `fileReplacements`.
+
+### Consequences
+
+- **Positive:**
+  - HTTP uses the framework's client, with typed resources per endpoint.
+  - The environment is checked by the compiler instead of being read as untyped strings at runtime.
+- **Negative:**
+  - Changing the API URL requires a new build instead of a different `.env` file.
