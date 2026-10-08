@@ -35,10 +35,9 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    title: 'Home',
-    loadComponent: () =>
-      import('./shared/presentation/views/home/home.component').then(
-        (m) => m.HomeComponent,
+    loadChildren: () =>
+      import('./overview/presentation/overview.routes').then(
+        (m) => m.overviewRoutes,
       ),
   },
   { path: '**', redirectTo: '' },
