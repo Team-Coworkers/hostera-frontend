@@ -6,6 +6,13 @@ import { Routes } from '@angular/router';
  */
 export const routes: Routes = [
   {
+    path: 'inventory',
+    loadChildren: () =>
+      import('./inventory/presentation/inventory.routes').then(
+        (m) => m.inventoryRoutes,
+      ),
+  },
+  {
     path: 'home',
     title: 'Home',
     loadComponent: () =>

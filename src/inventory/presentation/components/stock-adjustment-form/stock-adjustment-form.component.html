@@ -1,0 +1,184 @@
+<app-drawer-header
+  [title]="i18n.t('inventory.stock-adjustment-form.title')"
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('inventory.stock-adjustment-form.cancel')"
+>
+  <span class="text-sm text-color-secondary font-normal"
+    >{{ inventoryItem.name }} ·
+    <span class="font-mono">{{ inventoryItem.code }}</span></span
+  >
+</app-drawer-header>
+
+<mat-dialog-content>
+  <form
+    id="stock-adjustment-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="performStockAdjustment()"
+  >
+    <div
+      class="flex align-items-center justify-content-between gap-3 p-3 border-round-lg surface-100"
+      aria-live="polite"
+    >
+      <div class="flex flex-column">
+        <span class="text-sm text-color-secondary">{{
+          i18n.t('inventory.stock-adjustment-form.current')
+        }}</span>
+        <span class="font-mono text-xl"
+          >{{ number(currentQuantity()) }} {{ unitLabel() }}</span
+        >
+      </div>
+      <mat-icon class="text-color-secondary" aria-hidden="true"
+        >arrow_forward</mat-icon
+      >
+      <div class="flex flex-column align-items-end">
+        <span class="text-sm text-color-secondary">{{
+          i18n.t('inventory.stock-adjustment-form.result')
+        }}</span>
+        <span
+          class="font-mono text-xl"
+          [class.text-red-600]="resultingQuantity() < 0"
+          >{{ number(resultingQuantity()) }} {{ unitLabel() }}</span
+        >
+      </div>
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <span id="adjustment-operation" class="text-sm font-medium">{{
+        i18n.t('inventory.stock-adjustment-form.operation')
+      }}</span>
+      <mat-button-toggle-group
+        class="w-full"
+        hideSingleSelectionIndicator
+        aria-labelledby="adjustment-operation"
+        [value]="operation()"
+        (change)="changeOperation($event.value)"
+      >
+        @for (value of operations; track value) {
+          <mat-button-toggle class="flex-1" [value]="value">
+            <span class="flex align-items-center justify-content-center gap-2">
+              <mat-icon aria-hidden="true">{{
+                operationIcons[value]
+              }}</mat-icon>
+              {{ i18n.t('inventory.inventory-terms.operations.' + value) }}
+            </span>
+          </mat-button-toggle>
+        }
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="grid">
+      <mat-form-field class="col-12 sm:col-6">
+        <mat-label>{{
+          i18n.t('inventory.stock-adjustment-form.quantity')
+        }}</mat-label>
+        <input
+          matInput
+          type="number"
+          name="quantity"
+          class="font-mono"
+          min="0"
+          [step]="inventoryItem.unit === 'units' ? 1 : 0.001"
+          [(ngModel)]="quantity"
+        />
+        <span matTextSuffix class="ml-1 text-sm">{{ unitLabel() }}</span>
+      </mat-form-field>
+      <mat-form-field class="col-12 sm:col-6">
+        <mat-label>{{
+          i18n.t('inventory.stock-adjustment-form.origin')
+        }}</mat-label>
+        <mat-select
+          name="locationId"
+          [ngModel]="locationId()"
+          (ngModelChange)="changeLocation($event)"
+        >
+          @for (location of store.storageLocations(); track location.id) {
+            <mat-option [value]="location.id">{{ location.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    @if (operation() === 'transfer') {
+      <mat-form-field class="w-full">
+        <mat-label>{{
+          i18n.t('inventory.stock-adjustment-form.destination')
+        }}</mat-label>
+        <mat-select
+          name="destinationLocationId"
+          [(ngModel)]="destinationLocationId"
+        >
+          @for (location of destinationLocations(); track location.id) {
+            <mat-option [value]="location.id">{{ location.name }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>{{
+          i18n.t('inventory.stock-adjustment-form.transfer-help')
+        }}</mat-hint>
+      </mat-form-field>
+    }
+
+    <mat-form-field class="w-full">
+      <mat-label>{{
+        i18n.t('inventory.stock-adjustment-form.reason')
+      }}</mat-label>
+      <mat-select name="reason" [(ngModel)]="reason">
+        @for (value of reasons(); track value) {
+          <mat-option [value]="value">{{
+            i18n.t('inventory.inventory-terms.reasons.' + value)
+          }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>{{
+        i18n.t('inventory.stock-adjustment-form.note')
+      }}</mat-label>
+      <textarea
+        matInput
+        name="note"
+        rows="3"
+        maxlength="500"
+        cdkTextareaAutosize
+        [required]="reason() === 'other'"
+        [(ngModel)]="note"
+      ></textarea>
+      <mat-hint>{{
+        i18n.t('inventory.stock-adjustment-form.note-help')
+      }}</mat-hint>
+    </mat-form-field>
+
+    <app-message severity="success" icon="history">
+      {{ i18n.t('inventory.stock-adjustment-form.audit') }}
+    </app-message>
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('inventory.inventory-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('inventory.stock-adjustment-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="stock-adjustment-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>save</mat-icon>
+    }
+    {{ i18n.t('inventory.stock-adjustment-form.save') }}
+  </button>
+</mat-dialog-actions>

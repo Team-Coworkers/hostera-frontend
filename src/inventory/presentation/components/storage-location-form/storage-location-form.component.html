@@ -1,0 +1,133 @@
+<app-drawer-header
+  [title]="
+    isEdit
+      ? i18n.t('inventory.storage-location-form.edit-title')
+      : i18n.t('inventory.storage-location-form.new-title')
+  "
+  [subtitle]="store.currentProperty()?.name ?? ''"
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('inventory.storage-location-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="storage-location-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="saveStorageLocation()"
+  >
+    <mat-form-field class="w-full">
+      <mat-label>{{
+        i18n.t('inventory.storage-location-form.name')
+      }}</mat-label>
+      <input
+        matInput
+        name="name"
+        required
+        maxlength="100"
+        cdkFocusInitial
+        [(ngModel)]="name"
+      />
+    </mat-form-field>
+    <div class="grid">
+      <mat-form-field class="col-12 sm:col-6">
+        <mat-label>{{
+          i18n.t('inventory.storage-location-form.code')
+        }}</mat-label>
+        <input
+          matInput
+          name="code"
+          class="font-mono"
+          required
+          maxlength="40"
+          [disabled]="isEdit"
+          [(ngModel)]="code"
+        />
+      </mat-form-field>
+      <mat-form-field class="col-12 sm:col-6">
+        <mat-label>{{
+          i18n.t('inventory.storage-location-form.type')
+        }}</mat-label>
+        <mat-select name="type" [(ngModel)]="type">
+          @for (value of types; track value) {
+            <mat-option [value]="value">{{
+              i18n.t('inventory.inventory-terms.location-types.' + value)
+            }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    @if (isEdit) {
+      <app-message severity="secondary" icon="lock">
+        {{ i18n.t('inventory.storage-location-form.code-locked') }}
+      </app-message>
+    }
+    <div class="grid">
+      <mat-form-field class="col-12 sm:col-6">
+        <mat-label>{{
+          i18n.t('inventory.storage-location-form.area')
+        }}</mat-label>
+        <input
+          matInput
+          name="area"
+          required
+          maxlength="100"
+          [(ngModel)]="area"
+        />
+      </mat-form-field>
+      <mat-form-field class="col-12 sm:col-6">
+        <mat-label>{{
+          i18n.t('inventory.storage-location-form.team')
+        }}</mat-label>
+        <input
+          matInput
+          name="responsibleTeam"
+          required
+          maxlength="100"
+          [(ngModel)]="responsibleTeam"
+        />
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-full">
+      <mat-label>{{
+        i18n.t('inventory.storage-location-form.description')
+      }}</mat-label>
+      <textarea
+        matInput
+        name="description"
+        rows="4"
+        maxlength="500"
+        cdkTextareaAutosize
+        [(ngModel)]="description"
+      ></textarea>
+    </mat-form-field>
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('inventory.inventory-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('inventory.storage-location-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="storage-location-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>save</mat-icon>
+    }
+    {{ i18n.t('inventory.storage-location-form.save') }}
+  </button>
+</mat-dialog-actions>

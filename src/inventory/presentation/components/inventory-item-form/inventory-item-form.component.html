@@ -1,0 +1,178 @@
+<app-drawer-header
+  [title]="
+    isEdit
+      ? i18n.t('inventory.inventory-item-form.edit-title')
+      : i18n.t('inventory.inventory-item-form.new-title')
+  "
+  [subtitle]="store.currentProperty()?.name ?? ''"
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('inventory.inventory-item-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="inventory-item-form"
+    class="flex flex-column gap-4 pt-1"
+    (ngSubmit)="saveInventoryItem()"
+  >
+    <section class="flex flex-column gap-3">
+      <h3 class="m-0 text-base font-semibold">
+        {{ i18n.t('inventory.inventory-item-form.details-section') }}
+      </h3>
+      <mat-form-field class="w-full">
+        <mat-label>{{
+          i18n.t('inventory.inventory-item-form.name')
+        }}</mat-label>
+        <input
+          matInput
+          name="name"
+          required
+          maxlength="100"
+          cdkFocusInitial
+          [placeholder]="
+            i18n.t('inventory.inventory-item-form.name-placeholder')
+          "
+          [(ngModel)]="name"
+        />
+      </mat-form-field>
+      <div class="grid">
+        <mat-form-field class="col-12 sm:col-6">
+          <mat-label>{{
+            i18n.t('inventory.inventory-item-form.code')
+          }}</mat-label>
+          <input
+            matInput
+            name="code"
+            class="font-mono"
+            placeholder="LIN-BT-001"
+            required
+            maxlength="40"
+            [(ngModel)]="code"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-12 sm:col-6">
+          <mat-label>{{
+            i18n.t('inventory.inventory-item-form.unit')
+          }}</mat-label>
+          <mat-select name="unit" [disabled]="unitLocked" [(ngModel)]="unit">
+            @for (value of units; track value) {
+              <mat-option [value]="value">{{
+                i18n.t('inventory.inventory-terms.units.' + value)
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      @if (unitLocked) {
+        <app-message severity="secondary" icon="lock">
+          {{ i18n.t('inventory.inventory-item-form.unit-locked') }}
+        </app-message>
+      }
+      <mat-form-field class="w-full">
+        <mat-label>{{
+          i18n.t('inventory.inventory-item-form.category')
+        }}</mat-label>
+        <mat-select name="category" [(ngModel)]="category">
+          @for (value of categories; track value) {
+            <mat-option [value]="value">{{
+              i18n.t('inventory.inventory-terms.categories.' + value)
+            }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <mat-divider />
+
+    <section class="flex flex-column gap-3">
+      <h3 class="m-0 text-base font-semibold">
+        {{ i18n.t('inventory.inventory-item-form.stock-section') }}
+      </h3>
+      <mat-form-field class="w-full">
+        <mat-label>{{
+          i18n.t('inventory.inventory-item-form.storage')
+        }}</mat-label>
+        <mat-select name="primaryLocationId" [(ngModel)]="primaryLocationId">
+          @for (location of store.storageLocations(); track location.id) {
+            <mat-option [value]="location.id">{{ location.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <div class="grid">
+        @if (!isEdit) {
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>{{
+              i18n.t('inventory.inventory-item-form.opening-quantity')
+            }}</mat-label>
+            <input
+              matInput
+              type="number"
+              name="openingQuantity"
+              class="font-mono"
+              min="0"
+              [step]="unit() === 'units' ? 1 : 0.001"
+              [(ngModel)]="openingQuantity"
+            />
+            <span matTextSuffix class="ml-1 text-sm">{{
+              i18n.t('inventory.inventory-terms.units.' + unit())
+            }}</span>
+          </mat-form-field>
+        }
+        <mat-form-field [class]="isEdit ? 'col-12' : 'col-12 sm:col-6'">
+          <mat-label>{{
+            i18n.t('inventory.inventory-item-form.threshold')
+          }}</mat-label>
+          <input
+            matInput
+            type="number"
+            name="lowStockThreshold"
+            class="font-mono"
+            min="0"
+            [step]="unit() === 'units' ? 1 : 0.001"
+            [(ngModel)]="lowStockThreshold"
+          />
+          <span matTextSuffix class="ml-1 text-sm">{{
+            i18n.t('inventory.inventory-terms.units.' + unit())
+          }}</span>
+        </mat-form-field>
+      </div>
+      <app-message severity="secondary">
+        {{
+          isEdit
+            ? i18n.t('inventory.inventory-item-form.threshold-help')
+            : i18n.t('inventory.inventory-item-form.opening-quantity-help')
+        }}
+      </app-message>
+    </section>
+
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('inventory.inventory-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('inventory.inventory-item-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="inventory-item-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>save</mat-icon>
+    }
+    {{ i18n.t('inventory.inventory-item-form.save') }}
+  </button>
+</mat-dialog-actions>

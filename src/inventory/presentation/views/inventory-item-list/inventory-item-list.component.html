@@ -1,0 +1,252 @@
+<app-inventory-layout>
+  <button
+    layoutActions
+    mat-flat-button
+    [disabled]="store.saving() || !store.storageLocations().length"
+    (click)="openInventoryItemForm()"
+  >
+    <mat-icon>add</mat-icon>
+    {{ i18n.t('inventory.inventory-item-list.new') }}
+  </button>
+
+  <ng-template layoutBody>
+    <section class="flex flex-column gap-3">
+      <div class="flex align-items-center gap-2 overflow-x-auto">
+        <mat-button-toggle-group
+          class="condition-filter flex-shrink-0"
+          hideSingleSelectionIndicator
+          [attr.aria-label]="i18n.t('inventory.inventory-item-list.condition')"
+          [value]="conditionFilter()"
+          (change)="conditionFilter.set($event.value)"
+        >
+          @for (option of conditionOptions(); track option.value) {
+            <mat-button-toggle [value]="option.value">
+              <span class="flex align-items-center gap-2 white-space-nowrap">
+                @if (option.dot) {
+                  <mat-icon class="dot" [class]="option.dot" aria-hidden="true"
+                    >circle</mat-icon
+                  >
+                }
+                <span>{{ option.label }}</span>
+                <span class="font-mono text-sm opacity-70">{{
+                  number(option.count)
+                }}</span>
+              </span>
+            </mat-button-toggle>
+          }
+        </mat-button-toggle-group>
+        <mat-icon
+          class="text-color-secondary flex-shrink-0"
+          tabindex="0"
+          matTooltipPosition="below"
+          [matTooltip]="i18n.t('inventory.inventory-item-list.property-scope')"
+          [attr.aria-label]="
+            i18n.t('inventory.inventory-item-list.property-scope')
+          "
+          >info</mat-icon
+        >
+      </div>
+      <div class="flex flex-wrap align-items-center gap-2">
+        <mat-form-field class="w-full md:w-20rem">
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input
+            matInput
+            [placeholder]="i18n.t('inventory.inventory-item-list.search')"
+            [attr.aria-label]="i18n.t('inventory.inventory-item-list.search')"
+            [(ngModel)]="search"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-14rem">
+          <mat-select
+            [placeholder]="
+              i18n.t('inventory.inventory-item-list.all-locations')
+            "
+            [attr.aria-label]="i18n.t('inventory.inventory-item-list.storage')"
+            [(ngModel)]="locationFilter"
+          >
+            <mat-option [value]="null">{{
+              i18n.t('inventory.inventory-item-list.all-locations')
+            }}</mat-option>
+            @for (location of store.storageLocations(); track location.id) {
+              <mat-option [value]="location.id">{{ location.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-14rem">
+          <mat-select
+            [placeholder]="
+              i18n.t('inventory.inventory-item-list.all-categories')
+            "
+            [attr.aria-label]="i18n.t('inventory.inventory-item-list.category')"
+            [(ngModel)]="categoryFilter"
+          >
+            <mat-option [value]="null">{{
+              i18n.t('inventory.inventory-item-list.all-categories')
+            }}</mat-option>
+            @for (value of categoryOptions(); track value) {
+              <mat-option [value]="value">{{
+                i18n.t('inventory.inventory-terms.categories.' + value)
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        @if (filtersApplied()) {
+          <button mat-button (click)="resetFilters()">
+            <mat-icon>filter_alt_off</mat-icon>
+            {{ i18n.t('inventory.inventory-item-list.clear') }}
+          </button>
+        }
+        <span class="ml-auto text-sm text-color-secondary" aria-live="polite">{{
+          i18n.t('inventory.inventory-item-list.results', {
+            count: filteredInventoryItems().length,
+          })
+        }}</span>
+      </div>
+
+      <div
+        class="surface-card border-1 surface-border border-round-xl overflow-auto"
+      >
+        <table
+          mat-table
+          class="hostera-table"
+          style="min-width: 56rem"
+          [dataSource]="dataSource"
+          matSort
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('inventory.inventory-item-list.name') }}
+            </th>
+            <td mat-cell *matCellDef="let item">
+              <a
+                [routerLink]="['/inventory/items', item.id]"
+                class="flex align-items-center gap-3 text-color"
+                (click)="$event.stopPropagation()"
+              >
+                <app-inventory-item-avatar [category]="item.category" />
+                <span class="flex flex-column">
+                  <span class="font-semibold white-space-nowrap">{{
+                    item.name
+                  }}</span>
+                  <span class="font-mono text-sm text-color-secondary">{{
+                    item.code
+                  }}</span>
+                </span>
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.inventory-item-list.category') }}
+            </th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                i18n.t('inventory.inventory-terms.categories.' + item.category)
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="primaryStorage">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.inventory-item-list.primary-storage') }}
+            </th>
+            <td mat-cell *matCellDef="let item">
+              {{ storageLocationName(item.primaryLocationId) }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('inventory.inventory-item-list.quantity') }}
+            </th>
+            <td mat-cell *matCellDef="let item">
+              <span class="font-mono white-space-nowrap"
+                >{{ number(item.totalQuantity) }}
+                <span class="text-color-secondary">{{
+                  i18n.t('inventory.inventory-terms.units.' + item.unit)
+                }}</span></span
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="condition">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.inventory-item-list.condition') }}
+            </th>
+            <td mat-cell *matCellDef="let item">
+              <app-stock-condition-tag [condition]="item.stockCondition" />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-right"
+              style="width: 1%"
+            >
+              {{ i18n.t('inventory.inventory-item-list.actions') }}
+            </th>
+            <td mat-cell *matCellDef="let item" class="white-space-nowrap">
+              <div class="flex justify-content-end gap-1">
+                <button
+                  mat-icon-button
+                  [matTooltip]="i18n.t('inventory.inventory-item-list.adjust')"
+                  [attr.aria-label]="
+                    i18n.t('inventory.inventory-item-list.adjust') +
+                    ': ' +
+                    item.name
+                  "
+                  [disabled]="store.saving()"
+                  (click)="
+                    $event.stopPropagation(); openStockAdjustmentForm(item)
+                  "
+                >
+                  <mat-icon>swap_horiz</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  [matTooltip]="i18n.t('inventory.inventory-item-list.edit')"
+                  [attr.aria-label]="
+                    i18n.t('inventory.inventory-item-list.edit') +
+                    ': ' +
+                    item.name
+                  "
+                  [disabled]="store.saving()"
+                  (click)="
+                    $event.stopPropagation(); openInventoryItemForm(item)
+                  "
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            class="clickable"
+            *matRowDef="let item; columns: displayedColumns"
+            (click)="navigateToDetail(item.id)"
+          ></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              <div
+                class="empty-state flex flex-column align-items-center gap-2 py-6 text-center"
+              >
+                <mat-icon aria-hidden="true">inventory_2</mat-icon>
+                <span class="font-medium">{{
+                  i18n.t('inventory.inventory-item-list.empty-title')
+                }}</span>
+                <span class="text-sm text-color-secondary">{{
+                  i18n.t('inventory.inventory-item-list.empty-text')
+                }}</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <mat-paginator
+          [pageSize]="10"
+          [hidePageSize]="true"
+          [class.hidden]="filteredInventoryItems().length <= 10"
+        />
+      </div>
+    </section>
+  </ng-template>
+</app-inventory-layout>

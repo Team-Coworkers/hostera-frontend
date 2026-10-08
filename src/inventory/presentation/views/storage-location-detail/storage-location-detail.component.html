@@ -1,0 +1,253 @@
+<app-inventory-layout>
+  <ng-template layoutBody>
+    @if (storageLocation(); as location) {
+      <nav
+        class="flex align-items-center gap-2 text-sm"
+        aria-label="breadcrumb"
+      >
+        <a
+          routerLink="/inventory/items"
+          class="text-color-secondary hover:text-primary"
+          >{{ i18n.t('inventory.storage-location-detail.inventory') }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <a
+          routerLink="/inventory/storage-locations"
+          class="text-color-secondary hover:text-primary"
+          >{{
+            i18n.t('inventory.storage-location-detail.storage-locations')
+          }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <span class="font-mono font-medium" aria-current="page">{{
+          location.code
+        }}</span>
+      </nav>
+
+      <header
+        class="flex flex-column md:flex-row md:align-items-center gap-3 pb-4 border-bottom-1 surface-border"
+      >
+        <div class="flex align-items-center gap-3 flex-1 min-w-0">
+          <app-storage-location-avatar [type]="location.type" size="large" />
+          <div class="flex flex-column gap-1 min-w-0">
+            <div class="flex flex-wrap align-items-center gap-2">
+              <h2 class="m-0 text-2xl font-bold tracking-tight">
+                {{ location.name }}
+              </h2>
+              @if (stockAlertsCount()) {
+                <app-status-tag
+                  severity="warn"
+                  [value]="
+                    i18n.t('inventory.storage-location-detail.alerts-count', {
+                      count: stockAlertsCount(),
+                    })
+                  "
+                />
+              } @else {
+                <app-status-tag
+                  severity="success"
+                  [value]="
+                    i18n.t('inventory.storage-location-detail.no-alerts')
+                  "
+                />
+              }
+            </div>
+            <span class="text-sm text-color-secondary">
+              <span class="font-mono">{{ location.code }}</span> ·
+              {{
+                i18n.t(
+                  'inventory.inventory-terms.location-types.' + location.type
+                )
+              }}
+            </span>
+          </div>
+        </div>
+        <div class="flex align-items-center gap-4">
+          <div class="flex flex-column md:align-items-end">
+            <span class="text-sm text-color-secondary">{{
+              i18n.t('inventory.storage-location-detail.assigned-items')
+            }}</span>
+            <span class="font-mono text-xl">{{
+              number(assignedInventoryItems().length)
+            }}</span>
+          </div>
+          <div class="flex gap-2 ml-auto md:ml-0">
+            <button
+              mat-stroked-button
+              [disabled]="store.saving()"
+              (click)="editLocation()"
+            >
+              <mat-icon>edit</mat-icon>
+              {{ i18n.t('inventory.storage-location-detail.edit') }}
+            </button>
+            <button
+              mat-stroked-button
+              class="danger-button"
+              [disabled]="store.saving()"
+              (click)="confirmDelete()"
+            >
+              <mat-icon>delete</mat-icon>
+              {{ i18n.t('inventory.storage-location-detail.delete') }}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid">
+        <section class="col-12 lg:col-8 flex flex-column gap-3">
+          <h3 class="flex align-items-center gap-2 m-0 text-base font-semibold">
+            <mat-icon class="text-color-secondary" aria-hidden="true"
+              >inventory_2</mat-icon
+            >
+            {{ i18n.t('inventory.storage-location-detail.items') }}
+          </h3>
+          <div
+            class="surface-card border-1 surface-border border-round-xl overflow-auto"
+          >
+            <table
+              mat-table
+              class="hostera-table"
+              style="min-width: 36rem"
+              [dataSource]="assignedInventoryItems()"
+            >
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.storage-location-detail.name') }}
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <a
+                    [routerLink]="['/inventory/items', item.id]"
+                    class="flex align-items-center gap-2 text-color"
+                  >
+                    <app-inventory-item-avatar [category]="item.category" />
+                    <span class="flex flex-column">
+                      <span class="font-semibold white-space-nowrap">{{
+                        item.name
+                      }}</span>
+                      <span class="font-mono text-sm text-color-secondary">{{
+                        item.code
+                      }}</span>
+                    </span>
+                  </a>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.storage-location-detail.quantity') }}
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <span class="font-mono white-space-nowrap"
+                    >{{ number(item.quantityAt(location.id)) }}
+                    <span class="text-color-secondary">{{
+                      i18n.t('inventory.inventory-terms.units.' + item.unit)
+                    }}</span></span
+                  >
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="condition">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.storage-location-detail.condition') }}
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <app-stock-condition-tag [condition]="item.stockCondition" />
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef style="width: 1%"></th>
+                <td
+                  mat-cell
+                  *matCellDef="let item"
+                  class="text-right white-space-nowrap"
+                >
+                  <button
+                    mat-icon-button
+                    [matTooltip]="
+                      i18n.t('inventory.storage-location-detail.adjust')
+                    "
+                    [attr.aria-label]="
+                      i18n.t('inventory.storage-location-detail.adjust') +
+                      ': ' +
+                      item.name
+                    "
+                    [disabled]="store.saving()"
+                    (click)="openStockAdjustmentForm(item)"
+                  >
+                    <mat-icon>swap_horiz</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="itemColumns"></tr>
+              <tr mat-row *matRowDef="let item; columns: itemColumns"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td
+                  class="mat-cell p-3 text-color-secondary"
+                  [attr.colspan]="itemColumns.length"
+                >
+                  {{ i18n.t('inventory.storage-location-detail.empty-title') }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </section>
+
+        <aside class="col-12 lg:col-4">
+          <div
+            class="flex flex-column gap-4 p-4 surface-50 border-1 surface-border border-round-xl"
+          >
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >info</mat-icon
+                >
+                {{ i18n.t('inventory.storage-location-detail.details') }}
+              </h3>
+              <dl class="facts flex flex-column gap-2 m-0">
+                @for (fact of locationFacts(); track fact.label) {
+                  <div class="flex justify-content-between gap-3">
+                    <dt>{{ fact.label }}</dt>
+                    <dd class="text-right font-medium">{{ fact.value }}</dd>
+                  </div>
+                }
+              </dl>
+            </section>
+
+            @if (location.description) {
+              <section class="flex flex-column gap-2">
+                <h3
+                  class="flex align-items-center gap-2 m-0 text-base font-semibold"
+                >
+                  <mat-icon class="text-color-secondary" aria-hidden="true"
+                    >notes</mat-icon
+                  >
+                  {{ i18n.t('inventory.storage-location-detail.description') }}
+                </h3>
+                <p class="m-0 line-height-3">{{ location.description }}</p>
+              </section>
+            }
+
+            <p class="m-0 text-sm text-color-secondary line-height-3">
+              {{ i18n.t('inventory.storage-location-detail.quantity-help') }}
+            </p>
+          </div>
+        </aside>
+      </div>
+    } @else {
+      <app-message severity="warn" icon="search">
+        <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+          <span>{{
+            i18n.t('inventory.storage-location-detail.not-found')
+          }}</span>
+          <a routerLink="/inventory/storage-locations" class="font-medium">{{
+            i18n.t('inventory.storage-location-detail.back')
+          }}</a>
+        </div>
+      </app-message>
+    }
+  </ng-template>
+</app-inventory-layout>
