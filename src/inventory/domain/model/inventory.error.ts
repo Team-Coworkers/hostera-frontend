@@ -1,14 +1,14 @@
 /**
  * Business-rule violation raised within the Inventory bounded context.
- *
- * @class InventoryError
- * @extends Error
  */
 export class InventoryError extends Error {
+  /** Identifier of the violated business rule. */
+  readonly code: string;
+
   /**
-   * @param {string} code - Identifier of the violated business rule.
+   * @param code - Identifier of the violated business rule.
    */
-  constructor(code) {
+  constructor(code: string) {
     super(code);
     this.name = 'InventoryError';
     this.code = code;
