@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "dist/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
@@ -19,7 +19,7 @@
         ]
       },
       {
-        "source": "/assets/**",
+        "source": "**/*.@(js|css|woff2)",
         "headers": [
           {
             "key": "Cache-Control",

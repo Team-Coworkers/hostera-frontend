@@ -1,0 +1,17 @@
+.property-select {
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  border: 1px solid var(--p-surface-300);
+  border-radius: 0.5rem;
+  background: var(--p-surface-0);
+}
+
+mat-divider[vertical] {
+  height: 1rem;
+}
+
+.danger-button {
+  --mdc-filled-button-container-color: var(--hostera-tag-danger-fg);
+}
