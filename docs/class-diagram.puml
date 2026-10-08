@@ -2,7 +2,9 @@
 title Hostera Frontend — Class Diagram
 hide empty members
 
-' Vue components list their props, models, and main handlers.
+' Angular standalone components list their inputs, models, outputs, and main handlers.
+' Dialogs and drawers receive their inputs as MAT_DIALOG_DATA and close with their result through MatDialogRef.
+' Stores are injectable services whose state is exposed as Angular signals.
 ' Calendar days are ISO YYYY-MM-DD strings; date-times are ISO strings.
 
 package "Overview Bounded Context" as overview {
@@ -33,12 +35,11 @@ package "Overview Bounded Context" as overview {
     }
 
     package "Infrastructure" as overview_infrastructure {
-        class OverviewApi {
+        class OverviewApiService {
             - roomsEndpoint: BaseEndpoint
             - bookingsEndpoint: BaseEndpoint
             - statusPeriodsEndpoint: BaseEndpoint
-            + constructor()
-            + getPortfolio(): Promise
+            + getPortfolio(): Observable
         }
 
         class PropertyOverviewAssembler <<assembler>> {
@@ -49,11 +50,11 @@ package "Overview Bounded Context" as overview {
 
     package "Application" as overview_application {
         class OverviewStore <<store>> {
-            - propertyOverviews: PropertyOverview[]
-            - propertyOverviewsLoaded: boolean
-            - propertyOverviewErrors: any[]
-            + todaysArrivals: computed
-            + roomStatusCounts: computed
+            + propertyOverviews: Signal<PropertyOverview[]>
+            + propertyOverviewsLoaded: Signal<boolean>
+            + propertyOverviewErrors: Signal<any[]>
+            + todaysArrivals: Signal
+            + roomStatusCounts: Signal
             + fetchPropertyOverviews()
             + getPerformance(period): object
             + searchBookings(query): Booking[]
@@ -62,33 +63,40 @@ package "Overview Bounded Context" as overview {
 
     package "Presentation" as overview_presentation {
         package "Components" as overview_components {
-            class OverviewPanel <<component>> {
+            class OverviewPanelComponent <<component>> {
                 - title: string
                 - subtitle: string
                 - loading: boolean
                 - failed: boolean
-                + emit retry
+                + retry: output<void>
             }
 
-            class BookingSearch <<component>> {
-                + complete(event)
+            class BookingSearchComponent <<component>> {
+                + complete(text)
                 + openBooking(event)
                 + focusSearch(event)
             }
 
-            class RevenueOccupancyCard <<component>>
-            class PropertyOverviewCard <<component>>
+            class RevenueOccupancyCardComponent <<component>>
+            class PropertyOverviewCardComponent <<component>>
 
-            class TodaysArrivalsCard <<component>> {
+            class TodaysArrivalsCardComponent <<component>> {
                 + arrivalTag(arrival): object
-                + openActions(event, arrival)
+                + stay(checkInDate, checkOutDate): string
             }
 
-            class RoomStatusCard <<component>>
+            class RoomStatusCardComponent <<component>>
+
+            class ChartCanvasComponent <<component>> {
+                - type: ChartType
+                - data: ChartData
+                - options: ChartOptions
+                - ariaLabel: string
+            }
         }
 
         package "Views" as overview_views {
-            class OverviewView <<component>>
+            class OverviewComponent <<component>>
         }
     }
 }
@@ -208,16 +216,15 @@ package "Bookings Bounded Context" as bookings {
     }
 
     package "Infrastructure" as bookings_infrastructure {
-        class BookingsApi {
+        class BookingsApiService {
             - bookingsEndpoint: BaseEndpoint
             - paymentsEndpoint: BaseEndpoint
-            + constructor()
-            + getBookings(propertyId): Promise
-            + getLatestBooking(propertyId): Promise
-            + createBooking(resource): Promise
-            + updateBooking(resource): Promise
-            + getPayments(propertyId): Promise
-            + createPayment(resource): Promise
+            + getBookings(propertyId): Observable
+            + getLatestBooking(propertyId): Observable
+            + createBooking(resource): Observable
+            + updateBooking(resource): Observable
+            + getPayments(propertyId): Observable
+            + createPayment(resource): Observable
         }
 
         class BookingAssembler <<assembler>> {
@@ -233,14 +240,14 @@ package "Bookings Bounded Context" as bookings {
 
     package "Application" as bookings_application {
         class BookingsStore <<store>> {
-            - bookings: Booking[]
-            - payments: Payment[]
-            - errors: any[]
-            - bookingsLoaded: boolean
-            - paymentsLoaded: boolean
-            - saving: boolean
-            + currentPropertyId: computed
-            + bookingsCount: computed
+            + bookings: Signal<Booking[]>
+            + payments: Signal<Payment[]>
+            + errors: Signal<any[]>
+            + bookingsLoaded: Signal<boolean>
+            + paymentsLoaded: Signal<boolean>
+            + saving: Signal<boolean>
+            + currentPropertyId: Signal
+            + bookingsCount: Signal
             + fetchBookings()
             + getBookingById(id): Booking
             + getPaymentsOf(bookingId): Payment[]
@@ -262,73 +269,67 @@ package "Bookings Bounded Context" as bookings {
 
     package "Presentation" as bookings_presentation {
         package "Components" as bookings_components {
-            class BookingsLayout <<component>> {
+            class BookingsLayoutComponent <<component>> {
                 - title: string
                 + changeProperty(propertyId)
                 + retry()
             }
 
-            class BookingStatusTag <<component>> {
+            class BookingStatusTagComponent <<component>> {
                 - status: string
             }
 
-            class PaymentStatusTag <<component>> {
+            class PaymentStatusTagComponent <<component>> {
                 - status: string
             }
 
-            class BookingStatusDialog <<component>> {
+            class BookingStatusDialogComponent <<component>> {
                 - booking: Booking
                 - action: string
-                - type: string
-                - required: boolean
-                - validator: function
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + apply()
-                + emit saved
             }
 
-            class BookingCancelDialog <<component>> {
+            class BookingCancelDialogComponent <<component>> {
                 - booking: Booking
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + cancel()
-                + emit saved
             }
 
-            class BookingPaymentSummary <<component>> {
+            class BookingPaymentSummaryComponent <<component>> {
                 - booking: Booking
-                + notifyRecorded()
+                + recordPayment()
             }
 
-            class PaymentForm <<component>> {
+            class PaymentFormComponent <<component>> {
                 - booking: Booking
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + savePayment()
-                + emit saved
             }
         }
 
         package "Views" as bookings_views {
-            class BookingList <<component>> {
+            class BookingListComponent <<component>> {
                 + resetFilters()
                 + openBooking(booking)
             }
 
-            class BookingDetail <<component>> {
+            class BookingDetailComponent <<component>> {
                 + restore()
                 + duplicate()
                 + notifySaved(message)
             }
 
-            class BookingForm <<component>> {
+            class BookingFormComponent <<component>> {
                 + saveBooking()
                 + cancel()
             }
 
-            class BookingCheckIn <<component>> {
+            class BookingCheckInComponent <<component>> {
                 + completeCheckIn()
             }
 
-            class BookingCheckOut <<component>> {
+            class BookingCheckOutComponent <<component>> {
                 + completeCheckOut()
             }
         }
@@ -465,7 +466,7 @@ package "Rooms Bounded Context" as rooms {
     }
 
     package "Infrastructure" as rooms_infrastructure {
-        class RoomsApi {
+        class RoomsApiService {
             - propertiesEndpoint: BaseEndpoint
             - roomTypesEndpoint: BaseEndpoint
             - roomsEndpoint: BaseEndpoint
@@ -473,27 +474,27 @@ package "Rooms Bounded Context" as rooms {
             - roomAssignmentsEndpoint: BaseEndpoint
             - ratePlansEndpoint: BaseEndpoint
             - dailyRatesEndpoint: BaseEndpoint
-            + constructor()
-            + getProperties(): Promise
-            + getRoomTypes(propertyId): Promise
-            + createRoomType(resource): Promise
-            + updateRoomType(resource): Promise
-            + deleteRoomType(id): Promise
-            + getRooms(propertyId): Promise
-            + createRoom(resource): Promise
-            + updateRoom(resource): Promise
-            + getStatusPeriods(propertyId): Promise
-            + createStatusPeriod(resource): Promise
-            + updateStatusPeriod(resource): Promise
-            + deleteStatusPeriod(id): Promise
-            + getRoomAssignments(propertyId): Promise
-            + getRatePlans(propertyId): Promise
-            + createRatePlan(resource): Promise
-            + updateRatePlan(resource): Promise
-            + getDailyRates(propertyId): Promise
-            + createDailyRate(resource): Promise
-            + updateDailyRate(resource): Promise
-            + deleteDailyRate(id): Promise
+
+            + getProperties(): Observable
+            + getRoomTypes(propertyId): Observable
+            + createRoomType(resource): Observable
+            + updateRoomType(resource): Observable
+            + deleteRoomType(id): Observable
+            + getRooms(propertyId): Observable
+            + createRoom(resource): Observable
+            + updateRoom(resource): Observable
+            + getStatusPeriods(propertyId): Observable
+            + createStatusPeriod(resource): Observable
+            + updateStatusPeriod(resource): Observable
+            + deleteStatusPeriod(id): Observable
+            + getRoomAssignments(propertyId): Observable
+            + getRatePlans(propertyId): Observable
+            + createRatePlan(resource): Observable
+            + updateRatePlan(resource): Observable
+            + getDailyRates(propertyId): Observable
+            + createDailyRate(resource): Observable
+            + updateDailyRate(resource): Observable
+            + deleteDailyRate(id): Observable
         }
 
         class "PropertyAssembler" as RoomsPropertyAssembler <<assembler>> {
@@ -535,26 +536,26 @@ package "Rooms Bounded Context" as rooms {
 
     package "Application" as rooms_application {
         class RoomsStore <<store>> {
-            - properties: Property[]
-            - roomTypes: RoomType[]
-            - rooms: Room[]
-            - statusPeriods: StatusPeriod[]
-            - roomAssignments: RoomAssignment[]
-            - ratePlans: RatePlan[]
-            - dailyRates: DailyRate[]
-            - errors: any[]
-            - propertiesLoaded: boolean
-            - roomTypesLoaded: boolean
-            - roomsLoaded: boolean
-            - statusPeriodsLoaded: boolean
-            - roomAssignmentsLoaded: boolean
-            - ratePlansLoaded: boolean
-            - dailyRatesLoaded: boolean
-            - saving: boolean
-            - currentPropertyId: number|null
-            + currentProperty: computed
-            + roomTypesCount: computed
-            + roomsCount: computed
+            + properties: Signal<Property[]>
+            + roomTypes: Signal<RoomType[]>
+            + rooms: Signal<Room[]>
+            + statusPeriods: Signal<StatusPeriod[]>
+            + roomAssignments: Signal<RoomAssignment[]>
+            + ratePlans: Signal<RatePlan[]>
+            + dailyRates: Signal<DailyRate[]>
+            + errors: Signal<any[]>
+            + propertiesLoaded: Signal<boolean>
+            + roomTypesLoaded: Signal<boolean>
+            + roomsLoaded: Signal<boolean>
+            + statusPeriodsLoaded: Signal<boolean>
+            + roomAssignmentsLoaded: Signal<boolean>
+            + ratePlansLoaded: Signal<boolean>
+            + dailyRatesLoaded: Signal<boolean>
+            + saving: Signal<boolean>
+            + currentPropertyId: Signal<number|null>
+            + currentProperty: Signal
+            + roomTypesCount: Signal
+            + roomsCount: Signal
             + fetchProperties()
             + selectProperty(propertyId)
             + fetchRoomTypes()
@@ -587,99 +588,91 @@ package "Rooms Bounded Context" as rooms {
 
     package "Presentation" as rooms_presentation {
         package "Components" as rooms_components {
-            class RoomsLayout <<component>> {
+            class RoomsLayoutComponent <<component>> {
                 + changeProperty(propertyId)
                 + retry()
             }
 
-            class DayStatusTag <<component>> {
+            class DayStatusTagComponent <<component>> {
                 - status: string
                 - compact: boolean
             }
 
-            class RoomAvatar <<component>> {
+            class RoomAvatarComponent <<component>> {
                 - icon: string
                 - size: string
             }
 
-            class RoomTypeForm <<component>> {
+            class RoomTypeFormComponent <<component>> {
                 - roomType: RoomType
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + saveRoomType()
-                + emit saved
             }
 
-            class RoomForm <<component>> {
+            class RoomFormComponent <<component>> {
                 - room: Room
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + saveRoom()
-                + emit saved
             }
 
-            class RoomStatusForm <<component>> {
+            class RoomStatusFormComponent <<component>> {
                 - room: Room
                 - date: string
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + saveStatus()
-                + emit saved
             }
 
-            class RoomMonthCalendar <<component>> {
+            class RoomMonthCalendarComponent <<component>> {
                 - room: Room
-                - month: string (model)
+                + month: model<string>
+                + moveMonth(months)
                 + dayLabel(day): string
-                + emit select-day
+                + selectDay: output<string>
             }
 
-            class BookingControlledDialog <<component>> {
+            class BookingControlledDialogComponent <<component>> {
                 - room: Room
                 - roomAssignment: RoomAssignment
-                - visible: boolean (model)
             }
 
-            class RatePlanForm <<component>> {
+            class RatePlanFormComponent <<component>> {
                 - ratePlan: RatePlan
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + saveRatePlan()
-                + emit saved
             }
 
-            class DailyRateForm <<component>> {
+            class DailyRateFormComponent <<component>> {
                 - ratePlanId: number
                 - roomTypeId: number
                 - startDate: string
                 - endDate: string
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + roomTypesOf(ratePlanId): RoomType[]
                 + saveDailyRates()
-                + emit saved
             }
         }
 
         package "Views" as rooms_views {
-            class RoomAvailability <<component>> {
-                + moveDates(days)
+            class RoomAvailabilityComponent <<component>> {
                 + resetFilters()
                 + openDay(room, date)
-                + notifySaved(message)
+                + newRoom()
             }
 
-            class RoomDetail <<component>> {
+            class RoomDetailComponent <<component>> {
                 + openDay(date)
                 + notifySaved(message)
             }
 
-            class RoomTypeList <<component>> {
+            class RoomTypeListComponent <<component>> {
                 + openRoomTypeForm(roomType)
                 + confirmDelete(roomType)
-                + notifySaved(message)
             }
 
-            class RoomRates <<component>> {
-                + moveDates(days)
+            class RoomRatesComponent <<component>> {
+                + selectRatePlan(ratePlanId)
                 + openRatePlanForm(ratePlan)
                 + openDailyRateForm(roomTypeId, date)
-                + notifySaved(message)
             }
         }
     }
@@ -767,19 +760,19 @@ package "Inventory Bounded Context" as inventory {
     }
 
     package "Infrastructure" as inventory_infrastructure {
-        class InventoryApi {
+        class InventoryApiService {
             - propertiesEndpoint: BaseEndpoint
             - inventoryItemsEndpoint: BaseEndpoint
             - storageLocationsEndpoint: BaseEndpoint
-            + constructor()
-            + getProperties(): Promise
-            + getInventoryItems(propertyId): Promise
-            + createInventoryItem(resource): Promise
-            + updateInventoryItem(resource): Promise
-            + getStorageLocations(propertyId): Promise
-            + createStorageLocation(resource): Promise
-            + updateStorageLocation(resource): Promise
-            + deleteStorageLocation(id): Promise
+
+            + getProperties(): Observable
+            + getInventoryItems(propertyId): Observable
+            + createInventoryItem(resource): Observable
+            + updateInventoryItem(resource): Observable
+            + getStorageLocations(propertyId): Observable
+            + createStorageLocation(resource): Observable
+            + updateStorageLocation(resource): Observable
+            + deleteStorageLocation(id): Observable
         }
 
         class "PropertyAssembler" as InventoryPropertyAssembler <<assembler>> {
@@ -804,18 +797,18 @@ package "Inventory Bounded Context" as inventory {
 
     package "Application" as inventory_application {
         class InventoryStore <<store>> {
-            - properties: Property[]
-            - inventoryItems: InventoryItem[]
-            - storageLocations: StorageLocation[]
-            - errors: any[]
-            - propertiesLoaded: boolean
-            - inventoryItemsLoaded: boolean
-            - storageLocationsLoaded: boolean
-            - saving: boolean
-            - currentPropertyId: number|null
-            + currentProperty: computed
-            + inventoryItemsCount: computed
-            + storageLocationsCount: computed
+            + properties: Signal<Property[]>
+            + inventoryItems: Signal<InventoryItem[]>
+            + storageLocations: Signal<StorageLocation[]>
+            + errors: Signal<any[]>
+            + propertiesLoaded: Signal<boolean>
+            + inventoryItemsLoaded: Signal<boolean>
+            + storageLocationsLoaded: Signal<boolean>
+            + saving: Signal<boolean>
+            + currentPropertyId: Signal<number|null>
+            + currentProperty: Signal
+            + inventoryItemsCount: Signal
+            + storageLocationsCount: Signal
             + fetchProperties()
             + selectProperty(propertyId)
             + fetchInventoryItems()
@@ -834,47 +827,44 @@ package "Inventory Bounded Context" as inventory {
 
     package "Presentation" as inventory_presentation {
         package "Components" as inventory_components {
-            class InventoryLayout <<component>> {
+            class InventoryLayoutComponent <<component>> {
                 + changeProperty(propertyId)
                 + retry()
             }
 
-            class InventoryItemAvatar <<component>> {
+            class InventoryItemAvatarComponent <<component>> {
                 - category: string
                 - size: string
             }
 
-            class StorageLocationAvatar <<component>> {
+            class StorageLocationAvatarComponent <<component>> {
                 - type: string
                 - size: string
             }
 
-            class StockConditionTag <<component>>
+            class StockConditionTagComponent <<component>>
 
-            class InventoryItemForm <<component>> {
+            class InventoryItemFormComponent <<component>> {
                 - inventoryItem: InventoryItem
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + saveInventoryItem()
-                + emit saved
             }
 
-            class StockAdjustmentForm <<component>> {
+            class StockAdjustmentFormComponent <<component>> {
                 - inventoryItem: InventoryItem
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + performStockAdjustment()
-                + emit saved
             }
 
-            class StorageLocationForm <<component>> {
+            class StorageLocationFormComponent <<component>> {
                 - storageLocation: StorageLocation
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + saveStorageLocation()
-                + emit saved
             }
         }
 
         package "Views" as inventory_views {
-            class InventoryItemList <<component>> {
+            class InventoryItemListComponent <<component>> {
                 + resetFilters()
                 + navigateToDetail(inventoryItem)
                 + openInventoryItemForm(inventoryItem)
@@ -882,21 +872,20 @@ package "Inventory Bounded Context" as inventory {
                 + notifySaved(message)
             }
 
-            class InventoryItemDetail <<component>> {
+            class InventoryItemDetailComponent <<component>> {
+                + editItem()
+                + adjustStock()
                 + removeAssignment(storageLocationId)
-                + notifySaved(message)
-                + notifyError(error)
             }
 
-            class StorageLocationList <<component>> {
+            class StorageLocationListComponent <<component>> {
                 + resetFilters()
                 + navigateToDetail(storageLocation)
                 + openStorageLocationForm(storageLocation)
                 + confirmDelete(storageLocation)
-                + notifySaved(message)
             }
 
-            class StorageLocationDetail <<component>> {
+            class StorageLocationDetailComponent <<component>> {
                 + openStockAdjustmentForm(inventoryItem)
                 + confirmDelete()
                 + notifySaved(message)
@@ -995,19 +984,19 @@ package "Access Control Bounded Context" as access_control {
     }
 
     package "Infrastructure" as access_control_infrastructure {
-        class AccessControlApi {
+        class AccessControlApiService {
             - credentialsEndpoint: BaseEndpoint
             - staffMembersEndpoint: BaseEndpoint
             - accessEventsEndpoint: BaseEndpoint
-            + constructor()
-            + getCredentials(propertyId): Promise
-            + createCredential(resource): Promise
-            + updateCredential(resource): Promise
-            + getStaffMembers(propertyId): Promise
-            + getAccessEvents(propertyId): Promise
+
+            + getCredentials(propertyId): Observable
+            + createCredential(resource): Observable
+            + updateCredential(resource): Observable
+            + getStaffMembers(propertyId): Observable
+            + getAccessEvents(propertyId): Observable
         }
 
-        class RfidEncoder <<adapter>> {
+        class RfidEncoderService <<adapter>> {
             + encode(onState): Promise<string>
         }
 
@@ -1029,16 +1018,16 @@ package "Access Control Bounded Context" as access_control {
 
     package "Application" as access_control_application {
         class AccessControlStore <<store>> {
-            - credentials: Credential[]
-            - staffMembers: StaffMember[]
-            - accessEvents: AccessEvent[]
-            - errors: any[]
-            - credentialsLoaded: boolean
-            - staffMembersLoaded: boolean
-            - accessEventsLoaded: boolean
-            - saving: boolean
-            - encoderState: string
-            + currentPropertyId: computed
+            + credentials: Signal<Credential[]>
+            + staffMembers: Signal<StaffMember[]>
+            + accessEvents: Signal<AccessEvent[]>
+            + errors: Signal<any[]>
+            + credentialsLoaded: Signal<boolean>
+            + staffMembersLoaded: Signal<boolean>
+            + accessEventsLoaded: Signal<boolean>
+            + saving: Signal<boolean>
+            + encoderState: Signal<string>
+            + currentPropertyId: Signal
             + fetchAccessControl()
             + getCredentialById(id): Credential
             + getStaffMemberById(id): StaffMember
@@ -1058,65 +1047,62 @@ package "Access Control Bounded Context" as access_control {
 
     package "Presentation" as access_control_presentation {
         package "Components" as access_control_components {
-            class AccessControlLayout <<component>> {
+            class AccessControlLayoutComponent <<component>> {
                 - title: string
-                - backRoute: object
+                - backLink: string
                 + changeProperty(propertyId)
                 + retry()
             }
 
-            class CredentialStatusTag <<component>> {
+            class CredentialStatusTagComponent <<component>> {
                 - status: string
             }
 
-            class RfidEncoderPanel <<component>> {
+            class RfidEncoderPanelComponent <<component>> {
                 - showAction: boolean
                 - actionLabel: string
                 - disabled: boolean
                 + encode()
-                + emit encoded
+                + encoded: output<string>
             }
 
-            class StaffCredentialForm <<component>> {
-                - visible: boolean (model)
+            class StaffCredentialFormComponent <<component>> {
+                - dialogRef: MatDialogRef
                 + issue()
-                + emit saved
             }
 
-            class RevokeCredentialDialog <<component>> {
+            class RevokeCredentialDialogComponent <<component>> {
                 - credential: Credential
                 - access: string
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + revoke()
-                + emit saved
             }
 
-            class ReplaceCredentialDrawer <<component>> {
+            class ReplaceCredentialDrawerComponent <<component>> {
                 - credential: Credential
-                - visible: boolean (model)
+                - dialogRef: MatDialogRef
                 + replace()
-                + emit saved
             }
 
-            class AccessEventDrawer <<component>> {
+            class AccessEventDrawerComponent <<component>> {
                 - accessEvent: AccessEvent
-                - visible: boolean (model)
             }
         }
 
         package "Views" as access_control_views {
-            class CredentialList <<component>> {
+            class CredentialListComponent <<component>> {
                 + resetFilters()
                 + openCredential(credential)
-                + showIssued(credential)
+                + issueStaffCredential()
             }
 
-            class CredentialDetail <<component>> {
-                + notifyRevoked()
-                + showReplacement(credential)
+            class CredentialDetailComponent <<component>> {
+                + revoke()
+                + replace()
+                + openEvent(accessEvent)
             }
 
-            class AccessEventList <<component>> {
+            class AccessEventListComponent <<component>> {
                 + resetFilters()
             }
         }
@@ -1125,21 +1111,29 @@ package "Access Control Bounded Context" as access_control {
 
 package "Shared" as shared {
     package "Infrastructure" as shared_infrastructure {
-        class BaseApi {
-            - http: AxiosInstance
-            + constructor()
-            + get http(): AxiosInstance
+        abstract class BaseApiService {
+            # http: HttpClient
+            # baseUrl: string
+            # createEndpoint<T>(path): BaseEndpoint<T>
         }
 
-        class BaseEndpoint {
-            - http: AxiosInstance
-            - endpointPath: string
-            + constructor(baseApi, endpointPath)
-            + getAll(params): Promise
-            + getById(id): Promise
-            + create(resource): Promise
-            + update(id, resource): Promise
-            + delete(id): Promise
+        class BaseEndpoint<T> {
+            - http: HttpClient
+            - url: string
+            + constructor(http, url)
+            + getAll(params): Observable
+            + getById(id): Observable
+            + create(resource): Observable
+            + update(id, resource): Observable
+            + delete(id): Observable
+        }
+
+        class LocaleLoader <<adapter>> {
+            + getTranslation(lang): Observable
+        }
+
+        class VueI18nMessageParser <<adapter>> {
+            + interpolate(expr, params): string
         }
     }
 
@@ -1161,89 +1155,111 @@ package "Shared" as shared {
             + formatDateTime(value, locale): string
             + moneyLocale(currency, locale): string
             + formatMoney(amount, currency, locale): string
+            + currencySymbol(currency, locale): string
+        }
+
+        class I18nService <<service>> {
+            + locale: Signal<string>
+            + t(key, params): string
+            + use(locale)
+        }
+
+        class LayoutService <<service>> {
+            + compact: Signal<boolean>
+            + sidebarOpen: Signal<boolean>
         }
 
         package "Components" as shared_components {
-            class AppLayout <<component>> {
-                - compact: boolean
-                - sidebarOpen: boolean
-                - navigationItems: object[]
-                + isCurrentSection(item): boolean
-                + updateCompact(event)
+            class AppLayoutComponent <<component>> {
+                + collapsed: Signal<boolean>
+                + hover(open)
             }
 
-            class LanguageSwitcher <<component>> {
-                - locale: string
+            class ContextLayoutComponent <<component>> {
+                - title: string
+                - backLink: string
+                - properties: PropertyOption[]
+                - currentPropertyId: number
+                - loaded: boolean
+                - failed: boolean
+                - body: TemplateRef
+                + propertyChange: output<number>
+                + retry: output<void>
             }
 
-            class BrandLogo <<component>>
-            class SidebarToggle <<component>>
+            class LanguageSwitcherComponent <<component>>
+            class BrandLogoComponent <<component>>
+            class SidebarToggleComponent <<component>>
+            class StatusTagComponent <<component>>
+            class MessageComponent <<component>>
         }
 
         package "Views" as shared_views {
-            class Home <<component>>
+            class HomeComponent <<component>>
         }
     }
 }
 
 ' Overview Bounded Context relationships
-OverviewApi --|> BaseApi
-OverviewApi --> BaseEndpoint
+OverviewApiService --|> BaseApiService
+OverviewApiService --> BaseEndpoint
 PropertyOverviewAssembler ..> PropertyOverview
-OverviewStore --> OverviewApi
+OverviewStore --> OverviewApiService
 OverviewStore --> PropertyOverviewAssembler
 OverviewStore ..> DailyPerformance
 OverviewStore --> RoomsStore
 OverviewStore --> BookingsStore
-OverviewView --> OverviewStore
-OverviewView --> BookingSearch
-OverviewView --> RevenueOccupancyCard
-OverviewView --> PropertyOverviewCard
-OverviewView --> TodaysArrivalsCard
-OverviewView --> RoomStatusCard
-RevenueOccupancyCard --> OverviewPanel
-PropertyOverviewCard --> OverviewPanel
-TodaysArrivalsCard --> OverviewPanel
-RoomStatusCard --> OverviewPanel
-BookingSearch --> OverviewStore
-BookingSearch --> BookingStatusTag
-RevenueOccupancyCard --> OverviewStore
-PropertyOverviewCard --> OverviewStore
-TodaysArrivalsCard --> OverviewStore
-RoomStatusCard --> OverviewStore
+OverviewComponent --> OverviewStore
+OverviewComponent --> BookingSearchComponent
+OverviewComponent --> RevenueOccupancyCardComponent
+OverviewComponent --> PropertyOverviewCardComponent
+OverviewComponent --> TodaysArrivalsCardComponent
+OverviewComponent --> RoomStatusCardComponent
+RevenueOccupancyCardComponent --> OverviewPanelComponent
+PropertyOverviewCardComponent --> OverviewPanelComponent
+TodaysArrivalsCardComponent --> OverviewPanelComponent
+RoomStatusCardComponent --> OverviewPanelComponent
+BookingSearchComponent --> OverviewStore
+BookingSearchComponent --> BookingStatusTagComponent
+RevenueOccupancyCardComponent --> OverviewStore
+PropertyOverviewCardComponent --> OverviewStore
+TodaysArrivalsCardComponent --> OverviewStore
+RoomStatusCardComponent --> OverviewStore
+RevenueOccupancyCardComponent --> ChartCanvasComponent
+RoomStatusCardComponent --> ChartCanvasComponent
 
 ' Bookings Bounded Context relationships
 Booking "1" -- "0..*" Payment : bookingId
-BookingsApi --|> BaseApi
-BookingsApi --> BaseEndpoint
+BookingsApiService --|> BaseApiService
+BookingsApiService --> BaseEndpoint
 BookingAssembler ..> Booking
 PaymentAssembler ..> Payment
-BookingsStore --> BookingsApi
+BookingsStore --> BookingsApiService
 BookingsStore --> BookingAssembler
 BookingsStore --> PaymentAssembler
 BookingsStore ..> BookingsError
 BookingsStore --> RoomsStore
 BookingsStore --> AccessControlStore
 BookingsStore ..> IssueGuestKeyCardsCommand
-BookingList --> BookingsStore
-BookingDetail --> BookingsStore
-BookingForm --> BookingsStore
-BookingForm ..> Booking
-BookingCheckIn --> BookingsStore
-BookingCheckIn ..> CheckInBookingCommand
-BookingCheckIn --> RfidEncoderPanel
-BookingCheckOut --> BookingsStore
-BookingCheckOut ..> CheckOutBookingCommand
-BookingDetail --> BookingStatusDialog
-BookingDetail --> BookingCancelDialog
-BookingDetail --> BookingPaymentSummary
-BookingDetail --> CredentialStatusTag
-BookingCancelDialog ..> CancelBookingCommand
-BookingPaymentSummary --> PaymentForm
-PaymentForm ..> Payment
-BookingStatusDialog --> BookingsStore
-BookingCancelDialog --> BookingsStore
-PaymentForm --> BookingsStore
+BookingListComponent --> BookingsStore
+BookingDetailComponent --> BookingsStore
+BookingFormComponent --> BookingsStore
+BookingFormComponent ..> Booking
+BookingCheckInComponent --> BookingsStore
+BookingCheckInComponent ..> CheckInBookingCommand
+BookingCheckInComponent --> RfidEncoderPanelComponent
+BookingCheckOutComponent --> BookingsStore
+BookingCheckOutComponent ..> CheckOutBookingCommand
+BookingDetailComponent --> BookingStatusDialogComponent
+BookingDetailComponent --> BookingCancelDialogComponent
+BookingDetailComponent --> BookingPaymentSummaryComponent
+BookingDetailComponent --> CredentialStatusTagComponent
+BookingCancelDialogComponent ..> CancelBookingCommand
+BookingPaymentSummaryComponent --> PaymentFormComponent
+PaymentFormComponent ..> Payment
+BookingStatusDialogComponent --> BookingsStore
+BookingCancelDialogComponent --> BookingsStore
+PaymentFormComponent --> BookingsStore
 
 ' Rooms Bounded Context relationships
 Property "1" -- "0..*" RoomType : propertyId
@@ -1254,8 +1270,8 @@ RatePlan "0..*" -- "0..*" RoomType : roomTypeIds
 RatePlan "1" -- "0..*" DailyRate : ratePlanId
 RoomType "1" -- "0..*" DailyRate : roomTypeId
 SetRoomStatusCommand ..> StatusPeriod
-RoomsApi --|> BaseApi
-RoomsApi --> BaseEndpoint
+RoomsApiService --|> BaseApiService
+RoomsApiService --> BaseEndpoint
 RoomsPropertyAssembler ..> Property
 RoomTypeAssembler ..> RoomType
 RoomAssembler ..> Room
@@ -1263,7 +1279,7 @@ StatusPeriodAssembler ..> StatusPeriod
 RoomAssignmentAssembler ..> RoomAssignment
 RatePlanAssembler ..> RatePlan
 DailyRateAssembler ..> DailyRate
-RoomsStore --> RoomsApi
+RoomsStore --> RoomsApiService
 RoomsStore --> RoomsPropertyAssembler
 RoomsStore --> RoomTypeAssembler
 RoomsStore --> RoomAssembler
@@ -1272,105 +1288,110 @@ RoomsStore --> RoomAssignmentAssembler
 RoomsStore --> RatePlanAssembler
 RoomsStore --> DailyRateAssembler
 RoomsStore ..> RoomsError
-RoomAvailability --> RoomsStore
-RoomDetail --> RoomsStore
-RoomTypeList --> RoomsStore
-RoomRates --> RoomsStore
-RoomAvailability --> RoomForm
-RoomAvailability --> RoomStatusForm
-RoomAvailability --> BookingControlledDialog
-RoomDetail --> RoomMonthCalendar
-RoomDetail --> RoomStatusForm
-RoomDetail --> BookingControlledDialog
-RoomTypeList --> RoomTypeForm
-RoomRates --> RatePlanForm
-RoomRates --> DailyRateForm
-RoomTypeForm ..> RoomType
-RoomForm ..> Room
-RoomStatusForm ..> SetRoomStatusCommand
-RatePlanForm ..> RatePlan
-DailyRateForm ..> SetDailyRatesCommand
-RoomTypeForm --> RoomsStore
-RoomForm --> RoomsStore
-RoomStatusForm --> RoomsStore
-RatePlanForm --> RoomsStore
-DailyRateForm --> RoomsStore
+RoomAvailabilityComponent --> RoomsStore
+RoomDetailComponent --> RoomsStore
+RoomTypeListComponent --> RoomsStore
+RoomRatesComponent --> RoomsStore
+RoomAvailabilityComponent --> RoomFormComponent
+RoomAvailabilityComponent --> RoomStatusFormComponent
+RoomAvailabilityComponent --> BookingControlledDialogComponent
+RoomDetailComponent --> RoomMonthCalendarComponent
+RoomDetailComponent --> RoomStatusFormComponent
+RoomDetailComponent --> BookingControlledDialogComponent
+RoomTypeListComponent --> RoomTypeFormComponent
+RoomRatesComponent --> RatePlanFormComponent
+RoomRatesComponent --> DailyRateFormComponent
+RoomTypeFormComponent ..> RoomType
+RoomFormComponent ..> Room
+RoomStatusFormComponent ..> SetRoomStatusCommand
+RatePlanFormComponent ..> RatePlan
+DailyRateFormComponent ..> SetDailyRatesCommand
+RoomTypeFormComponent --> RoomsStore
+RoomFormComponent --> RoomsStore
+RoomStatusFormComponent --> RoomsStore
+RatePlanFormComponent --> RoomsStore
+DailyRateFormComponent --> RoomsStore
 
 ' Inventory Bounded Context relationships
 InventoryProperty "1" -- "0..*" InventoryItem : propertyId
 InventoryProperty "1" -- "0..*" StorageLocation : propertyId
 InventoryItem "1" *-- "0..*" StockAdjustment : adjustments
 InventoryItem "0..*" -- "0..*" StorageLocation : stocks
-InventoryApi --|> BaseApi
-InventoryApi --> BaseEndpoint
+InventoryApiService --|> BaseApiService
+InventoryApiService --> BaseEndpoint
 InventoryPropertyAssembler ..> InventoryProperty
 InventoryItemAssembler ..> InventoryItem
 InventoryItemAssembler --> StockAdjustmentAssembler
 StockAdjustmentAssembler ..> StockAdjustment
 StorageLocationAssembler ..> StorageLocation
-InventoryStore --> InventoryApi
+InventoryStore --> InventoryApiService
 InventoryStore --> InventoryPropertyAssembler
 InventoryStore --> InventoryItemAssembler
 InventoryStore --> StorageLocationAssembler
 InventoryStore ..> InventoryError
-InventoryItemList --> InventoryStore
-InventoryItemDetail --> InventoryStore
-StorageLocationList --> InventoryStore
-StorageLocationDetail --> InventoryStore
-InventoryItemList --> InventoryItemForm
-InventoryItemList --> StockAdjustmentForm
-InventoryItemDetail --> InventoryItemForm
-InventoryItemDetail --> StockAdjustmentForm
-StorageLocationList --> StorageLocationForm
-StorageLocationDetail --> StorageLocationForm
-StorageLocationDetail --> StockAdjustmentForm
-InventoryItemForm ..> InventoryItem
-StockAdjustmentForm ..> AdjustStockCommand
-StorageLocationForm ..> StorageLocation
-InventoryItemForm --> InventoryStore
-StockAdjustmentForm --> InventoryStore
-StorageLocationForm --> InventoryStore
+InventoryItemListComponent --> InventoryStore
+InventoryItemDetailComponent --> InventoryStore
+StorageLocationListComponent --> InventoryStore
+StorageLocationDetailComponent --> InventoryStore
+InventoryItemListComponent --> InventoryItemFormComponent
+InventoryItemListComponent --> StockAdjustmentFormComponent
+InventoryItemDetailComponent --> InventoryItemFormComponent
+InventoryItemDetailComponent --> StockAdjustmentFormComponent
+StorageLocationListComponent --> StorageLocationFormComponent
+StorageLocationDetailComponent --> StorageLocationFormComponent
+StorageLocationDetailComponent --> StockAdjustmentFormComponent
+InventoryItemFormComponent ..> InventoryItem
+StockAdjustmentFormComponent ..> AdjustStockCommand
+StorageLocationFormComponent ..> StorageLocation
+InventoryItemFormComponent --> InventoryStore
+StockAdjustmentFormComponent --> InventoryStore
+StorageLocationFormComponent --> InventoryStore
 
 ' Access Control Bounded Context relationships
 StaffMember "1" -- "0..*" Credential : staffMemberId
 Credential "1" -- "0..*" AccessEvent : credentialId
-AccessControlApi --|> BaseApi
-AccessControlApi --> BaseEndpoint
+AccessControlApiService --|> BaseApiService
+AccessControlApiService --> BaseEndpoint
 CredentialAssembler ..> Credential
 StaffMemberAssembler ..> StaffMember
 AccessEventAssembler ..> AccessEvent
-AccessControlStore --> AccessControlApi
-AccessControlStore --> RfidEncoder
+AccessControlStore --> AccessControlApiService
+AccessControlStore --> RfidEncoderService
 AccessControlStore --> CredentialAssembler
 AccessControlStore --> StaffMemberAssembler
 AccessControlStore --> AccessEventAssembler
 AccessControlStore ..> AccessControlError
 AccessControlStore --> RoomsStore
-CredentialList --> AccessControlStore
-CredentialDetail --> AccessControlStore
-AccessEventList --> AccessControlStore
-CredentialList --> StaffCredentialForm
-CredentialDetail --> RevokeCredentialDialog
-CredentialDetail --> ReplaceCredentialDrawer
-CredentialDetail --> AccessEventDrawer
-AccessEventList --> AccessEventDrawer
-StaffCredentialForm --> RfidEncoderPanel
-ReplaceCredentialDrawer --> RfidEncoderPanel
-StaffCredentialForm ..> IssueStaffCredentialCommand
-RevokeCredentialDialog ..> RevokeCredentialCommand
-RfidEncoderPanel --> AccessControlStore
-StaffCredentialForm --> AccessControlStore
-RevokeCredentialDialog --> AccessControlStore
-ReplaceCredentialDrawer --> AccessControlStore
+CredentialListComponent --> AccessControlStore
+CredentialDetailComponent --> AccessControlStore
+AccessEventListComponent --> AccessControlStore
+CredentialListComponent --> StaffCredentialFormComponent
+CredentialDetailComponent --> RevokeCredentialDialogComponent
+CredentialDetailComponent --> ReplaceCredentialDrawerComponent
+CredentialDetailComponent --> AccessEventDrawerComponent
+AccessEventListComponent --> AccessEventDrawerComponent
+StaffCredentialFormComponent --> RfidEncoderPanelComponent
+ReplaceCredentialDrawerComponent --> RfidEncoderPanelComponent
+StaffCredentialFormComponent ..> IssueStaffCredentialCommand
+RevokeCredentialDialogComponent ..> RevokeCredentialCommand
+RfidEncoderPanelComponent --> AccessControlStore
+StaffCredentialFormComponent --> AccessControlStore
+RevokeCredentialDialogComponent --> AccessControlStore
+ReplaceCredentialDrawerComponent --> AccessControlStore
 
 ' Shared relationships
-BaseEndpoint --> BaseApi
-AppLayout --> LanguageSwitcher
-AppLayout --> BrandLogo
+BaseApiService --> BaseEndpoint
+AppLayoutComponent --> LanguageSwitcherComponent
+AppLayoutComponent --> BrandLogoComponent
+AppLayoutComponent --> LayoutService
 CalendarFormat ..> CalendarDate
-OverviewView --> SidebarToggle
-BookingsLayout --> SidebarToggle
-RoomsLayout --> SidebarToggle
-InventoryLayout --> SidebarToggle
-AccessControlLayout --> SidebarToggle
+LocaleLoader ..> I18nService
+VueI18nMessageParser ..> I18nService
+ContextLayoutComponent --> SidebarToggleComponent
+ContextLayoutComponent --> MessageComponent
+OverviewComponent --> ContextLayoutComponent
+BookingsLayoutComponent --> ContextLayoutComponent
+RoomsLayoutComponent --> ContextLayoutComponent
+InventoryLayoutComponent --> ContextLayoutComponent
+AccessControlLayoutComponent --> ContextLayoutComponent
 @enduml
