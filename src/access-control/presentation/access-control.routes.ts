@@ -24,4 +24,12 @@ export const accessControlRoutes: Routes = [
       },
     ],
   },
+  {
+    path: 'events',
+    title: 'Access Events',
+    loadComponent: () =>
+      import('./views/access-event-list/access-event-list.component').then(
+        (m) => m.AccessEventListComponent,
+      ),
+  },
 ];
