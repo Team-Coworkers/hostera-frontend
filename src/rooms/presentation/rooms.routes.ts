@@ -13,6 +13,14 @@ export const roomsRoutes: Routes = [
       ),
   },
   {
+    path: 'room-types',
+    title: 'Room Types',
+    loadComponent: () =>
+      import('./views/room-type-list/room-type-list.component').then(
+        (m) => m.RoomTypeListComponent,
+      ),
+  },
+  {
     matcher: numericIdMatcher(),
     title: 'Room',
     loadComponent: () =>
