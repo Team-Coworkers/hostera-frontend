@@ -19,4 +19,12 @@ export const inventoryRoutes: Routes = [
         (m) => m.InventoryItemDetailComponent,
       ),
   },
+  {
+    path: 'storage-locations',
+    title: 'Storage Locations',
+    loadComponent: () =>
+      import('./views/storage-location-list/storage-location-list.component').then(
+        (m) => m.StorageLocationListComponent,
+      ),
+  },
 ];
