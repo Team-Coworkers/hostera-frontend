@@ -1,0 +1,76 @@
+<section class="flex flex-column gap-3">
+  <div class="flex align-items-center justify-content-between gap-2">
+    <h3 class="flex align-items-center gap-2 m-0 text-base font-semibold">
+      <mat-icon class="text-color-secondary" aria-hidden="true"
+        >account_balance_wallet</mat-icon
+      >
+      {{ i18n.t('bookings.booking-payment-summary.title') }}
+    </h3>
+    <app-payment-status-tag [status]="paymentStatus()" />
+  </div>
+  <dl class="facts flex flex-column gap-2 m-0">
+    <div class="flex justify-content-between gap-3">
+      <dt>{{ i18n.t('bookings.booking-payment-summary.total') }}</dt>
+      <dd class="font-mono">{{ money(booking().totalAmount) }}</dd>
+    </div>
+    <div class="flex justify-content-between gap-3">
+      <dt>{{ i18n.t('bookings.booking-payment-summary.paid') }}</dt>
+      <dd class="font-mono">{{ money(paid()) }}</dd>
+    </div>
+    <div
+      class="flex align-items-end justify-content-between gap-3 pt-2 border-top-1 surface-border"
+    >
+      <dt class="font-semibold text-color">
+        {{ i18n.t('bookings.booking-payment-summary.balance') }}
+      </dt>
+      <dd
+        class="font-mono text-xl font-semibold"
+        [class.text-orange-700]="balanceDue() > 0"
+      >
+        {{ money(balanceDue()) }}
+      </dd>
+    </div>
+  </dl>
+  @if (bookingPayments().length) {
+    <ul
+      class="list-none m-0 p-0 flex flex-column gap-2"
+      [attr.aria-label]="i18n.t('bookings.booking-payment-summary.payments')"
+    >
+      @for (payment of bookingPayments(); track payment.id) {
+        <li
+          class="flex align-items-center justify-content-between gap-3 p-2 surface-card border-round-lg text-sm"
+        >
+          <span class="flex flex-column">
+            <span class="font-medium">{{
+              i18n.t(
+                'bookings.bookings-terms.payment-methods.' + payment.method
+              )
+            }}</span>
+            <span class="text-color-secondary"
+              >{{ dateTime(payment.paidAt) }}
+              @if (payment.reference) {
+                · <span class="font-mono">{{ payment.reference }}</span>
+              }
+            </span>
+          </span>
+          <span class="font-mono font-medium">{{ money(payment.amount) }}</span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="m-0 text-sm text-color-secondary">
+      {{ i18n.t('bookings.booking-payment-summary.no-payments') }}
+    </p>
+  }
+  @if (canRecordPayment()) {
+    <button
+      mat-stroked-button
+      class="w-full"
+      [disabled]="store.saving()"
+      (click)="recordPayment()"
+    >
+      <mat-icon>add</mat-icon>
+      {{ i18n.t('bookings.booking-payment-summary.record') }}
+    </button>
+  }
+</section>
