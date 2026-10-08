@@ -1,0 +1,161 @@
+<app-rooms-layout>
+  <ng-template layoutBody>
+    @if (room(); as room) {
+      <nav
+        class="flex align-items-center gap-2 text-sm"
+        aria-label="breadcrumb"
+      >
+        <a
+          routerLink="/rooms/availability"
+          class="text-color-secondary hover:text-primary"
+          >{{ i18n.t('rooms.room-detail.rooms') }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <span class="font-medium" aria-current="page">{{
+          i18n.t('rooms.rooms-terms.room-number', { number: room.number })
+        }}</span>
+      </nav>
+
+      <header
+        class="flex flex-column md:flex-row md:align-items-center gap-3 pb-4 border-bottom-1 surface-border"
+      >
+        <div class="flex align-items-center gap-3 flex-1 min-w-0">
+          <app-room-avatar size="large" />
+          <div class="flex flex-column gap-1 min-w-0">
+            <div class="flex flex-wrap align-items-center gap-2">
+              <h2 class="m-0 text-2xl font-bold tracking-tight">
+                {{
+                  i18n.t('rooms.rooms-terms.room-number', {
+                    number: room.number,
+                  })
+                }}
+              </h2>
+              <app-day-status-tag [status]="todayStatus()" />
+            </div>
+            <span class="text-sm text-color-secondary">
+              {{ roomType()?.name }} ·
+              {{
+                i18n.t('rooms.room-detail.floor-value', {
+                  floor: room.floor ?? '—',
+                })
+              }}
+            </span>
+          </div>
+        </div>
+        <div class="flex align-items-center gap-4">
+          <div class="flex flex-column md:align-items-end">
+            <span class="text-sm text-color-secondary">{{
+              i18n.t('rooms.room-detail.capacity')
+            }}</span>
+            <span class="text-xl">{{
+              i18n.t('rooms.rooms-terms.guests', {
+                count: roomType()?.capacity ?? 0,
+              })
+            }}</span>
+          </div>
+          <button
+            mat-stroked-button
+            class="ml-auto md:ml-0"
+            [disabled]="store.saving()"
+            (click)="editRoom()"
+          >
+            <mat-icon>edit</mat-icon>
+            {{ i18n.t('rooms.room-detail.edit') }}
+          </button>
+        </div>
+      </header>
+
+      <div class="grid">
+        <div class="col-12 xl:col-8">
+          <app-room-month-calendar
+            [room]="room"
+            [(month)]="month"
+            (selectDay)="openDay($event)"
+          />
+        </div>
+
+        <aside class="col-12 xl:col-4">
+          <div
+            class="flex flex-column gap-4 p-4 surface-50 border-1 surface-border border-round-xl"
+          >
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >info</mat-icon
+                >
+                {{ i18n.t('rooms.room-detail.details') }}
+              </h3>
+              <dl class="facts flex flex-column gap-2 m-0">
+                @for (fact of roomFacts(); track fact.label) {
+                  <div class="flex justify-content-between gap-3">
+                    <dt>{{ fact.label }}</dt>
+                    <dd class="text-right font-medium">{{ fact.value }}</dd>
+                  </div>
+                }
+              </dl>
+            </section>
+
+            <mat-divider />
+
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >schedule</mat-icon
+                >
+                {{ i18n.t('rooms.room-detail.upcoming') }}
+              </h3>
+              @if (upcomingEntries().length) {
+                <ul class="list-none m-0 p-0 flex flex-column gap-3">
+                  @for (entry of upcomingEntries(); track entry.key) {
+                    <li class="flex flex-column gap-1">
+                      <div
+                        class="flex align-items-center justify-content-between gap-2"
+                      >
+                        <app-day-status-tag [status]="entry.status" />
+                        <span class="text-sm white-space-nowrap">{{
+                          formatDayRange(
+                            entry.startDate,
+                            entry.endDate,
+                            i18n.locale()
+                          )
+                        }}</span>
+                      </div>
+                      <span
+                        class="text-sm text-color-secondary line-height-3"
+                        [class.font-mono]="entry.key.startsWith('assignment')"
+                        >{{ entry.detail }}</span
+                      >
+                    </li>
+                  }
+                </ul>
+              } @else {
+                <p class="m-0 text-sm text-color-secondary">
+                  {{ i18n.t('rooms.room-detail.no-upcoming') }}
+                </p>
+              }
+            </section>
+
+            <p class="m-0 text-sm text-color-secondary line-height-3">
+              {{ i18n.t('rooms.room-detail.calendar-help') }}
+            </p>
+          </div>
+        </aside>
+      </div>
+    } @else {
+      <app-message severity="warn" icon="search">
+        <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+          <span>{{ i18n.t('rooms.room-detail.not-found') }}</span>
+          <a routerLink="/rooms/availability" class="font-medium">{{
+            i18n.t('rooms.room-detail.back')
+          }}</a>
+        </div>
+      </app-message>
+    }
+  </ng-template>
+</app-rooms-layout>

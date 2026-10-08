@@ -1,0 +1,236 @@
+<app-rooms-layout>
+  <button
+    layoutActions
+    mat-flat-button
+    [disabled]="store.saving() || !store.roomTypes().length"
+    (click)="newRoom()"
+  >
+    <mat-icon>add</mat-icon>
+    {{ i18n.t('rooms.room-availability.new-room') }}
+  </button>
+
+  <ng-template layoutBody>
+    <section class="flex flex-column gap-3">
+      <app-week-navigator
+        labels="rooms.room-availability"
+        [dayCount]="visibleDays().length"
+        [(startDate)]="startDate"
+      />
+
+      <div class="flex flex-column gap-2">
+        <span id="status-filter-label" class="text-sm text-color-secondary">{{
+          i18n.t('rooms.room-availability.status-on', {
+            date: day(startDate(), {
+              weekday: 'short',
+              day: 'numeric',
+              month: 'short',
+            }),
+          })
+        }}</span>
+        <div class="flex align-items-center gap-2 overflow-x-auto">
+          <mat-button-toggle-group
+            class="status-filter flex-shrink-0"
+            hideSingleSelectionIndicator
+            aria-labelledby="status-filter-label"
+            [value]="statusFilter()"
+            (change)="statusFilter.set($event.value)"
+          >
+            @for (option of statusOptions(); track option.value) {
+              <mat-button-toggle [value]="option.value">
+                <span class="flex align-items-center gap-2 white-space-nowrap">
+                  <span>{{ option.label }}</span>
+                  <span class="font-mono text-sm opacity-70">{{
+                    count(option.count)
+                  }}</span>
+                </span>
+              </mat-button-toggle>
+            }
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap align-items-center gap-2">
+        <mat-form-field class="w-full sm:w-14rem">
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input
+            matInput
+            [placeholder]="i18n.t('rooms.room-availability.search')"
+            [attr.aria-label]="i18n.t('rooms.room-availability.search')"
+            [(ngModel)]="search"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-14rem">
+          <mat-select
+            [placeholder]="i18n.t('rooms.room-availability.all-room-types')"
+            [attr.aria-label]="i18n.t('rooms.room-availability.room-type')"
+            [(ngModel)]="roomTypeFilter"
+          >
+            <mat-option [value]="null">{{
+              i18n.t('rooms.room-availability.all-room-types')
+            }}</mat-option>
+            @for (roomType of store.roomTypes(); track roomType.id) {
+              <mat-option [value]="roomType.id">{{ roomType.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        @if (filtersActive()) {
+          <button mat-button (click)="resetFilters()">
+            <mat-icon>filter_alt_off</mat-icon>
+            {{ i18n.t('rooms.room-availability.clear') }}
+          </button>
+        }
+        <span class="ml-auto text-sm text-color-secondary" aria-live="polite">{{
+          i18n.t('rooms.room-availability.results', {
+            count: filteredRows().length,
+          })
+        }}</span>
+      </div>
+
+      @if (!filteredRows().length) {
+        <div
+          class="empty-state flex flex-column align-items-center gap-2 py-6 text-center border-1 surface-border border-round-xl"
+        >
+          <mat-icon aria-hidden="true">key</mat-icon>
+          <span class="font-medium">{{
+            i18n.t('rooms.room-availability.empty-title')
+          }}</span>
+          <span class="text-sm text-color-secondary">{{
+            store.rooms().length
+              ? i18n.t('rooms.room-availability.empty-filtered')
+              : i18n.t('rooms.room-availability.empty-text')
+          }}</span>
+        </div>
+      } @else if (compact()) {
+        <ul
+          class="list-none m-0 p-0 surface-card border-1 surface-border border-round-xl overflow-hidden"
+        >
+          @for (row of filteredRows(); track row.id; let index = $index) {
+            <li
+              class="flex align-items-center gap-3 px-3 py-2 surface-border"
+              [class.border-top-1]="index > 0"
+            >
+              <a
+                [routerLink]="['/rooms', row.room.id]"
+                class="flex align-items-center gap-3 flex-1 min-w-0 text-color"
+              >
+                <app-room-avatar />
+                <span class="flex flex-column min-w-0">
+                  <span class="font-mono font-semibold">{{
+                    row.room.number
+                  }}</span>
+                  <span
+                    class="text-sm text-color-secondary white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                    >{{ row.roomType?.name }}</span
+                  >
+                </span>
+              </a>
+              <button
+                class="day-button flex-shrink-0"
+                style="width: auto"
+                [attr.aria-label]="dayLabel(row, startDate())"
+                (click)="openDay(row.room, startDate())"
+              >
+                @if (row.days[startDate()] !== 'available') {
+                  <app-day-status-tag [status]="row.days[startDate()]!" />
+                } @else {
+                  <span
+                    class="flex align-items-center gap-2 text-sm text-color-secondary"
+                  >
+                    <mat-icon class="text-sm" aria-hidden="true"
+                      >check</mat-icon
+                    >
+                    {{ i18n.t('rooms.rooms-terms.day-statuses.available') }}
+                  </span>
+                }
+              </button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div
+          class="surface-card border-1 surface-border border-round-xl overflow-auto"
+        >
+          <table
+            mat-table
+            class="hostera-table"
+            style="min-width: 68rem"
+            [dataSource]="dataSource"
+          >
+            <ng-container matColumnDef="room" sticky>
+              <th mat-header-cell *matHeaderCellDef class="room-column">
+                {{ i18n.t('rooms.room-availability.room') }}
+              </th>
+              <td mat-cell *matCellDef="let row" class="room-column">
+                <a
+                  [routerLink]="['/rooms', row.room.id]"
+                  class="flex flex-column text-color hover:text-primary"
+                >
+                  <span class="font-mono font-semibold">{{
+                    row.room.number
+                  }}</span>
+                  <span
+                    class="text-sm text-color-secondary white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                    >{{ row.roomType?.name }}</span
+                  >
+                </a>
+              </td>
+            </ng-container>
+            @for (dayValue of visibleDays(); track dayValue) {
+              <ng-container [matColumnDef]="dayValue">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  class="day-column"
+                  [class.today]="dayValue === today"
+                >
+                  <span
+                    class="flex flex-column w-full px-2"
+                    [class.text-primary]="dayValue === today"
+                  >
+                    <span class="text-sm font-normal text-color-secondary">{{
+                      dayValue === today
+                        ? i18n.t('rooms.room-availability.today')
+                        : day(dayValue, { weekday: 'short' })
+                    }}</span>
+                    <span class="font-semibold">{{
+                      day(dayValue, { day: 'numeric', month: 'short' })
+                    }}</span>
+                  </span>
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let row"
+                  class="day-column"
+                  [class.today]="dayValue === today"
+                >
+                  <button
+                    class="day-button"
+                    [attr.aria-label]="dayLabel(row, dayValue)"
+                    (click)="openDay(row.room, dayValue)"
+                  >
+                    @if (row.days[dayValue] !== 'available') {
+                      <app-day-status-tag [status]="row.days[dayValue]" />
+                    } @else {
+                      <mat-icon
+                        class="text-sm text-color-secondary opacity-60 px-2"
+                        aria-hidden="true"
+                        >check</mat-icon
+                      >
+                    }
+                  </button>
+                </td>
+              </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+          </table>
+          <mat-paginator
+            [pageSize]="20"
+            [hidePageSize]="true"
+            [class.hidden]="filteredRows().length <= 20"
+          />
+        </div>
+      }
+    </section>
+  </ng-template>
+</app-rooms-layout>
