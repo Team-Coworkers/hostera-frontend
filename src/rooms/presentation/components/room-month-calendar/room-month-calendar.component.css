@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.day-cell-button {
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.day-cell-button:hover,
+.day-cell-button:focus-visible {
+  background: var(--p-surface-100);
+}
+
+@media (min-width: 768px) {
+  .day-cell-button {
+    height: 5rem;
+    padding: 0.5rem;
+  }
+}

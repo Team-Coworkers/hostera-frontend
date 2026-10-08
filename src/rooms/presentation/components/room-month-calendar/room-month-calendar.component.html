@@ -1,0 +1,108 @@
+<section class="flex flex-column gap-3">
+  <div class="flex flex-wrap align-items-center gap-2">
+    <h3
+      class="flex align-items-center gap-2 m-0 mr-auto text-base font-semibold"
+    >
+      <mat-icon class="text-color-secondary" aria-hidden="true"
+        >calendar_month</mat-icon
+      >
+      {{ i18n.t('rooms.room-month-calendar.title') }}
+    </h3>
+    <button
+      mat-icon-button
+      [matTooltip]="i18n.t('rooms.room-month-calendar.previous')"
+      [attr.aria-label]="i18n.t('rooms.room-month-calendar.previous')"
+      (click)="moveMonth(-1)"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span
+      class="font-semibold text-center white-space-nowrap"
+      style="min-width: 9rem"
+      aria-live="polite"
+      >{{ monthLabel() }}</span
+    >
+    <button
+      mat-icon-button
+      [matTooltip]="i18n.t('rooms.room-month-calendar.next')"
+      [attr.aria-label]="i18n.t('rooms.room-month-calendar.next')"
+      (click)="moveMonth(1)"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button
+      mat-button
+      [disabled]="month() === currentMonth"
+      (click)="month.set(currentMonth)"
+    >
+      {{ i18n.t('rooms.room-month-calendar.today') }}
+    </button>
+  </div>
+
+  <div
+    class="surface-card border-1 surface-border border-round-xl overflow-hidden"
+  >
+    <table
+      [attr.aria-label]="
+        i18n.t('rooms.room-month-calendar.caption', {
+          number: room().number,
+          month: monthLabel(),
+        })
+      "
+    >
+      <thead>
+        <tr class="surface-50">
+          @for (weekday of weekdays(); track weekday.long) {
+            <th
+              scope="col"
+              class="py-2 text-sm font-medium text-color-secondary border-bottom-1 surface-border"
+              [attr.abbr]="weekday.long"
+            >
+              {{ weekday.short }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (week of weeks(); track week[0]!.date) {
+          <tr>
+            @for (day of week; track day.date; let index = $index) {
+              <td
+                class="p-1 vertical-align-top border-bottom-1 surface-border"
+                [class.border-left-1]="index > 0"
+                [class.surface-50]="!day.inMonth"
+              >
+                @if (day.inMonth) {
+                  <button
+                    class="day-cell-button"
+                    [attr.aria-label]="dayLabel(day)"
+                    [attr.aria-current]="day.date === today ? 'date' : null"
+                    (click)="selectDay.emit(day.date)"
+                  >
+                    <span class="flex justify-content-end">
+                      <span
+                        class="flex align-items-center justify-content-center w-2rem h-2rem border-circle font-mono text-sm"
+                        [class]="
+                          day.date === today
+                            ? 'bg-primary font-semibold'
+                            : 'text-color'
+                        "
+                        >{{ dayNumber(day.date) }}</span
+                      >
+                    </span>
+                    @if (day.status !== 'available') {
+                      <app-day-status-tag
+                        [status]="day.status"
+                        [compact]="true"
+                      />
+                    }
+                  </button>
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
