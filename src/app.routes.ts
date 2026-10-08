@@ -14,6 +14,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'rooms',
+    loadChildren: () =>
+      import('./rooms/presentation/rooms.routes').then((m) => m.roomsRoutes),
+  },
+  {
     path: '',
     pathMatch: 'full',
     title: 'Home',
