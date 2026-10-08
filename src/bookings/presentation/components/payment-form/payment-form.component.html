@@ -1,0 +1,156 @@
+<div mat-dialog-title class="flex align-items-start justify-content-between">
+  <div class="flex flex-column text-left">
+    <span class="text-xl font-bold">{{
+      i18n.t('bookings.payment-form.title')
+    }}</span>
+    <span class="text-sm text-color-secondary font-normal"
+      ><span class="font-mono">{{ booking.code }}</span> ·
+      {{ booking.guestName }}</span
+    >
+  </div>
+  @if (!store.saving()) {
+    <button
+      mat-icon-button
+      type="button"
+      [attr.aria-label]="i18n.t('bookings.payment-form.cancel')"
+      (click)="dialogRef.close()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</div>
+
+<mat-dialog-content>
+  <form
+    id="payment-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="savePayment()"
+  >
+    <div
+      class="flex align-items-end justify-content-between gap-3 pb-3 border-bottom-1 surface-border"
+    >
+      <span class="flex flex-column gap-1">
+        <span class="text-sm">{{
+          i18n.t('bookings.payment-form.balance')
+        }}</span>
+        <span class="text-sm text-color-secondary">{{
+          i18n.t('bookings.payment-form.total', {
+            amount: money(booking.totalAmount),
+          })
+        }}</span>
+      </span>
+      <span class="font-mono text-2xl font-semibold">{{
+        money(balanceDue())
+      }}</span>
+    </div>
+
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('bookings.payment-form.amount') }}</mat-label>
+      <span matTextPrefix class="mr-1">{{ currencySymbol() }}</span>
+      <input
+        matInput
+        type="number"
+        name="amount"
+        class="font-mono"
+        min="0"
+        step="0.01"
+        required
+        [(ngModel)]="amount"
+      />
+      <mat-hint>{{
+        i18n.t('bookings.payment-form.amount-help', {
+          amount: money(balanceDue()),
+        })
+      }}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('bookings.payment-form.method') }}</mat-label>
+      <mat-select name="method" [(ngModel)]="method">
+        @for (value of methods; track value) {
+          <mat-option [value]="value">{{
+            i18n.t('bookings.bookings-terms.payment-methods.' + value)
+          }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="flex gap-2">
+      <mat-form-field class="flex-1">
+        <mat-label>{{ i18n.t('bookings.payment-form.paid-at') }}</mat-label>
+        <input
+          matInput
+          name="paidAtDate"
+          readonly
+          required
+          [matDatepicker]="paidAtPicker"
+          [max]="maxDate"
+          [(ngModel)]="paidAt"
+          (click)="paidAtPicker.open()"
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="paidAtPicker" />
+        <mat-datepicker #paidAtPicker />
+      </mat-form-field>
+      <mat-form-field class="w-9rem">
+        <input
+          matInput
+          name="paidAtTime"
+          required
+          [attr.aria-label]="i18n.t('bookings.payment-form.paid-at')"
+          [matTimepicker]="paidAtTimepicker"
+          [(ngModel)]="paidAt"
+        />
+        <mat-timepicker-toggle matIconSuffix [for]="paidAtTimepicker" />
+        <mat-timepicker #paidAtTimepicker />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('bookings.payment-form.reference') }}</mat-label>
+      <input
+        matInput
+        name="reference"
+        maxlength="40"
+        [placeholder]="i18n.t('bookings.payment-form.reference-placeholder')"
+        [(ngModel)]="reference"
+      />
+    </mat-form-field>
+
+    <app-message severity="secondary" icon="info">
+      {{ i18n.t('bookings.payment-form.external') }}
+    </app-message>
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{
+          i18n.t('bookings.bookings-terms.errors.' + errorCode(), {
+            amount: money(balanceDue()),
+          })
+        }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    [disabled]="store.saving()"
+    (click)="dialogRef.close()"
+  >
+    {{ i18n.t('bookings.payment-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="payment-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>check</mat-icon>
+    }
+    {{ i18n.t('bookings.payment-form.save') }}
+  </button>
+</mat-dialog-actions>

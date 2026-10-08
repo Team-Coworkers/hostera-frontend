@@ -33,6 +33,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'bookings',
+    loadChildren: () =>
+      import('./bookings/presentation/bookings.routes').then(
+        (m) => m.bookingsRoutes,
+      ),
+  },
+  {
     path: '',
     pathMatch: 'full',
     title: 'Home',
