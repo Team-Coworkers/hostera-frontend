@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-10-08
+
+### Changed
+
+- Ported the SPA from Vue 3, Pinia, and PrimeVue to Angular 19, TypeScript, and Angular Material 3, keeping the bounded contexts, their DDD layers, the routes, and the English and Spanish locale files unchanged.
+- Replaced Pinia stores with injectable signal-based stores, Axios with `HttpClient` through `BaseApiService` and `BaseEndpoint`, Vue I18n with ngx-translate and a parser for the existing message syntax, and PrimeVue Chart with Chart.js.
+- Moved API settings from `.env` files to `src/environments/`; a PrimeUI license is no longer needed.
+- The production build is published from `dist/browser/`.
+
 ## [0.1.0] - 2026-10-06
 
 ### Added
