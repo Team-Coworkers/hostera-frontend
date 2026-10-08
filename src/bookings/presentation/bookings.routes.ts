@@ -43,4 +43,12 @@ export const bookingsRoutes: Routes = [
         (m) => m.BookingCheckInComponent,
       ),
   },
+  {
+    matcher: numericIdMatcher('check-out'),
+    title: 'Check-out',
+    loadComponent: () =>
+      import('./views/booking-check-out/booking-check-out.component').then(
+        (m) => m.BookingCheckOutComponent,
+      ),
+  },
 ];
