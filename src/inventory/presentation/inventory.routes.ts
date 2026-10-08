@@ -11,4 +11,12 @@ export const inventoryRoutes: Routes = [
         (m) => m.InventoryItemListComponent,
       ),
   },
+  {
+    path: 'items/:id',
+    title: 'Inventory Item',
+    loadComponent: () =>
+      import('./views/inventory-item-detail/inventory-item-detail.component').then(
+        (m) => m.InventoryItemDetailComponent,
+      ),
+  },
 ];
