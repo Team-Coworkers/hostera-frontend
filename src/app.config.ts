@@ -9,6 +9,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
+  TitleStrategy,
   withComponentInputBinding,
   withInMemoryScrolling,
 } from '@angular/router';
@@ -19,6 +20,7 @@ import {
 } from '@ngx-translate/core';
 import { routes } from './app.routes';
 import { HosteraDateAdapter } from './shared/presentation/hostera-date-adapter';
+import { HosteraTitleStrategy } from './shared/presentation/hostera-title-strategy';
 import { LocaleLoader } from './shared/infrastructure/locale-loader';
 import { VueI18nMessageParser } from './shared/infrastructure/vue-i18n-message-parser';
 
@@ -41,6 +43,7 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     { provide: DateAdapter, useClass: HosteraDateAdapter },
+    { provide: TitleStrategy, useClass: HosteraTitleStrategy },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline', subscriptSizing: 'dynamic' },

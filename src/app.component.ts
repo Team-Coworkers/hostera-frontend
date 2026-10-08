@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MatIconRegistry } from '@angular/material/icon';
+import { AppLayoutComponent } from './shared/presentation/components/app-layout/app-layout.component';
 import { I18nService } from './shared/presentation/i18n.service';
 
-/** Root component: hosts the routed workspaces. */
+/** Root component: the application layout around the routed workspaces. */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  template: `<router-outlet />`,
+  imports: [AppLayoutComponent],
+  template: `<app-layout />`,
 })
 export class AppComponent {
   constructor() {
     // Starts ngx-translate with the default language and localizes Angular Material.
     inject(I18nService);
+    inject(MatIconRegistry).setDefaultFontSetClass('material-symbols-outlined');
   }
 }
