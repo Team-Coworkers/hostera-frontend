@@ -1,0 +1,20 @@
+{
+  "device": "Lector de recepción",
+  "states": {
+    "ready": "Coloca una tarjeta en blanco en el lector",
+    "encoding": "Grabando la credencial…",
+    "verifying": "Verificando la tarjeta…",
+    "encoded": "Tarjeta grabada y verificada",
+    "failed": "Conexión interrumpida"
+  },
+  "labels": {
+    "ready": "Listo",
+    "encoding": "Grabando",
+    "verifying": "Verificando",
+    "encoded": "Grabada",
+    "failed": "Falló"
+  },
+  "failed-title": "No se pudo grabar la tarjeta",
+  "failed-text": "Mantén la tarjeta en el lector y revisa su conexión antes de reintentar.",
+  "encode": "Grabar tarjeta"
+}

@@ -1,0 +1,15 @@
+{
+  "new-title": "Add room",
+  "edit-title": "Edit room {number}",
+  "number": "Room number",
+  "number-placeholder": "e.g. 214",
+  "floor": "Floor (optional)",
+  "room-type": "Room type",
+  "room-type-placeholder": "Choose a room type",
+  "room-type-summary": "{capacity} · {beds}",
+  "inherits": "Capacity and beds come from the room type: {capacity} · {beds}.",
+  "no-room-types": "Add an active room type before adding rooms.",
+  "starts-available": "New rooms start as available. Block dates from the availability calendar.",
+  "cancel": "Cancel",
+  "save": "Save room"
+}

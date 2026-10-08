@@ -1,0 +1,13 @@
+{
+  "new-title": "Añadir ubicación",
+  "edit-title": "Editar ubicación",
+  "name": "Nombre de la ubicación",
+  "code": "Código de ubicación",
+  "type": "Tipo de ubicación",
+  "area": "Piso o zona",
+  "team": "Equipo responsable",
+  "description": "Descripción (opcional)",
+  "code-locked": "El código se conserva para mantener la trazabilidad.",
+  "save": "Guardar ubicación",
+  "cancel": "Cancelar"
+}

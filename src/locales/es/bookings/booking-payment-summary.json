@@ -1,0 +1,10 @@
+{
+  "title": "Pago",
+  "total": "Total de la reserva",
+  "paid": "Pagado",
+  "balance": "Saldo pendiente",
+  "payments": "Pagos",
+  "no-payments": "Todavía no hay pagos registrados.",
+  "record": "Registrar pago",
+  "recorded": "Pago registrado"
+}

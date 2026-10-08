@@ -1,0 +1,15 @@
+{
+  "title": "Fijar tarifas diarias",
+  "rate-plan": "Plan tarifario",
+  "room-type": "Tipo de habitación",
+  "room-type-placeholder": "Elige un tipo de habitación",
+  "dates": "Rango de fechas",
+  "use-base-rate": "Usar tarifa base",
+  "use-base-rate-help": "Quita las tarifas diarias de estas noches para que sigan la tarifa base por noche.",
+  "nightly-rate": "Tarifa por noche",
+  "base-rate": "Tarifa base por noche: {amount}",
+  "nights-updated": "No se actualizará ninguna noche | Se actualizará {count} noche | Se actualizarán {count} noches",
+  "nights-reset": "Ninguna noche volverá a la tarifa base | {count} noche volverá a la tarifa base | {count} noches volverán a la tarifa base",
+  "cancel": "Cancelar",
+  "save": "Guardar tarifas"
+}

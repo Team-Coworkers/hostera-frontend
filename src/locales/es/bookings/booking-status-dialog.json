@@ -1,0 +1,19 @@
+{
+  "guest": "Huésped",
+  "stay": "Estadía",
+  "expected-arrival": "Llegada prevista",
+  "room": "Habitación",
+  "back": "Volver",
+  "confirm": {
+    "title": "¿Confirmar la reserva?",
+    "subtitle": "La habitación se mantiene reservada para esta estadía.",
+    "note": "La habitación {number} sigue reservada para estas noches. La reserva todavía se puede editar o cancelar.",
+    "submit": "Confirmar reserva"
+  },
+  "no-show": {
+    "title": "¿Marcar como no presentada?",
+    "subtitle": "Úsalo cuando el huésped no haya llegado el día de llegada.",
+    "note": "La reserva pasa a no presentada y se libera la habitación {number}.",
+    "submit": "Marcar como no presentada"
+  }
+}

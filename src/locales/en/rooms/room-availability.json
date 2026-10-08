@@ -1,0 +1,21 @@
+{
+  "new-room": "Add room",
+  "previous-week": "Previous 7 days",
+  "next-week": "Next 7 days",
+  "previous-day": "Previous day",
+  "next-day": "Next day",
+  "choose-date": "Choose start date",
+  "today": "Today",
+  "status-on": "Status on {date}",
+  "all": "All",
+  "search": "Search room number",
+  "all-room-types": "All room types",
+  "room-type": "Room type",
+  "clear": "Clear filters",
+  "results": "{count} rooms | {count} room | {count} rooms",
+  "room": "Room",
+  "empty-title": "No rooms to show",
+  "empty-filtered": "Change the date or clear the current filters.",
+  "empty-text": "Add the property's first room to start tracking availability.",
+  "saved": "Changes saved"
+}

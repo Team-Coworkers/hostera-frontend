@@ -1,0 +1,18 @@
+{
+  "denied-title": "Denied access event",
+  "granted-title": "Access event",
+  "denied-text": "The door rejected this credential.",
+  "granted-text": "The door accepted this credential.",
+  "credential": "Credential",
+  "time": "Time",
+  "person": "Person",
+  "access-point": "Access point",
+  "access": "Access",
+  "denial-help": {
+    "outside-scope": "The credential does not include this access point. Guest key cards open their room and common areas only.",
+    "not-active-yet": "The credential’s access period has not started yet.",
+    "expired": "The credential’s access period has ended.",
+    "revoked": "The credential was revoked and no longer opens any door."
+  },
+  "close": "Close"
+}

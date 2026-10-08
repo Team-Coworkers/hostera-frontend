@@ -1,0 +1,18 @@
+{
+  "new-title": "Add room type",
+  "edit-title": "Edit room type",
+  "rooms-count": "Not used by any room | Used by {count} room | Used by {count} rooms",
+  "name": "Room type name",
+  "name-placeholder": "e.g. Family suite",
+  "capacity": "Capacity",
+  "guests": "guests",
+  "beds": "Bed configuration",
+  "beds-placeholder": "e.g. 1 queen",
+  "base-rate": "Base nightly rate",
+  "base-rate-help": "Applies to every night that has no daily rate.",
+  "active": "Active",
+  "active-help": "Only active room types can be assigned to rooms.",
+  "in-use": "No rooms use this type | {count} room uses this type, so it can be made inactive but not removed. | {count} rooms use this type, so it can be made inactive but not removed.",
+  "cancel": "Cancel",
+  "save": "Save room type"
+}

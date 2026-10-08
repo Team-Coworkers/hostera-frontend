@@ -1,0 +1,23 @@
+{
+  "new": "Nueva reserva",
+  "search": "Buscar huésped o código",
+  "period": "Período de estadía",
+  "periods": {
+    "all": "Todas las fechas",
+    "current": "Estadías actuales",
+    "upcoming": "Próximas",
+    "past": "Pasadas"
+  },
+  "all-statuses": "Todos los estados",
+  "status": "Estado",
+  "clear": "Limpiar filtros",
+  "results": "{count} reservas | {count} reserva | {count} reservas",
+  "guest": "Huésped",
+  "stay": "Estadía",
+  "room": "Habitación",
+  "total": "Total",
+  "empty-title": "No hay reservas para mostrar",
+  "empty-filtered": "Cambia la búsqueda o limpia los filtros actuales.",
+  "empty-text": "Crea la primera reserva del establecimiento para planificar una estadía.",
+  "payment": "Pago"
+}

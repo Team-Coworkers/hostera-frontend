@@ -1,0 +1,20 @@
+{
+  "title": "Access events",
+  "events-today": "events today | event today | events today",
+  "events": "events | event | events",
+  "search": "Search person, credential, or room",
+  "all-results": "All results",
+  "result": "Result",
+  "all-access-points": "All access points",
+  "access-point": "Access point",
+  "day": "Day",
+  "clear": "Clear filters",
+  "results": "{count} shown | {count} shown | {count} shown",
+  "empty-title": "No access events",
+  "empty-text": "Choose another day or clear the current filters.",
+  "time": "Time",
+  "today": "Today",
+  "credential": "Credential",
+  "person": "Person",
+  "access": "Access"
+}

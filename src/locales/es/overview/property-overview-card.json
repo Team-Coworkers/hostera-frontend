@@ -1,0 +1,9 @@
+{
+  "title": "Resumen de establecimientos",
+  "subtitle": "Ocupación esta noche {rate} · {rooms}",
+  "available-rooms": "ninguna habitación libre | {count} habitación libre | {count} habitaciones libres",
+  "available-tonight": "Ninguna habitación libre esta noche | {count} habitación libre esta noche | {count} habitaciones libres esta noche",
+  "alerts": "Ninguna habitación requiere atención | {count} habitación requiere atención | {count} habitaciones requieren atención",
+  "no-alerts": "Sin alertas",
+  "help": "Elige un establecimiento para que sea el establecimiento activo."
+}

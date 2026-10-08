@@ -1,0 +1,8 @@
+{
+  "title": "Inventory",
+  "property": "Active property",
+  "inventory-items": "Items",
+  "storage-locations": "Storage locations",
+  "loading": "Loading inventory…",
+  "retry": "Try again"
+}

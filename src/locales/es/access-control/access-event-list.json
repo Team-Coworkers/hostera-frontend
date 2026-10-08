@@ -1,0 +1,20 @@
+{
+  "title": "Eventos de acceso",
+  "events-today": "eventos hoy | evento hoy | eventos hoy",
+  "events": "eventos | evento | eventos",
+  "search": "Buscar persona, credencial o habitación",
+  "all-results": "Todos los resultados",
+  "result": "Resultado",
+  "all-access-points": "Todos los puntos de acceso",
+  "access-point": "Punto de acceso",
+  "day": "Día",
+  "clear": "Limpiar filtros",
+  "results": "{count} mostrados | {count} mostrado | {count} mostrados",
+  "empty-title": "No hay eventos de acceso",
+  "empty-text": "Elige otro día o limpia los filtros actuales.",
+  "time": "Hora",
+  "today": "Hoy",
+  "credential": "Credencial",
+  "person": "Persona",
+  "access": "Acceso"
+}

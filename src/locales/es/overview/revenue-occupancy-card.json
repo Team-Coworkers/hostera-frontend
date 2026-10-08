@@ -1,0 +1,15 @@
+{
+  "title": "Ingresos y ocupación",
+  "period": "Período",
+  "periods": {
+    "last-7": "Últimos 7 días",
+    "last-30": "Últimos 30 días",
+    "next-30": "Próximos 30 días"
+  },
+  "change": "{change} frente al período anterior",
+  "no-previous": "Sin ingresos en el período anterior",
+  "average-occupancy": "Ocupación promedio {rate}",
+  "revenue": "Ingresos",
+  "occupancy": "Ocupación",
+  "chart-label": "Ingresos por noche en barras y ocupación en línea"
+}

@@ -1,0 +1,1376 @@
+@startuml hostera-class-diagram
+title Hostera Frontend — Class Diagram
+hide empty members
+
+' Vue components list their props, models, and main handlers.
+' Calendar days are ISO YYYY-MM-DD strings; date-times are ISO strings.
+
+package "Overview Bounded Context" as overview {
+    package "Domain" as overview_domain {
+        class DailyPerformance <<entity>> {
+            + {static} revenueStatuses: string[]
+            - date: string
+            - revenue: number
+            - soldRooms: number
+            - roomsCount: number
+            + constructor({date, revenue, soldRooms, roomsCount})
+            + get occupancyRate(): number
+            + {static} series({bookings, dates, roomsCount}): DailyPerformance[]
+        }
+
+        class PropertyOverview <<entity>> {
+            - propertyId: number|null
+            - name: string
+            - roomsCount: number
+            - heldRooms: number
+            - roomsNeedingCleaning: number
+            - roomsOutOfOrder: number
+            + constructor({propertyId, name, roomsCount, heldRooms, roomsNeedingCleaning, roomsOutOfOrder})
+            + get occupancyRate(): number
+            + get availableRooms(): number
+            + get alertsCount(): number
+        }
+    }
+
+    package "Infrastructure" as overview_infrastructure {
+        class OverviewApi {
+            - roomsEndpoint: BaseEndpoint
+            - bookingsEndpoint: BaseEndpoint
+            - statusPeriodsEndpoint: BaseEndpoint
+            + constructor()
+            + getPortfolio(): Promise
+        }
+
+        class PropertyOverviewAssembler <<assembler>> {
+            + {static} roomHoldingStatuses: string[]
+            + {static} toEntitiesFromResponses(properties, responses, today): PropertyOverview[]
+        }
+    }
+
+    package "Application" as overview_application {
+        class OverviewStore <<store>> {
+            - propertyOverviews: PropertyOverview[]
+            - propertyOverviewsLoaded: boolean
+            - propertyOverviewErrors: any[]
+            + todaysArrivals: computed
+            + roomStatusCounts: computed
+            + fetchPropertyOverviews()
+            + getPerformance(period): object
+            + searchBookings(query): Booking[]
+        }
+    }
+
+    package "Presentation" as overview_presentation {
+        package "Components" as overview_components {
+            class OverviewPanel <<component>> {
+                - title: string
+                - subtitle: string
+                - loading: boolean
+                - failed: boolean
+                + emit retry
+            }
+
+            class BookingSearch <<component>> {
+                + complete(event)
+                + openBooking(event)
+                + focusSearch(event)
+            }
+
+            class RevenueOccupancyCard <<component>>
+            class PropertyOverviewCard <<component>>
+
+            class TodaysArrivalsCard <<component>> {
+                + arrivalTag(arrival): object
+                + openActions(event, arrival)
+            }
+
+            class RoomStatusCard <<component>>
+        }
+
+        package "Views" as overview_views {
+            class OverviewView <<component>>
+        }
+    }
+}
+
+package "Bookings Bounded Context" as bookings {
+    package "Domain" as bookings_domain {
+        class Booking <<entity>> {
+            + {static} statuses: string[]
+            + {static} roomHoldingStatuses: string[]
+            + {static} editableStatuses: string[]
+            + {static} cancellationReasons: string[]
+            + {static} documentTypes: string[]
+            + {static} roomConditions: string[]
+            + {static} paymentAcceptingStatuses: string[]
+            + {static} preferredLanguages: string[]
+            - id: number|null
+            - propertyId: number|null
+            - code: string
+            - status: string
+            - guestName: string
+            - guestEmail: string
+            - guestPhone: string
+            - preferredLanguage: string
+            - checkInDate: string
+            - checkOutDate: string
+            - guests: number
+            - roomTypeId: number|null
+            - roomId: number|null
+            - ratePlanId: number|null
+            - totalAmount: number
+            - guestRequest: string
+            - createdAt: string
+            - confirmedAt: string|null
+            - confirmedBy: string|null
+            - cancelledAt: string|null
+            - cancelledBy: string|null
+            - cancellationReason: string|null
+            - cancellationNote: string
+            - noShowAt: string|null
+            - noShowBy: string|null
+            - checkedInAt: string|null
+            - checkedInBy: string|null
+            - guestDocumentType: string|null
+            - guestDocumentNumber: string
+            - checkedOutAt: string|null
+            - checkedOutBy: string|null
+            - roomCondition: string|null
+            - departureNote: string
+            + {static} nextCode(propertyId, latestCode): string
+            + {static} numberOf(code): number
+            + constructor({...})
+            + get nights(): number
+            + get lastNight(): string
+            + get holdsRoom(): boolean
+            + get isEditable(): boolean
+            + get canBeConfirmed(): boolean
+            + get canBeCancelled(): boolean
+            + get canBeCheckedOut(): boolean
+            + get acceptsPayments(): boolean
+            + canBeMarkedNoShow(today): boolean
+            + canBeRestored(today): boolean
+            + canBeCheckedIn(today): boolean
+            + confirm(at, by)
+            + cancel({reason, note, at, by})
+            + markNoShow(today, at, by)
+            + restore(today)
+            + checkIn({today, documentType, documentNumber, documentVerified, at, by})
+            + checkOut({balanceDue, roomCondition, note, at, by})
+            + balanceDue(payments): number
+            + paymentStatus(payments): string
+            + overlaps(checkInDate, checkOutDate): boolean
+            + hasSamePricingAs(booking): boolean
+            + validate()
+        }
+
+        class Payment <<entity>> {
+            + {static} methods: string[]
+            - id: number|null
+            - propertyId: number|null
+            - bookingId: number|null
+            - amount: number
+            - method: string
+            - paidAt: string
+            - reference: string
+            - recordedBy: string|null
+            + constructor({...})
+            + validate()
+        }
+
+        class CancelBookingCommand <<command>> {
+            - bookingId: number
+            - reason: string
+            - note: string
+            + constructor({bookingId, reason, note})
+        }
+
+        class CheckInBookingCommand <<command>> {
+            - bookingId: number
+            - documentType: string
+            - documentNumber: string
+            - documentVerified: boolean
+            - keyCardIds: string[]
+            + constructor({bookingId, documentType, documentNumber, documentVerified, keyCardIds})
+        }
+
+        class CheckOutBookingCommand <<command>> {
+            - bookingId: number
+            - roomCondition: string
+            - note: string
+            + constructor({bookingId, roomCondition, note})
+        }
+
+        class BookingsError <<error>> {
+            - code: string
+            + constructor(code)
+        }
+    }
+
+    package "Infrastructure" as bookings_infrastructure {
+        class BookingsApi {
+            - bookingsEndpoint: BaseEndpoint
+            - paymentsEndpoint: BaseEndpoint
+            + constructor()
+            + getBookings(propertyId): Promise
+            + getLatestBooking(propertyId): Promise
+            + createBooking(resource): Promise
+            + updateBooking(resource): Promise
+            + getPayments(propertyId): Promise
+            + createPayment(resource): Promise
+        }
+
+        class BookingAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): Booking
+            + {static} toEntitiesFromResponse(response): Booking[]
+        }
+
+        class PaymentAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): Payment
+            + {static} toEntitiesFromResponse(response): Payment[]
+        }
+    }
+
+    package "Application" as bookings_application {
+        class BookingsStore <<store>> {
+            - bookings: Booking[]
+            - payments: Payment[]
+            - errors: any[]
+            - bookingsLoaded: boolean
+            - paymentsLoaded: boolean
+            - saving: boolean
+            + currentPropertyId: computed
+            + bookingsCount: computed
+            + fetchBookings()
+            + getBookingById(id): Booking
+            + getPaymentsOf(bookingId): Payment[]
+            + getBalanceDue(booking): number
+            + getPaymentStatus(booking): string
+            + quoteTotal(booking): number
+            + isRoomAvailable(roomId, booking): boolean
+            + addBooking(booking): Promise
+            + updateBooking(booking): Promise
+            + confirmBooking(bookingId): Promise
+            + cancelBooking(cancelBookingCommand): Promise
+            + markNoShow(bookingId): Promise
+            + restoreBooking(bookingId): Promise
+            + recordPayment(payment): Promise
+            + checkInBooking(checkInBookingCommand): Promise
+            + checkOutBooking(checkOutBookingCommand): Promise
+        }
+    }
+
+    package "Presentation" as bookings_presentation {
+        package "Components" as bookings_components {
+            class BookingsLayout <<component>> {
+                - title: string
+                + changeProperty(propertyId)
+                + retry()
+            }
+
+            class BookingStatusTag <<component>> {
+                - status: string
+            }
+
+            class PaymentStatusTag <<component>> {
+                - status: string
+            }
+
+            class BookingStatusDialog <<component>> {
+                - booking: Booking
+                - action: string
+                - type: string
+                - required: boolean
+                - validator: function
+                - visible: boolean (model)
+                + apply()
+                + emit saved
+            }
+
+            class BookingCancelDialog <<component>> {
+                - booking: Booking
+                - visible: boolean (model)
+                + cancel()
+                + emit saved
+            }
+
+            class BookingPaymentSummary <<component>> {
+                - booking: Booking
+                + notifyRecorded()
+            }
+
+            class PaymentForm <<component>> {
+                - booking: Booking
+                - visible: boolean (model)
+                + savePayment()
+                + emit saved
+            }
+        }
+
+        package "Views" as bookings_views {
+            class BookingList <<component>> {
+                + resetFilters()
+                + openBooking(booking)
+            }
+
+            class BookingDetail <<component>> {
+                + restore()
+                + duplicate()
+                + notifySaved(message)
+            }
+
+            class BookingForm <<component>> {
+                + saveBooking()
+                + cancel()
+            }
+
+            class BookingCheckIn <<component>> {
+                + completeCheckIn()
+            }
+
+            class BookingCheckOut <<component>> {
+                + completeCheckOut()
+            }
+        }
+    }
+}
+
+package "Rooms Bounded Context" as rooms {
+    package "Domain" as rooms_domain {
+        class Property <<entity>> {
+            - id: number|null
+            - organizationId: number|null
+            - name: string
+            - city: string
+            - currency: string
+            + constructor({id, organizationId, name, city, currency})
+        }
+
+        class RoomType <<entity>> {
+            + {static} statuses: string[]
+            + {static} maxCapacity: number
+            - id: number|null
+            - propertyId: number|null
+            - name: string
+            - capacity: number
+            - bedConfiguration: string
+            - baseNightlyRate: number
+            - status: string
+            + constructor({...})
+            + get isActive(): boolean
+            + nightlyRateOn(date, ratePlanId, dailyRates): number
+            + validate()
+        }
+
+        class Room <<entity>> {
+            + {static} dayStatuses: string[]
+            - id: number|null
+            - propertyId: number|null
+            - number: string
+            - roomTypeId: number|null
+            - floor: number|null
+            + constructor({id, propertyId, number, roomTypeId, floor})
+            + dayStatusOn(date, roomAssignments, statusPeriods): string
+            + validate()
+        }
+
+        class StatusPeriod <<entity>> {
+            + {static} statuses: string[]
+            - id: number|null
+            - propertyId: number|null
+            - roomId: number|null
+            - status: string
+            - startDate: string
+            - endDate: string
+            - reason: string
+            + constructor({...})
+            + get preventsBooking(): boolean
+            + covers(date): boolean
+            + overlaps(startDate, endDate): boolean
+            + withoutDays(startDate, endDate): StatusPeriod[]
+            + {static} validateDateRange(startDate, endDate)
+            + validate()
+        }
+
+        class RoomAssignment <<entity>> {
+            + {static} statuses: string[]
+            - id: number|null
+            - propertyId: number|null
+            - roomId: number|null
+            - bookingId: number|null
+            - bookingCode: string
+            - status: string
+            - startDate: string
+            - endDate: string
+            + constructor({...})
+            + covers(date): boolean
+            + overlaps(startDate, endDate): boolean
+        }
+
+        class RatePlan <<entity>> {
+            + {static} statuses: string[]
+            + {static} includedServicesOptions: string[]
+            - id: number|null
+            - propertyId: number|null
+            - name: string
+            - roomTypeIds: number[]
+            - includedServices: string
+            - refundable: boolean
+            - cancellationPolicy: string
+            - status: string
+            + constructor({...})
+            + get isActive(): boolean
+            + get appliesToAllRoomTypes(): boolean
+            + appliesTo(roomTypeId): boolean
+            + validate()
+        }
+
+        class DailyRate <<entity>> {
+            - id: number|null
+            - propertyId: number|null
+            - ratePlanId: number|null
+            - roomTypeId: number|null
+            - date: string
+            - amount: number
+            + constructor({...})
+            + {static} nightsBetween(startDate, endDate): string[]
+            + prices(roomTypeId, ratePlanId, date): boolean
+            + validate()
+        }
+
+        class SetRoomStatusCommand <<command>> {
+            + {static} statuses: string[]
+            - roomId: number
+            - status: string
+            - startDate: string
+            - endDate: string
+            - reason: string
+            + constructor({roomId, status, startDate, endDate, reason})
+        }
+
+        class SetDailyRatesCommand <<command>> {
+            - ratePlanId: number
+            - roomTypeId: number
+            - startDate: string
+            - endDate: string
+            - useBaseRate: boolean
+            - amount: number|null
+            + constructor({ratePlanId, roomTypeId, startDate, endDate, useBaseRate, amount})
+        }
+
+        class RoomsError <<error>> {
+            - code: string
+            + constructor(code)
+        }
+    }
+
+    package "Infrastructure" as rooms_infrastructure {
+        class RoomsApi {
+            - propertiesEndpoint: BaseEndpoint
+            - roomTypesEndpoint: BaseEndpoint
+            - roomsEndpoint: BaseEndpoint
+            - statusPeriodsEndpoint: BaseEndpoint
+            - roomAssignmentsEndpoint: BaseEndpoint
+            - ratePlansEndpoint: BaseEndpoint
+            - dailyRatesEndpoint: BaseEndpoint
+            + constructor()
+            + getProperties(): Promise
+            + getRoomTypes(propertyId): Promise
+            + createRoomType(resource): Promise
+            + updateRoomType(resource): Promise
+            + deleteRoomType(id): Promise
+            + getRooms(propertyId): Promise
+            + createRoom(resource): Promise
+            + updateRoom(resource): Promise
+            + getStatusPeriods(propertyId): Promise
+            + createStatusPeriod(resource): Promise
+            + updateStatusPeriod(resource): Promise
+            + deleteStatusPeriod(id): Promise
+            + getRoomAssignments(propertyId): Promise
+            + getRatePlans(propertyId): Promise
+            + createRatePlan(resource): Promise
+            + updateRatePlan(resource): Promise
+            + getDailyRates(propertyId): Promise
+            + createDailyRate(resource): Promise
+            + updateDailyRate(resource): Promise
+            + deleteDailyRate(id): Promise
+        }
+
+        class "PropertyAssembler" as RoomsPropertyAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): Property
+            + {static} toEntitiesFromResponse(response): Property[]
+        }
+
+        class RoomTypeAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): RoomType
+            + {static} toEntitiesFromResponse(response): RoomType[]
+        }
+
+        class RoomAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): Room
+            + {static} toEntitiesFromResponse(response): Room[]
+        }
+
+        class StatusPeriodAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): StatusPeriod
+            + {static} toEntitiesFromResponse(response): StatusPeriod[]
+        }
+
+        class RoomAssignmentAssembler <<assembler>> {
+            + {static} roomHoldingStatuses: string[]
+            + {static} toEntityFromResource(resource): RoomAssignment
+            + {static} toEntitiesFromResponse(response): RoomAssignment[]
+        }
+
+        class RatePlanAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): RatePlan
+            + {static} toEntitiesFromResponse(response): RatePlan[]
+        }
+
+        class DailyRateAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): DailyRate
+            + {static} toEntitiesFromResponse(response): DailyRate[]
+        }
+    }
+
+    package "Application" as rooms_application {
+        class RoomsStore <<store>> {
+            - properties: Property[]
+            - roomTypes: RoomType[]
+            - rooms: Room[]
+            - statusPeriods: StatusPeriod[]
+            - roomAssignments: RoomAssignment[]
+            - ratePlans: RatePlan[]
+            - dailyRates: DailyRate[]
+            - errors: any[]
+            - propertiesLoaded: boolean
+            - roomTypesLoaded: boolean
+            - roomsLoaded: boolean
+            - statusPeriodsLoaded: boolean
+            - roomAssignmentsLoaded: boolean
+            - ratePlansLoaded: boolean
+            - dailyRatesLoaded: boolean
+            - saving: boolean
+            - currentPropertyId: number|null
+            + currentProperty: computed
+            + roomTypesCount: computed
+            + roomsCount: computed
+            + fetchProperties()
+            + selectProperty(propertyId)
+            + fetchRoomTypes()
+            + fetchRooms()
+            + fetchStatusPeriods()
+            + fetchRoomAssignments()
+            + fetchRatePlans()
+            + fetchDailyRates()
+            + getRoomTypeById(id): RoomType
+            + getRoomById(id): Room
+            + getRoomAssignmentOn(roomId, date): RoomAssignment
+            + getStatusPeriodOn(roomId, date): StatusPeriod
+            + getDayStatus(roomId, date): string
+            + getRoomsByRoomType(roomTypeId): Room[]
+            + isRoomBookable(roomId, startDate, endDate): boolean
+            + getRatePlanById(id): RatePlan
+            + getDailyRate(roomTypeId, ratePlanId, date): DailyRate
+            + getNightlyRate(roomTypeId, ratePlanId, date): number
+            + addRoomType(roomType): Promise
+            + updateRoomType(roomType): Promise
+            + deleteRoomType(roomType): Promise
+            + addRoom(room): Promise
+            + updateRoom(room): Promise
+            + setRoomStatus(setRoomStatusCommand): Promise
+            + addRatePlan(ratePlan): Promise
+            + updateRatePlan(ratePlan): Promise
+            + setDailyRates(setDailyRatesCommand): Promise
+        }
+    }
+
+    package "Presentation" as rooms_presentation {
+        package "Components" as rooms_components {
+            class RoomsLayout <<component>> {
+                + changeProperty(propertyId)
+                + retry()
+            }
+
+            class DayStatusTag <<component>> {
+                - status: string
+                - compact: boolean
+            }
+
+            class RoomAvatar <<component>> {
+                - icon: string
+                - size: string
+            }
+
+            class RoomTypeForm <<component>> {
+                - roomType: RoomType
+                - visible: boolean (model)
+                + saveRoomType()
+                + emit saved
+            }
+
+            class RoomForm <<component>> {
+                - room: Room
+                - visible: boolean (model)
+                + saveRoom()
+                + emit saved
+            }
+
+            class RoomStatusForm <<component>> {
+                - room: Room
+                - date: string
+                - visible: boolean (model)
+                + saveStatus()
+                + emit saved
+            }
+
+            class RoomMonthCalendar <<component>> {
+                - room: Room
+                - month: string (model)
+                + dayLabel(day): string
+                + emit select-day
+            }
+
+            class BookingControlledDialog <<component>> {
+                - room: Room
+                - roomAssignment: RoomAssignment
+                - visible: boolean (model)
+            }
+
+            class RatePlanForm <<component>> {
+                - ratePlan: RatePlan
+                - visible: boolean (model)
+                + saveRatePlan()
+                + emit saved
+            }
+
+            class DailyRateForm <<component>> {
+                - ratePlanId: number
+                - roomTypeId: number
+                - startDate: string
+                - endDate: string
+                - visible: boolean (model)
+                + roomTypesOf(ratePlanId): RoomType[]
+                + saveDailyRates()
+                + emit saved
+            }
+        }
+
+        package "Views" as rooms_views {
+            class RoomAvailability <<component>> {
+                + moveDates(days)
+                + resetFilters()
+                + openDay(room, date)
+                + notifySaved(message)
+            }
+
+            class RoomDetail <<component>> {
+                + openDay(date)
+                + notifySaved(message)
+            }
+
+            class RoomTypeList <<component>> {
+                + openRoomTypeForm(roomType)
+                + confirmDelete(roomType)
+                + notifySaved(message)
+            }
+
+            class RoomRates <<component>> {
+                + moveDates(days)
+                + openRatePlanForm(ratePlan)
+                + openDailyRateForm(roomTypeId, date)
+                + notifySaved(message)
+            }
+        }
+    }
+}
+
+package "Inventory Bounded Context" as inventory {
+    package "Domain" as inventory_domain {
+        class "Property" as InventoryProperty <<entity>> {
+            - id: number|null
+            - organizationId: number|null
+            - name: string
+            - city: string
+            + constructor({id, organizationId, name, city})
+        }
+
+        class InventoryItem <<entity>> {
+            + {static} units: string[]
+            + {static} categories: string[]
+            - id: number|null
+            - propertyId: number|null
+            - name: string
+            - code: string
+            - category: string
+            - unit: string
+            - primaryLocationId: number|null
+            - lowStockThreshold: number
+            - stocks: object[]
+            - adjustments: StockAdjustment[]
+            + constructor({...})
+            + {static} validateQuantity(quantity, unit, allowZero)
+            + get totalQuantity(): number
+            + get stockCondition(): string
+            + quantityAt(locationId): number
+            + assignStorageLocation(locationId)
+            + unassignStorageLocation(locationId)
+            + applyStockAdjustment(adjustmentData)
+            + validate()
+        }
+
+        class StockAdjustment <<entity>> {
+            + {static} reasons: object
+            - id: string
+            - operation: string
+            - quantity: number
+            - locationId: number
+            - locationName: string
+            - reason: string
+            - note: string
+            - recordedAt: string
+            - operator: string
+            - transferId: string|null
+            + constructor({...})
+        }
+
+        class StorageLocation <<entity>> {
+            + {static} types: string[]
+            - id: number|null
+            - propertyId: number|null
+            - name: string
+            - code: string
+            - type: string
+            - area: string
+            - responsibleTeam: string
+            - description: string
+            + constructor({...})
+            + validate()
+        }
+
+        class AdjustStockCommand <<command>> {
+            + {static} operations: string[]
+            - inventoryItemId: number
+            - operation: string
+            - quantity: number
+            - locationId: number
+            - destinationLocationId: number|null
+            - reason: string
+            - note: string
+            + constructor({...})
+        }
+
+        class InventoryError <<error>> {
+            - code: string
+            + constructor(code)
+        }
+    }
+
+    package "Infrastructure" as inventory_infrastructure {
+        class InventoryApi {
+            - propertiesEndpoint: BaseEndpoint
+            - inventoryItemsEndpoint: BaseEndpoint
+            - storageLocationsEndpoint: BaseEndpoint
+            + constructor()
+            + getProperties(): Promise
+            + getInventoryItems(propertyId): Promise
+            + createInventoryItem(resource): Promise
+            + updateInventoryItem(resource): Promise
+            + getStorageLocations(propertyId): Promise
+            + createStorageLocation(resource): Promise
+            + updateStorageLocation(resource): Promise
+            + deleteStorageLocation(id): Promise
+        }
+
+        class "PropertyAssembler" as InventoryPropertyAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): Property
+            + {static} toEntitiesFromResponse(response): Property[]
+        }
+
+        class InventoryItemAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): InventoryItem
+            + {static} toEntitiesFromResponse(response): InventoryItem[]
+        }
+
+        class StockAdjustmentAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): StockAdjustment
+        }
+
+        class StorageLocationAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): StorageLocation
+            + {static} toEntitiesFromResponse(response): StorageLocation[]
+        }
+    }
+
+    package "Application" as inventory_application {
+        class InventoryStore <<store>> {
+            - properties: Property[]
+            - inventoryItems: InventoryItem[]
+            - storageLocations: StorageLocation[]
+            - errors: any[]
+            - propertiesLoaded: boolean
+            - inventoryItemsLoaded: boolean
+            - storageLocationsLoaded: boolean
+            - saving: boolean
+            - currentPropertyId: number|null
+            + currentProperty: computed
+            + inventoryItemsCount: computed
+            + storageLocationsCount: computed
+            + fetchProperties()
+            + selectProperty(propertyId)
+            + fetchInventoryItems()
+            + fetchStorageLocations()
+            + getInventoryItemById(id): InventoryItem
+            + getStorageLocationById(id): StorageLocation
+            + addInventoryItem(inventoryItem, openingQuantity): Promise
+            + updateInventoryItem(inventoryItem): Promise
+            + adjustStock(adjustStockCommand): Promise
+            + unassignStorageLocation(inventoryItem, storageLocationId): Promise
+            + addStorageLocation(storageLocation): Promise
+            + updateStorageLocation(storageLocation): Promise
+            + deleteStorageLocation(storageLocation): Promise
+        }
+    }
+
+    package "Presentation" as inventory_presentation {
+        package "Components" as inventory_components {
+            class InventoryLayout <<component>> {
+                + changeProperty(propertyId)
+                + retry()
+            }
+
+            class InventoryItemAvatar <<component>> {
+                - category: string
+                - size: string
+            }
+
+            class StorageLocationAvatar <<component>> {
+                - type: string
+                - size: string
+            }
+
+            class StockConditionTag <<component>>
+
+            class InventoryItemForm <<component>> {
+                - inventoryItem: InventoryItem
+                - visible: boolean (model)
+                + saveInventoryItem()
+                + emit saved
+            }
+
+            class StockAdjustmentForm <<component>> {
+                - inventoryItem: InventoryItem
+                - visible: boolean (model)
+                + performStockAdjustment()
+                + emit saved
+            }
+
+            class StorageLocationForm <<component>> {
+                - storageLocation: StorageLocation
+                - visible: boolean (model)
+                + saveStorageLocation()
+                + emit saved
+            }
+        }
+
+        package "Views" as inventory_views {
+            class InventoryItemList <<component>> {
+                + resetFilters()
+                + navigateToDetail(inventoryItem)
+                + openInventoryItemForm(inventoryItem)
+                + openStockAdjustmentForm(inventoryItem)
+                + notifySaved(message)
+            }
+
+            class InventoryItemDetail <<component>> {
+                + removeAssignment(storageLocationId)
+                + notifySaved(message)
+                + notifyError(error)
+            }
+
+            class StorageLocationList <<component>> {
+                + resetFilters()
+                + navigateToDetail(storageLocation)
+                + openStorageLocationForm(storageLocation)
+                + confirmDelete(storageLocation)
+                + notifySaved(message)
+            }
+
+            class StorageLocationDetail <<component>> {
+                + openStockAdjustmentForm(inventoryItem)
+                + confirmDelete()
+                + notifySaved(message)
+            }
+        }
+    }
+}
+
+package "Access Control Bounded Context" as access_control {
+    package "Domain" as access_control_domain {
+        class Credential <<entity>> {
+            + {static} types: string[]
+            + {static} staffScopes: string[]
+            + {static} revocationReasons: string[]
+            - id: number|null
+            - propertyId: number|null
+            - cardId: string
+            - type: string
+            - holderName: string
+            - staffMemberId: number|null
+            - bookingId: number|null
+            - bookingCode: string
+            - roomId: number|null
+            - scope: string|null
+            - validFrom: string
+            - validUntil: string|null
+            - issuedAt: string
+            - issuedBy: string|null
+            - revokedAt: string|null
+            - revokedBy: string|null
+            - revocationReason: string|null
+            - revocationNote: string
+            + constructor({...})
+            + get isGuestKeyCard(): boolean
+            + statusAt(now): string
+            + isUsableAt(now): boolean
+            + revoke({reason, note, at, by})
+            + endAt(at)
+            + validate()
+        }
+
+        class StaffMember <<entity>> {
+            - id: number|null
+            - propertyId: number|null
+            - name: string
+            - role: string
+            + constructor({id, propertyId, name, role})
+        }
+
+        class AccessEvent <<entity>> {
+            + {static} accessPoints: string[]
+            + {static} denialReasons: string[]
+            - id: number|null
+            - propertyId: number|null
+            - occurredAt: string
+            - credentialId: number|null
+            - cardId: string
+            - holderName: string
+            - holderType: string
+            - accessPoint: string
+            - roomId: number|null
+            - result: string
+            - denialReason: string|null
+            + constructor({...})
+            + get isDenied(): boolean
+        }
+
+        class IssueStaffCredentialCommand <<command>> {
+            - staffMemberId: number
+            - scope: string
+            - validUntil: string|null
+            + constructor({staffMemberId, scope, validUntil})
+        }
+
+        class IssueGuestKeyCardsCommand <<command>> {
+            - bookingId: number
+            - bookingCode: string
+            - roomId: number
+            - holderName: string
+            - checkOutDate: string
+            - cardIds: string[]
+            + constructor({bookingId, bookingCode, roomId, holderName, checkOutDate, cardIds})
+        }
+
+        class RevokeCredentialCommand <<command>> {
+            - credentialId: number
+            - reason: string
+            - note: string
+            + constructor({credentialId, reason, note})
+        }
+
+        class AccessControlError <<error>> {
+            - code: string
+            + constructor(code)
+        }
+    }
+
+    package "Infrastructure" as access_control_infrastructure {
+        class AccessControlApi {
+            - credentialsEndpoint: BaseEndpoint
+            - staffMembersEndpoint: BaseEndpoint
+            - accessEventsEndpoint: BaseEndpoint
+            + constructor()
+            + getCredentials(propertyId): Promise
+            + createCredential(resource): Promise
+            + updateCredential(resource): Promise
+            + getStaffMembers(propertyId): Promise
+            + getAccessEvents(propertyId): Promise
+        }
+
+        class RfidEncoder <<adapter>> {
+            + encode(onState): Promise<string>
+        }
+
+        class CredentialAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): Credential
+            + {static} toEntitiesFromResponse(response): Credential[]
+        }
+
+        class StaffMemberAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): StaffMember
+            + {static} toEntitiesFromResponse(response): StaffMember[]
+        }
+
+        class AccessEventAssembler <<assembler>> {
+            + {static} toEntityFromResource(resource): AccessEvent
+            + {static} toEntitiesFromResponse(response): AccessEvent[]
+        }
+    }
+
+    package "Application" as access_control_application {
+        class AccessControlStore <<store>> {
+            - credentials: Credential[]
+            - staffMembers: StaffMember[]
+            - accessEvents: AccessEvent[]
+            - errors: any[]
+            - credentialsLoaded: boolean
+            - staffMembersLoaded: boolean
+            - accessEventsLoaded: boolean
+            - saving: boolean
+            - encoderState: string
+            + currentPropertyId: computed
+            + fetchAccessControl()
+            + getCredentialById(id): Credential
+            + getStaffMemberById(id): StaffMember
+            + getCredentialStatus(credential): string
+            + getKeyCardsOfBooking(bookingId): Credential[]
+            + getEventsOfCredential(credentialId): AccessEvent[]
+            + guestAccessEnd(checkOutDate): string
+            + encodeKeyCard(): Promise<string>
+            + resetEncoder()
+            + issueStaffCredential(issueStaffCredentialCommand): Promise
+            + issueGuestKeyCards(issueGuestKeyCardsCommand): Promise
+            + endGuestKeyCards(bookingId): Promise
+            + revokeCredential(revokeCredentialCommand): Promise
+            + replaceCredential(credentialId): Promise
+        }
+    }
+
+    package "Presentation" as access_control_presentation {
+        package "Components" as access_control_components {
+            class AccessControlLayout <<component>> {
+                - title: string
+                - backRoute: object
+                + changeProperty(propertyId)
+                + retry()
+            }
+
+            class CredentialStatusTag <<component>> {
+                - status: string
+            }
+
+            class RfidEncoderPanel <<component>> {
+                - showAction: boolean
+                - actionLabel: string
+                - disabled: boolean
+                + encode()
+                + emit encoded
+            }
+
+            class StaffCredentialForm <<component>> {
+                - visible: boolean (model)
+                + issue()
+                + emit saved
+            }
+
+            class RevokeCredentialDialog <<component>> {
+                - credential: Credential
+                - access: string
+                - visible: boolean (model)
+                + revoke()
+                + emit saved
+            }
+
+            class ReplaceCredentialDrawer <<component>> {
+                - credential: Credential
+                - visible: boolean (model)
+                + replace()
+                + emit saved
+            }
+
+            class AccessEventDrawer <<component>> {
+                - accessEvent: AccessEvent
+                - visible: boolean (model)
+            }
+        }
+
+        package "Views" as access_control_views {
+            class CredentialList <<component>> {
+                + resetFilters()
+                + openCredential(credential)
+                + showIssued(credential)
+            }
+
+            class CredentialDetail <<component>> {
+                + notifyRevoked()
+                + showReplacement(credential)
+            }
+
+            class AccessEventList <<component>> {
+                + resetFilters()
+            }
+        }
+    }
+}
+
+package "Shared" as shared {
+    package "Infrastructure" as shared_infrastructure {
+        class BaseApi {
+            - http: AxiosInstance
+            + constructor()
+            + get http(): AxiosInstance
+        }
+
+        class BaseEndpoint {
+            - http: AxiosInstance
+            - endpointPath: string
+            + constructor(baseApi, endpointPath)
+            + getAll(params): Promise
+            + getById(id): Promise
+            + create(resource): Promise
+            + update(id, resource): Promise
+            + delete(id): Promise
+        }
+    }
+
+    package "Presentation" as shared_presentation {
+        class CalendarDate <<utility>> {
+            + {static} fromDate(date): string
+            + {static} toDate(value): Date
+            + {static} today(): string
+            + {static} addDays(value, days): string
+            + {static} addMonths(value, months): string
+            + {static} startOfMonth(value): string
+            + {static} dayOfWeek(value): number
+            + {static} sequence(startDate, length): string[]
+        }
+
+        class CalendarFormat <<module>> {
+            + formatDay(date, locale, options): string
+            + formatDayRange(startDate, endDate, locale): string
+            + formatDateTime(value, locale): string
+            + moneyLocale(currency, locale): string
+            + formatMoney(amount, currency, locale): string
+        }
+
+        package "Components" as shared_components {
+            class AppLayout <<component>> {
+                - compact: boolean
+                - sidebarOpen: boolean
+                - navigationItems: object[]
+                + isCurrentSection(item): boolean
+                + updateCompact(event)
+            }
+
+            class LanguageSwitcher <<component>> {
+                - locale: string
+            }
+
+            class BrandLogo <<component>>
+            class SidebarToggle <<component>>
+        }
+
+        package "Views" as shared_views {
+            class Home <<component>>
+        }
+    }
+}
+
+' Overview Bounded Context relationships
+OverviewApi --|> BaseApi
+OverviewApi --> BaseEndpoint
+PropertyOverviewAssembler ..> PropertyOverview
+OverviewStore --> OverviewApi
+OverviewStore --> PropertyOverviewAssembler
+OverviewStore ..> DailyPerformance
+OverviewStore --> RoomsStore
+OverviewStore --> BookingsStore
+OverviewView --> OverviewStore
+OverviewView --> BookingSearch
+OverviewView --> RevenueOccupancyCard
+OverviewView --> PropertyOverviewCard
+OverviewView --> TodaysArrivalsCard
+OverviewView --> RoomStatusCard
+RevenueOccupancyCard --> OverviewPanel
+PropertyOverviewCard --> OverviewPanel
+TodaysArrivalsCard --> OverviewPanel
+RoomStatusCard --> OverviewPanel
+BookingSearch --> OverviewStore
+BookingSearch --> BookingStatusTag
+RevenueOccupancyCard --> OverviewStore
+PropertyOverviewCard --> OverviewStore
+TodaysArrivalsCard --> OverviewStore
+RoomStatusCard --> OverviewStore
+
+' Bookings Bounded Context relationships
+Booking "1" -- "0..*" Payment : bookingId
+BookingsApi --|> BaseApi
+BookingsApi --> BaseEndpoint
+BookingAssembler ..> Booking
+PaymentAssembler ..> Payment
+BookingsStore --> BookingsApi
+BookingsStore --> BookingAssembler
+BookingsStore --> PaymentAssembler
+BookingsStore ..> BookingsError
+BookingsStore --> RoomsStore
+BookingsStore --> AccessControlStore
+BookingsStore ..> IssueGuestKeyCardsCommand
+BookingList --> BookingsStore
+BookingDetail --> BookingsStore
+BookingForm --> BookingsStore
+BookingForm ..> Booking
+BookingCheckIn --> BookingsStore
+BookingCheckIn ..> CheckInBookingCommand
+BookingCheckIn --> RfidEncoderPanel
+BookingCheckOut --> BookingsStore
+BookingCheckOut ..> CheckOutBookingCommand
+BookingDetail --> BookingStatusDialog
+BookingDetail --> BookingCancelDialog
+BookingDetail --> BookingPaymentSummary
+BookingDetail --> CredentialStatusTag
+BookingCancelDialog ..> CancelBookingCommand
+BookingPaymentSummary --> PaymentForm
+PaymentForm ..> Payment
+BookingStatusDialog --> BookingsStore
+BookingCancelDialog --> BookingsStore
+PaymentForm --> BookingsStore
+
+' Rooms Bounded Context relationships
+Property "1" -- "0..*" RoomType : propertyId
+RoomType "1" -- "0..*" Room : roomTypeId
+Room "1" -- "0..*" StatusPeriod : roomId
+Room "1" -- "0..*" RoomAssignment : roomId
+RatePlan "0..*" -- "0..*" RoomType : roomTypeIds
+RatePlan "1" -- "0..*" DailyRate : ratePlanId
+RoomType "1" -- "0..*" DailyRate : roomTypeId
+SetRoomStatusCommand ..> StatusPeriod
+RoomsApi --|> BaseApi
+RoomsApi --> BaseEndpoint
+RoomsPropertyAssembler ..> Property
+RoomTypeAssembler ..> RoomType
+RoomAssembler ..> Room
+StatusPeriodAssembler ..> StatusPeriod
+RoomAssignmentAssembler ..> RoomAssignment
+RatePlanAssembler ..> RatePlan
+DailyRateAssembler ..> DailyRate
+RoomsStore --> RoomsApi
+RoomsStore --> RoomsPropertyAssembler
+RoomsStore --> RoomTypeAssembler
+RoomsStore --> RoomAssembler
+RoomsStore --> StatusPeriodAssembler
+RoomsStore --> RoomAssignmentAssembler
+RoomsStore --> RatePlanAssembler
+RoomsStore --> DailyRateAssembler
+RoomsStore ..> RoomsError
+RoomAvailability --> RoomsStore
+RoomDetail --> RoomsStore
+RoomTypeList --> RoomsStore
+RoomRates --> RoomsStore
+RoomAvailability --> RoomForm
+RoomAvailability --> RoomStatusForm
+RoomAvailability --> BookingControlledDialog
+RoomDetail --> RoomMonthCalendar
+RoomDetail --> RoomStatusForm
+RoomDetail --> BookingControlledDialog
+RoomTypeList --> RoomTypeForm
+RoomRates --> RatePlanForm
+RoomRates --> DailyRateForm
+RoomTypeForm ..> RoomType
+RoomForm ..> Room
+RoomStatusForm ..> SetRoomStatusCommand
+RatePlanForm ..> RatePlan
+DailyRateForm ..> SetDailyRatesCommand
+RoomTypeForm --> RoomsStore
+RoomForm --> RoomsStore
+RoomStatusForm --> RoomsStore
+RatePlanForm --> RoomsStore
+DailyRateForm --> RoomsStore
+
+' Inventory Bounded Context relationships
+InventoryProperty "1" -- "0..*" InventoryItem : propertyId
+InventoryProperty "1" -- "0..*" StorageLocation : propertyId
+InventoryItem "1" *-- "0..*" StockAdjustment : adjustments
+InventoryItem "0..*" -- "0..*" StorageLocation : stocks
+InventoryApi --|> BaseApi
+InventoryApi --> BaseEndpoint
+InventoryPropertyAssembler ..> InventoryProperty
+InventoryItemAssembler ..> InventoryItem
+InventoryItemAssembler --> StockAdjustmentAssembler
+StockAdjustmentAssembler ..> StockAdjustment
+StorageLocationAssembler ..> StorageLocation
+InventoryStore --> InventoryApi
+InventoryStore --> InventoryPropertyAssembler
+InventoryStore --> InventoryItemAssembler
+InventoryStore --> StorageLocationAssembler
+InventoryStore ..> InventoryError
+InventoryItemList --> InventoryStore
+InventoryItemDetail --> InventoryStore
+StorageLocationList --> InventoryStore
+StorageLocationDetail --> InventoryStore
+InventoryItemList --> InventoryItemForm
+InventoryItemList --> StockAdjustmentForm
+InventoryItemDetail --> InventoryItemForm
+InventoryItemDetail --> StockAdjustmentForm
+StorageLocationList --> StorageLocationForm
+StorageLocationDetail --> StorageLocationForm
+StorageLocationDetail --> StockAdjustmentForm
+InventoryItemForm ..> InventoryItem
+StockAdjustmentForm ..> AdjustStockCommand
+StorageLocationForm ..> StorageLocation
+InventoryItemForm --> InventoryStore
+StockAdjustmentForm --> InventoryStore
+StorageLocationForm --> InventoryStore
+
+' Access Control Bounded Context relationships
+StaffMember "1" -- "0..*" Credential : staffMemberId
+Credential "1" -- "0..*" AccessEvent : credentialId
+AccessControlApi --|> BaseApi
+AccessControlApi --> BaseEndpoint
+CredentialAssembler ..> Credential
+StaffMemberAssembler ..> StaffMember
+AccessEventAssembler ..> AccessEvent
+AccessControlStore --> AccessControlApi
+AccessControlStore --> RfidEncoder
+AccessControlStore --> CredentialAssembler
+AccessControlStore --> StaffMemberAssembler
+AccessControlStore --> AccessEventAssembler
+AccessControlStore ..> AccessControlError
+AccessControlStore --> RoomsStore
+CredentialList --> AccessControlStore
+CredentialDetail --> AccessControlStore
+AccessEventList --> AccessControlStore
+CredentialList --> StaffCredentialForm
+CredentialDetail --> RevokeCredentialDialog
+CredentialDetail --> ReplaceCredentialDrawer
+CredentialDetail --> AccessEventDrawer
+AccessEventList --> AccessEventDrawer
+StaffCredentialForm --> RfidEncoderPanel
+ReplaceCredentialDrawer --> RfidEncoderPanel
+StaffCredentialForm ..> IssueStaffCredentialCommand
+RevokeCredentialDialog ..> RevokeCredentialCommand
+RfidEncoderPanel --> AccessControlStore
+StaffCredentialForm --> AccessControlStore
+RevokeCredentialDialog --> AccessControlStore
+ReplaceCredentialDrawer --> AccessControlStore
+
+' Shared relationships
+BaseEndpoint --> BaseApi
+AppLayout --> LanguageSwitcher
+AppLayout --> BrandLogo
+CalendarFormat ..> CalendarDate
+OverviewView --> SidebarToggle
+BookingsLayout --> SidebarToggle
+RoomsLayout --> SidebarToggle
+InventoryLayout --> SidebarToggle
+AccessControlLayout --> SidebarToggle
+@enduml

@@ -1,0 +1,158 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "number": "201",
+      "roomTypeId": 1,
+      "floor": 2
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "number": "203",
+      "roomTypeId": 2,
+      "floor": 2
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "number": "210",
+      "roomTypeId": 1,
+      "floor": 2
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "number": "214",
+      "roomTypeId": 2,
+      "floor": 2
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "number": "301",
+      "roomTypeId": 1,
+      "floor": 3
+    },
+    {
+      "id": 6,
+      "propertyId": 1,
+      "number": "305",
+      "roomTypeId": 3,
+      "floor": 3
+    },
+    {
+      "id": 7,
+      "propertyId": 1,
+      "number": "308",
+      "roomTypeId": 2,
+      "floor": 3
+    },
+    {
+      "id": 8,
+      "propertyId": 1,
+      "number": "312",
+      "roomTypeId": 1,
+      "floor": 3
+    },
+    {
+      "id": 9,
+      "propertyId": 1,
+      "number": "402",
+      "roomTypeId": 1,
+      "floor": 4
+    },
+    {
+      "id": 10,
+      "propertyId": 1,
+      "number": "407",
+      "roomTypeId": 2,
+      "floor": 4
+    },
+    {
+      "id": 11,
+      "propertyId": 1,
+      "number": "410",
+      "roomTypeId": 3,
+      "floor": 4
+    },
+    {
+      "id": 12,
+      "propertyId": 1,
+      "number": "412",
+      "roomTypeId": 1,
+      "floor": 4
+    },
+    {
+      "id": 13,
+      "propertyId": 1,
+      "number": "501",
+      "roomTypeId": 1,
+      "floor": 5
+    },
+    {
+      "id": 14,
+      "propertyId": 1,
+      "number": "507",
+      "roomTypeId": 3,
+      "floor": 5
+    },
+    {
+      "id": 15,
+      "propertyId": 1,
+      "number": "509",
+      "roomTypeId": 5,
+      "floor": 5
+    },
+    {
+      "id": 16,
+      "propertyId": 1,
+      "number": "601",
+      "roomTypeId": 4,
+      "floor": 6
+    },
+    {
+      "id": 17,
+      "propertyId": 1,
+      "number": "608",
+      "roomTypeId": 4,
+      "floor": 6
+    },
+    {
+      "id": 18,
+      "propertyId": 2,
+      "number": "101",
+      "roomTypeId": 6,
+      "floor": 1
+    },
+    {
+      "id": 19,
+      "propertyId": 2,
+      "number": "102",
+      "roomTypeId": 6,
+      "floor": 1
+    },
+    {
+      "id": 20,
+      "propertyId": 2,
+      "number": "103",
+      "roomTypeId": 7,
+      "floor": 1
+    },
+    {
+      "id": 21,
+      "propertyId": 2,
+      "number": "201",
+      "roomTypeId": 6,
+      "floor": 2
+    },
+    {
+      "id": 22,
+      "propertyId": 2,
+      "number": "202",
+      "roomTypeId": 7,
+      "floor": 2
+    }
+  ]
+}

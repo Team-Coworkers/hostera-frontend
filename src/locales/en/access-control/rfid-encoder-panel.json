@@ -1,0 +1,20 @@
+{
+  "device": "Front desk encoder",
+  "states": {
+    "ready": "Place a blank card on the encoder",
+    "encoding": "Writing the credential…",
+    "verifying": "Verifying the card…",
+    "encoded": "Card written and verified",
+    "failed": "Connection interrupted"
+  },
+  "labels": {
+    "ready": "Ready",
+    "encoding": "Encoding",
+    "verifying": "Verifying",
+    "encoded": "Encoded",
+    "failed": "Failed"
+  },
+  "failed-title": "Card could not be encoded",
+  "failed-text": "Keep the card on the encoder and check its connection before trying again.",
+  "encode": "Encode key card"
+}

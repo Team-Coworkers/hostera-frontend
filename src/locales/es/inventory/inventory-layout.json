@@ -1,0 +1,8 @@
+{
+  "title": "Inventario",
+  "property": "Establecimiento activo",
+  "inventory-items": "Artículos",
+  "storage-locations": "Ubicaciones de almacenamiento",
+  "loading": "Cargando inventario…",
+  "retry": "Reintentar"
+}

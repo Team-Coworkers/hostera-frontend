@@ -1,0 +1,51 @@
+{
+  "room-number": "Habitación {number}",
+  "guests": "{count} huéspedes | {count} huésped | {count} huéspedes",
+  "day-statuses": {
+    "available": "Disponible",
+    "booked": "Reservada",
+    "occupied": "Ocupada",
+    "needs-cleaning": "Requiere limpieza",
+    "blocked": "Bloqueada",
+    "out-of-service": "Fuera de servicio"
+  },
+  "room-type-statuses": {
+    "active": "Activo",
+    "inactive": "Inactivo"
+  },
+  "rate-plan-statuses": {
+    "active": "Activo",
+    "inactive": "Inactivo"
+  },
+  "included-services": {
+    "room-only": "Solo habitación",
+    "breakfast-included": "Desayuno incluido",
+    "half-board": "Media pensión",
+    "full-board": "Pensión completa"
+  },
+  "errors": {
+    "connection": "La API simulada no está disponible. Inicia el servidor e inténtalo de nuevo.",
+    "no-properties": "No hay establecimientos configurados.",
+    "required-fields": "Completa todos los campos obligatorios.",
+    "invalid-capacity": "Ingresa una capacidad entre 1 y 12 huéspedes.",
+    "invalid-rate": "Ingresa una tarifa base por noche mayor que cero.",
+    "invalid-room-type-status": "Elige un estado de tipo de habitación válido.",
+    "invalid-floor": "Ingresa el piso como número entero.",
+    "invalid-status": "Elige un estado válido.",
+    "invalid-date-range": "Elige un rango de fechas válido.",
+    "reason-required": "Agrega el motivo de este estado.",
+    "booking-controlled": "Las fechas elegidas incluyen días controlados por una reserva. Elige fechas sin reservas ni estadías.",
+    "duplicate-room-type-name": "Este nombre de tipo de habitación ya existe en el establecimiento.",
+    "duplicate-room-number": "Este número de habitación ya existe en el establecimiento.",
+    "room-type-in-use": "Hay habitaciones que usan este tipo. Desactívalo en su lugar.",
+    "room-type-required": "Elige un tipo de habitación del establecimiento activo.",
+    "inactive-room-type": "Los tipos de habitación inactivos no se pueden asignar a habitaciones.",
+    "not-found": "El registro ya no existe en el establecimiento activo.",
+    "invalid-nightly-rate": "Ingresa una tarifa por noche mayor que cero.",
+    "invalid-included-services": "Elige los servicios incluidos en el plan tarifario.",
+    "cancellation-policy-required": "Agrega la política de cancelación de este plan reembolsable.",
+    "invalid-rate-plan-status": "Elige un estado de plan tarifario válido.",
+    "duplicate-rate-plan-name": "Este nombre de plan tarifario ya existe en el establecimiento.",
+    "room-type-not-in-plan": "Este tipo de habitación no se vende con el plan tarifario elegido."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Estado controlado por una reserva",
+  "summary": "{status} no se puede cambiar aquí",
+  "detail": "La habitación {number} está asignada a la reserva {code} para {dates}. Modifica o cancela esa reserva para liberar la habitación.",
+  "help": "Los estados operativos como Bloqueada, Fuera de servicio y Requiere limpieza se cambian directamente en días sin reserva ni estadía.",
+  "close": "Cerrar",
+  "open-booking": "Abrir reserva"
+}

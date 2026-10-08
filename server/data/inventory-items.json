@@ -1,0 +1,263 @@
+{
+  "inventory-items": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "name": "Bath towels",
+      "code": "LIN-BT-001",
+      "category": "linen",
+      "unit": "units",
+      "primaryLocationId": 1,
+      "lowStockThreshold": 30,
+      "stocks": [
+        {
+          "locationId": 1,
+          "quantity": 60
+        },
+        {
+          "locationId": 3,
+          "quantity": 24
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-1-1",
+          "operation": "in",
+          "quantity": 60,
+          "locationId": 1,
+          "locationName": "Housekeeping",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        },
+        {
+          "id": "opening-1-3",
+          "operation": "in",
+          "quantity": 24,
+          "locationId": 3,
+          "locationName": "Floor 3 closet",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "name": "Queen sheet sets",
+      "code": "LIN-QN-002",
+      "category": "linen",
+      "unit": "units",
+      "primaryLocationId": 1,
+      "lowStockThreshold": 20,
+      "stocks": [
+        {
+          "locationId": 1,
+          "quantity": 10
+        },
+        {
+          "locationId": 3,
+          "quantity": 8
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-2-1",
+          "operation": "in",
+          "quantity": 10,
+          "locationId": 1,
+          "locationName": "Housekeeping",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        },
+        {
+          "id": "opening-2-3",
+          "operation": "in",
+          "quantity": 8,
+          "locationId": 3,
+          "locationName": "Floor 3 closet",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "name": "Shampoo bottles",
+      "code": "AM-SH-003",
+      "category": "guest-amenities",
+      "unit": "units",
+      "primaryLocationId": 2,
+      "lowStockThreshold": 40,
+      "stocks": [
+        {
+          "locationId": 2,
+          "quantity": 120
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-3-2",
+          "operation": "in",
+          "quantity": 120,
+          "locationId": 2,
+          "locationName": "Main storage",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "name": "RFID key cards",
+      "code": "AC-KC-004",
+      "category": "access-supplies",
+      "unit": "units",
+      "primaryLocationId": 4,
+      "lowStockThreshold": 20,
+      "stocks": [
+        {
+          "locationId": 4,
+          "quantity": 12
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-4-4",
+          "operation": "in",
+          "quantity": 12,
+          "locationId": 4,
+          "locationName": "Front desk",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "name": "All-purpose cleaner",
+      "code": "CL-AP-005",
+      "category": "cleaning-supplies",
+      "unit": "liters",
+      "primaryLocationId": 2,
+      "lowStockThreshold": 5,
+      "stocks": [
+        {
+          "locationId": 2,
+          "quantity": 0
+        }
+      ],
+      "adjustments": []
+    },
+    {
+      "id": 6,
+      "propertyId": 1,
+      "name": "Laundry detergent",
+      "code": "CL-LD-006",
+      "category": "cleaning-supplies",
+      "unit": "kilograms",
+      "primaryLocationId": 1,
+      "lowStockThreshold": 8,
+      "stocks": [
+        {
+          "locationId": 1,
+          "quantity": 12.5
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-6-1",
+          "operation": "in",
+          "quantity": 12.5,
+          "locationId": 1,
+          "locationName": "Housekeeping",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "propertyId": 2,
+      "name": "Bath towels",
+      "code": "LIN-BT-001",
+      "category": "linen",
+      "unit": "units",
+      "primaryLocationId": 5,
+      "lowStockThreshold": 10,
+      "stocks": [
+        {
+          "locationId": 5,
+          "quantity": 32
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-7-5",
+          "operation": "in",
+          "quantity": 32,
+          "locationId": 5,
+          "locationName": "Main storage",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "propertyId": 2,
+      "name": "Hand soap",
+      "code": "AM-HS-002",
+      "category": "guest-amenities",
+      "unit": "liters",
+      "primaryLocationId": 5,
+      "lowStockThreshold": 5,
+      "stocks": [
+        {
+          "locationId": 5,
+          "quantity": 3.5
+        }
+      ],
+      "adjustments": [
+        {
+          "id": "opening-8-5",
+          "operation": "in",
+          "quantity": 3.5,
+          "locationId": 5,
+          "locationName": "Main storage",
+          "reason": "opening-stock",
+          "note": "",
+          "recordedAt": "2026-10-04T10:00:00Z",
+          "operator": "Demo operator",
+          "transferId": null
+        }
+      ]
+    }
+  ]
+}

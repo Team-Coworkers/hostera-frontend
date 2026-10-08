@@ -1,0 +1,18 @@
+{
+  "title": "Set room status",
+  "current": "Current status on this day",
+  "status": "Status",
+  "help": {
+    "available": "Releases the selected dates from any operational status.",
+    "blocked": "Withholds the room from sale while it remains usable.",
+    "out-of-service": "The room cannot be used because of maintenance or damage.",
+    "needs-cleaning": "The room must be prepared before the next guest."
+  },
+  "dates": "Dates",
+  "dates-help": "Choose one day or a range. Existing statuses in the range are replaced.",
+  "reason": "Reason",
+  "reason-placeholder": "e.g. Air conditioning repair",
+  "booking-note": "Days with a booking or stay are controlled by that booking.",
+  "cancel": "Cancel",
+  "save": "Apply status"
+}

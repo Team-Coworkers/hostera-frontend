@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "name": "Cartagena 04",
+      "city": "Cartagena",
+      "currency": "PEN"
+    },
+    {
+      "id": 2,
+      "organizationId": 1,
+      "name": "Lima 01",
+      "city": "Lima",
+      "currency": "PEN"
+    }
+  ]
+}

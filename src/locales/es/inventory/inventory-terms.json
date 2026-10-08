@@ -1,0 +1,62 @@
+{
+  "demo-operator": "Operador de demostración",
+  "conditions": {
+    "in-stock": "Con stock",
+    "low-stock": "Stock bajo",
+    "out-of-stock": "Sin stock"
+  },
+  "units": {
+    "units": "unidades",
+    "liters": "litros",
+    "kilograms": "kilogramos"
+  },
+  "categories": {
+    "linen": "Ropa de cama y baño",
+    "guest-amenities": "Suministros para huéspedes",
+    "cleaning-supplies": "Suministros de limpieza",
+    "access-supplies": "Suministros de acceso"
+  },
+  "location-types": {
+    "warehouse": "Almacén",
+    "closet": "Armario",
+    "front-desk": "Recepción",
+    "service-area": "Zona de servicio"
+  },
+  "operations": {
+    "in": "Entrada",
+    "out": "Salida",
+    "transfer": "Traslado"
+  },
+  "reasons": {
+    "opening-stock": "Stock inicial",
+    "supplier-delivery": "Entrega de proveedor",
+    "return-to-storage": "Devolución al almacén",
+    "inventory-correction": "Corrección de inventario",
+    "other": "Otro",
+    "operational-consumption": "Consumo operativo",
+    "damaged-or-expired": "Dañado o vencido",
+    "lost-item": "Artículo perdido",
+    "internal-transfer": "Traslado interno"
+  },
+  "errors": {
+    "connection": "La API de demostración no está disponible. Inicia el servidor y reintenta.",
+    "no-properties": "No hay establecimientos configurados.",
+    "required-fields": "Completa todos los campos obligatorios.",
+    "invalid-unit": "Selecciona una unidad válida.",
+    "invalid-location-type": "Selecciona un tipo de ubicación válido.",
+    "invalid-quantity": "Ingresa una cantidad válida; los ajustes deben ser mayores que cero.",
+    "whole-units": "Las unidades contables requieren cantidades enteras.",
+    "invalid-reason": "Selecciona un motivo válido para esta operación.",
+    "note-required": "Añade una nota cuando el motivo sea Otro.",
+    "location-required": "Selecciona una ubicación del establecimiento activo.",
+    "invalid-destination": "Selecciona un destino distinto al origen.",
+    "insufficient-stock": "No hay suficiente stock en la ubicación seleccionada.",
+    "duplicate-item-code": "El código del artículo ya se usa en este establecimiento.",
+    "unit-locked": "La unidad no puede cambiar cuando existe historial de stock.",
+    "location-code-locked": "El código de una ubicación existente no puede cambiar.",
+    "duplicate-location": "El nombre o código de la ubicación ya existe en este establecimiento.",
+    "location-in-use": "La ubicación aún tiene artículos asignados. Traslada su stock y retira las asignaciones primero.",
+    "assignment-in-use": "Solo puedes retirar asignaciones secundarias vacías.",
+    "not-found": "El registro ya no existe en el establecimiento activo."
+  }
+}

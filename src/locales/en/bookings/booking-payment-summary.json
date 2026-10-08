@@ -1,0 +1,10 @@
+{
+  "title": "Payment",
+  "total": "Booking total",
+  "paid": "Paid",
+  "balance": "Balance due",
+  "payments": "Payments",
+  "no-payments": "No payment recorded yet.",
+  "record": "Record payment",
+  "recorded": "Payment recorded"
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Today’s arrivals",
+  "subtitle": "{arrived} of {total} arrived",
+  "view-all": "View bookings",
+  "room": "Room",
+  "stay": "Stay",
+  "statuses": {
+    "arrived": "Checked in",
+    "pending": "Pending",
+    "payment-due": "Payment due",
+    "ready": "Ready"
+  },
+  "actions": "Actions for {name}",
+  "open": "Open booking",
+  "check-in": "Start check-in",
+  "empty-title": "No arrivals today",
+  "empty-text": "There are no check-ins scheduled for today."
+}

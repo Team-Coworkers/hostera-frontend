@@ -1,0 +1,19 @@
+{
+  "new-title": "Añadir artículo",
+  "edit-title": "Editar artículo",
+  "name": "Nombre del artículo",
+  "code": "Código del artículo",
+  "category": "Categoría",
+  "unit": "Unidad de medida",
+  "storage": "Almacenamiento principal",
+  "threshold": "Umbral de stock bajo",
+  "opening-quantity": "Cantidad inicial",
+  "opening-quantity-help": "Una cantidad inicial positiva queda registrada en el historial.",
+  "unit-locked": "La unidad está fijada porque el artículo tiene historial.",
+  "save": "Guardar artículo",
+  "cancel": "Cancelar",
+  "details-section": "Información del artículo",
+  "stock-section": "Almacenamiento y stock",
+  "name-placeholder": "p. ej. Toallas de baño",
+  "threshold-help": "El artículo se marca con stock bajo cuando su total en el establecimiento alcanza este umbral."
+}

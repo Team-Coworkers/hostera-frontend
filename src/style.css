@@ -1,0 +1,51 @@
+/* Global styles for what PrimeFlex utilities and PrimeVue tokens do not cover. */
+:root {
+  font-family:
+    'Geist',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  color: var(--p-text-color);
+  background-color: var(--p-surface-50);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* PrimeVue and PrimeFlex scale with rem; a 14px root gives a denser operational UI. */
+html {
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Codes and quantities use the design system's monospaced typeface. */
+.font-mono {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+}
+
+.tracking-tight {
+  letter-spacing: -0.02em;
+}

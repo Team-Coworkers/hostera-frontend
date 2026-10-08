@@ -1,0 +1,54 @@
+{
+  "storage-locations": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "name": "Housekeeping",
+      "code": "HK-01",
+      "type": "warehouse",
+      "area": "Ground floor",
+      "responsibleTeam": "Housekeeping",
+      "description": "Linen and guest supplies."
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "name": "Main storage",
+      "code": "MAIN-01",
+      "type": "warehouse",
+      "area": "Basement",
+      "responsibleTeam": "Operations",
+      "description": "Central supplies."
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "name": "Floor 3 closet",
+      "code": "F3-01",
+      "type": "closet",
+      "area": "Floor 3",
+      "responsibleTeam": "Housekeeping",
+      "description": "Floor service supplies."
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "name": "Front desk",
+      "code": "FD-01",
+      "type": "front-desk",
+      "area": "Lobby",
+      "responsibleTeam": "Front desk",
+      "description": "Access supplies."
+    },
+    {
+      "id": 5,
+      "propertyId": 2,
+      "name": "Main storage",
+      "code": "MAIN-01",
+      "type": "warehouse",
+      "area": "Ground floor",
+      "responsibleTeam": "Operations",
+      "description": ""
+    }
+  ]
+}

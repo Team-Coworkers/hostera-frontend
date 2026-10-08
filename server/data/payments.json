@@ -1,0 +1,114 @@
+{
+  "payments": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "bookingId": 2,
+      "amount": 255,
+      "method": "card-terminal",
+      "paidAt": "2026-10-05T16:30:00.000Z",
+      "reference": "POS-470075",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "bookingId": 3,
+      "amount": 1350,
+      "method": "card-terminal",
+      "paidAt": "2026-10-03T20:26:00.000Z",
+      "reference": "POS-470111",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "bookingId": 4,
+      "amount": 261,
+      "method": "bank-transfer",
+      "paidAt": "2026-10-02T16:30:00.000Z",
+      "reference": "POS-470149",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "bookingId": 5,
+      "amount": 380,
+      "method": "bank-transfer",
+      "paidAt": "2026-10-04T20:40:00.000Z",
+      "reference": "POS-470185",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "bookingId": 10,
+      "amount": 180,
+      "method": "cash",
+      "paidAt": "2026-09-25T16:00:00.000Z",
+      "reference": "",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 6,
+      "propertyId": 1,
+      "bookingId": 12,
+      "amount": 3640,
+      "method": "card-terminal",
+      "paidAt": "2026-10-01T20:39:00.000Z",
+      "reference": "POS-470444",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 7,
+      "propertyId": 1,
+      "bookingId": 14,
+      "amount": 135,
+      "method": "card-terminal",
+      "paidAt": "2026-09-30T16:30:00.000Z",
+      "reference": "POS-470519",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 8,
+      "propertyId": 1,
+      "bookingId": 15,
+      "amount": 240,
+      "method": "card-terminal",
+      "paidAt": "2026-10-05T20:10:00.000Z",
+      "reference": "POS-470555",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 9,
+      "propertyId": 1,
+      "bookingId": 16,
+      "amount": 228,
+      "method": "bank-transfer",
+      "paidAt": "2026-10-15T16:30:00.000Z",
+      "reference": "POS-470593",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 10,
+      "propertyId": 1,
+      "bookingId": 21,
+      "amount": 720,
+      "method": "card-terminal",
+      "paidAt": "2026-09-28T20:52:00.000Z",
+      "reference": "POS-470777",
+      "recordedBy": "Demo operator"
+    },
+    {
+      "id": 11,
+      "propertyId": 2,
+      "bookingId": 22,
+      "amount": 330,
+      "method": "cash",
+      "paidAt": "2026-10-01T20:09:00.000Z",
+      "reference": "",
+      "recordedBy": "Demo operator"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Ajustar stock",
+  "operation": "Operación",
+  "quantity": "Cantidad",
+  "origin": "Ubicación de almacenamiento",
+  "destination": "Ubicación de destino",
+  "reason": "Motivo",
+  "note": "Nota",
+  "note-help": "Obligatoria cuando el motivo es Otro.",
+  "current": "Cantidad actual",
+  "result": "Cantidad resultante",
+  "audit": "Se registrarán el operador, la fecha, las ubicaciones y el motivo.",
+  "transfer-help": "Los traslados conservan el total del establecimiento.",
+  "save": "Registrar ajuste",
+  "cancel": "Cancelar"
+}

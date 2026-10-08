@@ -1,0 +1,15 @@
+{
+  "new-title": "Agregar habitación",
+  "edit-title": "Editar habitación {number}",
+  "number": "Número de habitación",
+  "number-placeholder": "p. ej. 214",
+  "floor": "Piso (opcional)",
+  "room-type": "Tipo de habitación",
+  "room-type-placeholder": "Elige un tipo de habitación",
+  "room-type-summary": "{capacity} · {beds}",
+  "inherits": "La capacidad y las camas vienen del tipo: {capacity} · {beds}.",
+  "no-room-types": "Agrega un tipo de habitación activo antes de agregar habitaciones.",
+  "starts-available": "Las habitaciones nuevas empiezan disponibles. Bloquea fechas desde el calendario de disponibilidad.",
+  "cancel": "Cancelar",
+  "save": "Guardar habitación"
+}

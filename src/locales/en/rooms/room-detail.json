@@ -1,0 +1,18 @@
+{
+  "rooms": "Rooms",
+  "room-type": "Room type",
+  "capacity": "Capacity",
+  "beds": "Beds",
+  "floor": "Floor",
+  "floor-value": "Floor {floor}",
+  "base-rate": "Base nightly rate",
+  "property": "Property",
+  "edit": "Edit room",
+  "details": "Room details",
+  "upcoming": "Upcoming",
+  "no-upcoming": "No upcoming bookings or statuses.",
+  "calendar-help": "Select a day to set its status. Booked and occupied days follow their booking.",
+  "saved": "Changes saved",
+  "not-found": "This room is not available in the active property.",
+  "back": "Back to rooms"
+}

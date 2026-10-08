@@ -1,0 +1,5 @@
+{
+  "label": "Buscar reservas",
+  "placeholder": "Buscar reservas ({shortcut})",
+  "empty": "No se encontraron reservas"
+}

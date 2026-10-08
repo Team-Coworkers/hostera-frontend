@@ -1,0 +1,73 @@
+{
+  "room-number": "Room {number}",
+  "demo-operator": "Demo operator",
+  "statuses": {
+    "active": "Active",
+    "scheduled": "Scheduled",
+    "expired": "Expired",
+    "revoked": "Revoked"
+  },
+  "types": {
+    "guest-key-card": "RFID key card",
+    "staff-credential": "Staff credential"
+  },
+  "holders": {
+    "guest-key-card": "Guest",
+    "staff-credential": "Staff"
+  },
+  "holder-types": {
+    "guest": "Guest",
+    "staff": "Staff"
+  },
+  "scopes": {
+    "service-areas": "Service areas",
+    "all-rooms": "All rooms",
+    "all-areas": "All areas"
+  },
+  "scope-help": {
+    "service-areas": "Front desk, service corridors, and storage rooms.",
+    "all-rooms": "Every guest room, for housekeeping and maintenance.",
+    "all-areas": "Every door of the property."
+  },
+  "revocation-reasons": {
+    "lost-card": "Lost key card",
+    "damaged-card": "Damaged key card",
+    "security-risk": "Security risk",
+    "staff-left": "No longer works here",
+    "replaced": "Replaced",
+    "other": "Other"
+  },
+  "results": {
+    "granted": "Granted",
+    "denied": "Denied"
+  },
+  "denial-reasons": {
+    "outside-scope": "Outside access scope",
+    "not-active-yet": "Not active yet",
+    "expired": "Expired credential",
+    "revoked": "Revoked credential"
+  },
+  "access-points": {
+    "main-entrance": "Main entrance",
+    "room-door": "Room door",
+    "elevator": "Elevator",
+    "service-corridor": "Service corridor",
+    "storage-room": "Storage room"
+  },
+  "errors": {
+    "connection": "The mock API is unavailable. Start the server and try again.",
+    "no-properties": "No properties are configured.",
+    "required-fields": "Complete all required fields.",
+    "invalid-card-id": "The encoder returned an invalid card ID. Encode the card again.",
+    "invalid-credential-type": "The credential has an unsupported type.",
+    "invalid-access-scope": "Choose who receives the credential and the areas it opens.",
+    "invalid-access-period": "Choose when a temporary access ends, after it starts.",
+    "invalid-credential-change": "Only active or scheduled credentials can be changed.",
+    "invalid-revocation-reason": "Choose a revocation reason.",
+    "revocation-note-required": "Explain the revocation in the note.",
+    "staff-member-required": "Choose a staff member of the active property.",
+    "staff-credential-exists": "This staff member already holds a credential. Revoke it before issuing another.",
+    "key-card-required": "Encode at least one key card.",
+    "not-found": "The credential no longer exists in the active property."
+  }
+}

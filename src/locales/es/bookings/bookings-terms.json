@@ -1,0 +1,79 @@
+{
+  "room-number": "Habitación {number}",
+  "nights": "{count} noches | {count} noche | {count} noches",
+  "guests": "{count} huéspedes | {count} huésped | {count} huéspedes",
+  "statuses": {
+    "pending": "Pendiente",
+    "confirmed": "Confirmada",
+    "checked-in": "En estadía",
+    "checked-out": "Finalizada",
+    "cancelled": "Cancelada",
+    "no-show": "No se presentó"
+  },
+  "languages": {
+    "es": "Español",
+    "en": "Inglés"
+  },
+  "demo-operator": "Operador de demostración",
+  "cancellation-reasons": {
+    "guest-request": "Solicitud del huésped",
+    "change-of-plans": "Cambio de planes",
+    "duplicate-booking": "Reserva duplicada",
+    "property-unable": "El establecimiento no puede atenderla",
+    "other": "Otro"
+  },
+  "document-types": {
+    "dni": "DNI",
+    "passport": "Pasaporte",
+    "foreign-resident-card": "Carné de extranjería"
+  },
+  "payment-methods": {
+    "cash": "Efectivo",
+    "card-terminal": "Terminal de tarjeta",
+    "bank-transfer": "Transferencia bancaria",
+    "other": "Otro"
+  },
+  "payment-statuses": {
+    "unpaid": "Sin pagar",
+    "partially-paid": "Pago parcial",
+    "paid": "Pagada"
+  },
+  "room-conditions": {
+    "no-issues": "Sin incidencias",
+    "needs-attention": "Requiere atención"
+  },
+  "errors": {
+    "connection": "La API simulada no está disponible. Inicia el servidor e inténtalo de nuevo.",
+    "no-properties": "No hay establecimientos configurados.",
+    "required-fields": "Completa todos los campos obligatorios.",
+    "invalid-email": "Ingresa un correo electrónico válido.",
+    "invalid-language": "Elige un idioma válido.",
+    "invalid-stay-dates": "Elige una fecha de salida posterior a la de llegada.",
+    "invalid-guests": "Ingresa al menos un huésped.",
+    "invalid-status": "La reserva tiene un estado no válido.",
+    "room-type-required": "Elige un tipo de habitación del establecimiento activo.",
+    "inactive-room-type": "Los tipos de habitación inactivos no se pueden reservar.",
+    "room-not-in-room-type": "Elige una habitación del tipo seleccionado.",
+    "rate-plan-required": "Elige un plan tarifario del establecimiento activo.",
+    "inactive-rate-plan": "Los planes tarifarios inactivos no se pueden reservar.",
+    "rate-plan-not-for-room-type": "El plan tarifario elegido no vende este tipo de habitación.",
+    "over-capacity": "Los huéspedes superan la capacidad del tipo de habitación.",
+    "room-unavailable": "Elige otra habitación o cambia las fechas de la estadía.",
+    "not-editable": "Solo se pueden editar las reservas pendientes o confirmadas.",
+    "not-found": "La reserva ya no existe en el establecimiento activo.",
+    "invalid-status-change": "Esta acción no está disponible para el estado actual de la reserva.",
+    "invalid-cancellation-reason": "Elige un motivo de cancelación.",
+    "cancellation-note-required": "Explica la cancelación en la nota interna.",
+    "invalid-document-type": "Elige un documento de identidad válido.",
+    "document-number-required": "Ingresa el número del documento de identidad.",
+    "identity-not-verified": "Verifica el documento de identidad original del huésped antes del check-in.",
+    "balance-due": "Registra el saldo pendiente antes del check-out.",
+    "invalid-room-condition": "Elige el estado de la habitación a la salida.",
+    "payments-not-accepted": "Esta reserva ya no acepta pagos.",
+    "invalid-payment-amount": "Ingresa un monto mayor que cero.",
+    "invalid-payment-method": "Elige un método de pago.",
+    "invalid-payment-date": "Elige cuándo se recibió el pago.",
+    "payment-exceeds-balance": "Ingresa un monto de hasta {amount}. El pago no se registró.",
+    "key-card-required": "Graba al menos una tarjeta para completar el check-in."
+  }
+}

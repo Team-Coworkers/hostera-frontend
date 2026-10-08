@@ -1,0 +1,7 @@
+{
+  "title": "Resumen",
+  "property": "Establecimiento activo",
+  "new-booking": "Nueva reserva",
+  "no-properties": "No hay establecimientos configurados.",
+  "connection": "La API simulada no está disponible. Inicia el servidor e inténtalo de nuevo."
+}

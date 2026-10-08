@@ -1,0 +1,19 @@
+{
+  "new-title": "Add inventory item",
+  "edit-title": "Edit inventory item",
+  "name": "Item name",
+  "code": "Item code",
+  "category": "Category",
+  "unit": "Unit of measure",
+  "storage": "Primary storage",
+  "threshold": "Low-stock threshold",
+  "opening-quantity": "Opening quantity",
+  "opening-quantity-help": "A positive opening quantity is recorded in stock history.",
+  "unit-locked": "The unit is fixed because this item has stock history.",
+  "save": "Save item",
+  "cancel": "Cancel",
+  "details-section": "Item information",
+  "stock-section": "Storage and stock",
+  "name-placeholder": "e.g. Bath towels",
+  "threshold-help": "The item is marked low stock when its property total reaches this threshold."
+}

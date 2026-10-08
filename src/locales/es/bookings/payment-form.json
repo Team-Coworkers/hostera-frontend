@@ -1,0 +1,14 @@
+{
+  "title": "Registrar pago",
+  "balance": "Saldo pendiente",
+  "total": "Total de la reserva {amount}",
+  "amount": "Monto",
+  "amount-help": "Hasta {amount}.",
+  "method": "Método de pago",
+  "paid-at": "Fecha de pago",
+  "reference": "Referencia",
+  "reference-placeholder": "p. ej. POS-472901",
+  "external": "Registra pagos recibidos por un canal fuera de Hostera, como el terminal de tarjeta.",
+  "cancel": "Cancelar",
+  "save": "Guardar pago"
+}

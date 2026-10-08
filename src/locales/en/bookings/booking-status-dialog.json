@@ -1,0 +1,19 @@
+{
+  "guest": "Guest",
+  "stay": "Stay",
+  "expected-arrival": "Expected arrival",
+  "room": "Room",
+  "back": "Back",
+  "confirm": {
+    "title": "Confirm booking?",
+    "subtitle": "The room stays held for this stay.",
+    "note": "Room {number} stays held for these nights. The booking can still be edited or cancelled.",
+    "submit": "Confirm booking"
+  },
+  "no-show": {
+    "title": "Mark as no-show?",
+    "subtitle": "Use this once the guest has not arrived on the check-in day.",
+    "note": "The booking becomes no-show and room {number} is released.",
+    "submit": "Mark as no-show"
+  }
+}

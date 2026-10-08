@@ -1,0 +1,15 @@
+{
+  "title": "Room status",
+  "subtitle": "All rooms are ready | {count} room not ready today | {count} rooms not ready today",
+  "available": "available",
+  "statuses": {
+    "available": "Available",
+    "booked": "Booked",
+    "occupied": "Occupied",
+    "needs-cleaning": "Needs cleaning",
+    "blocked": "Blocked",
+    "out-of-service": "Out of service"
+  },
+  "view": "View room status",
+  "chart-label": "Rooms by status today"
+}

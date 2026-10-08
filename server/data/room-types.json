@@ -1,0 +1,67 @@
+{
+  "room-types": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "name": "Standard",
+      "capacity": 2,
+      "bedConfiguration": "1 queen",
+      "baseNightlyRate": 180,
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "name": "Twin",
+      "capacity": 2,
+      "bedConfiguration": "2 single",
+      "baseNightlyRate": 200,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "name": "Deluxe",
+      "capacity": 4,
+      "bedConfiguration": "1 king + sofa bed",
+      "baseNightlyRate": 290,
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "name": "Suite",
+      "capacity": 4,
+      "bedConfiguration": "1 king + sofa bed",
+      "baseNightlyRate": 420,
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "name": "Family",
+      "capacity": 5,
+      "bedConfiguration": "2 double + 1 single",
+      "baseNightlyRate": 340,
+      "status": "inactive"
+    },
+    {
+      "id": 6,
+      "propertyId": 2,
+      "name": "Standard",
+      "capacity": 2,
+      "bedConfiguration": "1 queen",
+      "baseNightlyRate": 150,
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "propertyId": 2,
+      "name": "Deluxe",
+      "capacity": 3,
+      "bedConfiguration": "1 king + 1 single",
+      "baseNightlyRate": 240,
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Cambiar estado",
+  "current": "Estado actual en este día",
+  "status": "Estado",
+  "help": {
+    "available": "Libera las fechas elegidas de cualquier estado operativo.",
+    "blocked": "Retira la habitación de la venta aunque se pueda usar.",
+    "out-of-service": "La habitación no se puede usar por mantenimiento o daños.",
+    "needs-cleaning": "La habitación debe prepararse antes del próximo huésped."
+  },
+  "dates": "Fechas",
+  "dates-help": "Elige un día o un rango. Los estados existentes en el rango se reemplazan.",
+  "reason": "Motivo",
+  "reason-placeholder": "p. ej. Reparación del aire acondicionado",
+  "booking-note": "Los días con reserva o estadía los controla esa reserva.",
+  "cancel": "Cancelar",
+  "save": "Aplicar estado"
+}

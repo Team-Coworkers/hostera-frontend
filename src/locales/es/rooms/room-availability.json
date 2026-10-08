@@ -1,0 +1,21 @@
+{
+  "new-room": "Agregar habitación",
+  "previous-week": "7 días anteriores",
+  "next-week": "7 días siguientes",
+  "previous-day": "Día anterior",
+  "next-day": "Día siguiente",
+  "choose-date": "Elegir fecha de inicio",
+  "today": "Hoy",
+  "status-on": "Estado el {date}",
+  "all": "Todas",
+  "search": "Buscar por número",
+  "all-room-types": "Todos los tipos",
+  "room-type": "Tipo de habitación",
+  "clear": "Limpiar filtros",
+  "results": "{count} habitaciones | {count} habitación | {count} habitaciones",
+  "room": "Habitación",
+  "empty-title": "No hay habitaciones para mostrar",
+  "empty-filtered": "Cambia la fecha o limpia los filtros actuales.",
+  "empty-text": "Agrega la primera habitación del establecimiento para seguir su disponibilidad.",
+  "saved": "Cambios guardados"
+}

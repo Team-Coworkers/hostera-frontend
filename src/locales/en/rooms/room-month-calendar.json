@@ -1,0 +1,7 @@
+{
+  "title": "Availability",
+  "previous": "Previous month",
+  "next": "Next month",
+  "today": "Today",
+  "caption": "Room {number} availability, {month}"
+}

@@ -1,0 +1,18 @@
+{
+  "denied-title": "Evento de acceso denegado",
+  "granted-title": "Evento de acceso",
+  "denied-text": "La puerta rechazó esta credencial.",
+  "granted-text": "La puerta aceptó esta credencial.",
+  "credential": "Credencial",
+  "time": "Hora",
+  "person": "Persona",
+  "access-point": "Punto de acceso",
+  "access": "Acceso",
+  "denial-help": {
+    "outside-scope": "La credencial no incluye este punto de acceso. Las tarjetas de huésped solo abren su habitación y las áreas comunes.",
+    "not-active-yet": "El período de acceso de la credencial todavía no empieza.",
+    "expired": "El período de acceso de la credencial ya terminó.",
+    "revoked": "La credencial fue revocada y ya no abre ninguna puerta."
+  },
+  "close": "Cerrar"
+}

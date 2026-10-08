@@ -1,0 +1,64 @@
+{
+  "rate-plans": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "name": "Flexible",
+      "roomTypeIds": [],
+      "includedServices": "room-only",
+      "refundable": true,
+      "cancellationPolicy": "Free cancellation until 24 hours before arrival",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "name": "Breakfast included",
+      "roomTypeIds": [],
+      "includedServices": "breakfast-included",
+      "refundable": true,
+      "cancellationPolicy": "Free cancellation until 48 hours before arrival",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "name": "Non-refundable",
+      "roomTypeIds": [],
+      "includedServices": "room-only",
+      "refundable": false,
+      "cancellationPolicy": "",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "name": "Honeymoon",
+      "roomTypeIds": [4],
+      "includedServices": "half-board",
+      "refundable": true,
+      "cancellationPolicy": "Free cancellation until 7 days before arrival",
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "name": "Summer 2026",
+      "roomTypeIds": [1, 2, 3],
+      "includedServices": "breakfast-included",
+      "refundable": true,
+      "cancellationPolicy": "Free cancellation until 72 hours before arrival",
+      "status": "inactive"
+    },
+    {
+      "id": 6,
+      "propertyId": 2,
+      "name": "Flexible",
+      "roomTypeIds": [],
+      "includedServices": "room-only",
+      "refundable": true,
+      "cancellationPolicy": "Free cancellation until 24 hours before arrival",
+      "status": "active"
+    }
+  ]
+}

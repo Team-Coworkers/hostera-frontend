@@ -1,0 +1,23 @@
+{
+  "new": "New booking",
+  "search": "Search guest or booking code",
+  "period": "Stay period",
+  "periods": {
+    "all": "All dates",
+    "current": "Current stays",
+    "upcoming": "Upcoming",
+    "past": "Past"
+  },
+  "all-statuses": "All statuses",
+  "status": "Status",
+  "clear": "Clear filters",
+  "results": "{count} bookings | {count} booking | {count} bookings",
+  "guest": "Guest",
+  "stay": "Stay",
+  "room": "Room",
+  "total": "Total",
+  "empty-title": "No bookings to show",
+  "empty-filtered": "Change the search or clear the current filters.",
+  "empty-text": "Create the property's first booking to plan a guest stay.",
+  "payment": "Payment"
+}

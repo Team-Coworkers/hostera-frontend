@@ -1,0 +1,9 @@
+{
+  "title": "Rooms",
+  "property": "Active property",
+  "availability": "Availability",
+  "room-types": "Room types",
+  "rates": "Rates",
+  "loading": "Loading rooms…",
+  "retry": "Try again"
+}

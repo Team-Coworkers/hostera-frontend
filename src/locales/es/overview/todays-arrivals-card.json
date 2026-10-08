@@ -1,0 +1,18 @@
+{
+  "title": "Llegadas de hoy",
+  "subtitle": "{arrived} de {total} llegaron",
+  "view-all": "Ver reservas",
+  "room": "Habitación",
+  "stay": "Estadía",
+  "statuses": {
+    "arrived": "En estadía",
+    "pending": "Pendiente",
+    "payment-due": "Pago pendiente",
+    "ready": "Lista"
+  },
+  "actions": "Acciones de {name}",
+  "open": "Abrir reserva",
+  "check-in": "Iniciar check-in",
+  "empty-title": "No hay llegadas hoy",
+  "empty-text": "No hay check-ins programados para hoy."
+}

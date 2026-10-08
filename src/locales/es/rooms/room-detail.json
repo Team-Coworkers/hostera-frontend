@@ -1,0 +1,18 @@
+{
+  "rooms": "Habitaciones",
+  "room-type": "Tipo de habitación",
+  "capacity": "Capacidad",
+  "beds": "Camas",
+  "floor": "Piso",
+  "floor-value": "Piso {floor}",
+  "base-rate": "Tarifa base por noche",
+  "property": "Establecimiento",
+  "edit": "Editar habitación",
+  "details": "Datos de la habitación",
+  "upcoming": "Próximos",
+  "no-upcoming": "No hay reservas ni estados próximos.",
+  "calendar-help": "Selecciona un día para cambiar su estado. Los días reservados u ocupados siguen a su reserva.",
+  "saved": "Cambios guardados",
+  "not-found": "Esta habitación no está disponible en el establecimiento activo.",
+  "back": "Volver a habitaciones"
+}

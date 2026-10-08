@@ -1,0 +1,22 @@
+{
+  "breadcrumb": "Check-out",
+  "title": "Check out {name}",
+  "checked-in-only": "Only bookings with a stay in progress can be checked out.",
+  "review": "Departure review",
+  "departure": "Departure",
+  "early": "The guest leaves before the check-out day. The remaining nights are released and the saved total does not change.",
+  "room-condition": "Room condition",
+  "attention-help": "Set the room’s operational status in Rooms if it needs cleaning or maintenance.",
+  "note": "Internal note (optional)",
+  "note-placeholder": "Add a departure note",
+  "balance-title": "Resolve the balance before check-out",
+  "balance-text": "Record the outstanding payment to complete the departure.",
+  "changes": "Status changes",
+  "booking": "Booking",
+  "room-released": "Released",
+  "outstanding": "Outstanding",
+  "complete": "Complete check-out",
+  "completed": "{name}’s stay has been closed",
+  "key-cards": "Key cards",
+  "key-cards-ended": "No key cards end | {count} key card ends | {count} key cards end"
+}

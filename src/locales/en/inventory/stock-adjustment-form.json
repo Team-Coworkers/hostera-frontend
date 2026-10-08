@@ -1,0 +1,16 @@
+{
+  "title": "Adjust stock",
+  "operation": "Operation",
+  "quantity": "Quantity",
+  "origin": "Storage location",
+  "destination": "Destination location",
+  "reason": "Reason",
+  "note": "Note",
+  "note-help": "Required when the reason is Other.",
+  "current": "Current quantity",
+  "result": "Resulting quantity",
+  "audit": "This operation records the operator, date, locations, and reason.",
+  "transfer-help": "Transfers preserve the property total.",
+  "save": "Record adjustment",
+  "cancel": "Cancel"
+}

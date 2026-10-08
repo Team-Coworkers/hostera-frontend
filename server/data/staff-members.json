@@ -1,0 +1,52 @@
+{
+  "staff-members": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "name": "Lucía Martín",
+      "role": "Operations manager"
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "name": "Andrés León",
+      "role": "Maintenance technician"
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "name": "Rosa Pérez",
+      "role": "Housekeeping supervisor"
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "name": "Jorge Salas",
+      "role": "Front desk agent"
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "name": "Diana Flores",
+      "role": "Night auditor"
+    },
+    {
+      "id": 6,
+      "propertyId": 1,
+      "name": "Pedro Rivas",
+      "role": "Housekeeping attendant"
+    },
+    {
+      "id": 7,
+      "propertyId": 2,
+      "name": "Carla Núñez",
+      "role": "Front desk agent"
+    },
+    {
+      "id": 8,
+      "propertyId": 2,
+      "name": "Miguel Ortiz",
+      "role": "Housekeeping attendant"
+    }
+  ]
+}

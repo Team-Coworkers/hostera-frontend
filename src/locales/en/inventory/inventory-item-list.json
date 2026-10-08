@@ -1,0 +1,22 @@
+{
+  "new": "Add item",
+  "property-scope": "Stock conditions reflect totals across this property.",
+  "search": "Search by name or code",
+  "all-locations": "All locations",
+  "all-categories": "All categories",
+  "clear": "Clear filters",
+  "results": "{count} results | {count} result | {count} results",
+  "name": "Item",
+  "category": "Category",
+  "storage": "Storage",
+  "primary-storage": "Primary storage",
+  "quantity": "On hand",
+  "condition": "Stock condition",
+  "actions": "Actions",
+  "adjust": "Adjust stock",
+  "edit": "Edit",
+  "empty-title": "Nothing here yet",
+  "empty-text": "Add your first record or clear the current filters.",
+  "saved": "Changes saved",
+  "all": "All"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Record payment",
+  "balance": "Outstanding balance",
+  "total": "Booking total {amount}",
+  "amount": "Amount",
+  "amount-help": "Up to {amount}.",
+  "method": "Payment method",
+  "paid-at": "Paid on",
+  "reference": "Reference",
+  "reference-placeholder": "e.g. POS-472901",
+  "external": "Record payments received through a channel outside Hostera, such as the card terminal.",
+  "cancel": "Cancel",
+  "save": "Save payment"
+}

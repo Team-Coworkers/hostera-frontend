@@ -1,0 +1,79 @@
+{
+  "room-number": "Room {number}",
+  "nights": "{count} nights | {count} night | {count} nights",
+  "guests": "{count} guests | {count} guest | {count} guests",
+  "statuses": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "checked-in": "Checked in",
+    "checked-out": "Checked out",
+    "cancelled": "Cancelled",
+    "no-show": "No-show"
+  },
+  "languages": {
+    "es": "Spanish",
+    "en": "English"
+  },
+  "demo-operator": "Demo operator",
+  "cancellation-reasons": {
+    "guest-request": "Guest request",
+    "change-of-plans": "Change of plans",
+    "duplicate-booking": "Duplicate booking",
+    "property-unable": "Property unable to host",
+    "other": "Other"
+  },
+  "document-types": {
+    "dni": "DNI",
+    "passport": "Passport",
+    "foreign-resident-card": "Foreign resident card"
+  },
+  "payment-methods": {
+    "cash": "Cash",
+    "card-terminal": "Card terminal",
+    "bank-transfer": "Bank transfer",
+    "other": "Other"
+  },
+  "payment-statuses": {
+    "unpaid": "Unpaid",
+    "partially-paid": "Partially paid",
+    "paid": "Paid"
+  },
+  "room-conditions": {
+    "no-issues": "No issues reported",
+    "needs-attention": "Needs attention"
+  },
+  "errors": {
+    "connection": "The mock API is unavailable. Start the server and try again.",
+    "no-properties": "No properties are configured.",
+    "required-fields": "Complete all required fields.",
+    "invalid-email": "Enter a valid email address.",
+    "invalid-language": "Choose a supported language.",
+    "invalid-stay-dates": "Choose a check-out date after the check-in date.",
+    "invalid-guests": "Enter at least one guest.",
+    "invalid-status": "The booking has an unsupported status.",
+    "room-type-required": "Choose a room type of the active property.",
+    "inactive-room-type": "Inactive room types cannot be booked.",
+    "room-not-in-room-type": "Choose a room of the selected room type.",
+    "rate-plan-required": "Choose a rate plan of the active property.",
+    "inactive-rate-plan": "Inactive rate plans cannot be booked.",
+    "rate-plan-not-for-room-type": "The selected rate plan does not sell this room type.",
+    "over-capacity": "The guests exceed the room type's capacity.",
+    "room-unavailable": "Choose another room or change the stay dates.",
+    "not-editable": "Only pending and confirmed bookings can be edited.",
+    "not-found": "The booking no longer exists in the active property.",
+    "invalid-status-change": "This action is not available for the booking’s current status.",
+    "invalid-cancellation-reason": "Choose a cancellation reason.",
+    "cancellation-note-required": "Explain the cancellation in the internal note.",
+    "invalid-document-type": "Choose a supported identity document.",
+    "document-number-required": "Enter the identity document number.",
+    "identity-not-verified": "Verify the guest’s original identity document before checking in.",
+    "balance-due": "Record the outstanding balance before checking out.",
+    "invalid-room-condition": "Choose the room condition at departure.",
+    "payments-not-accepted": "This booking no longer accepts payments.",
+    "invalid-payment-amount": "Enter an amount greater than zero.",
+    "invalid-payment-method": "Choose a payment method.",
+    "invalid-payment-date": "Choose when the payment was received.",
+    "payment-exceeds-balance": "Enter an amount up to {amount}. The payment was not recorded.",
+    "key-card-required": "Encode at least one key card to complete the check-in."
+  }
+}

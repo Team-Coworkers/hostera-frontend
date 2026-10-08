@@ -1,0 +1,2460 @@
+{
+  "daily-rates": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-01",
+      "amount": 190
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-02",
+      "amount": 210
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-03",
+      "amount": 230
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-04",
+      "amount": 220
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-08",
+      "amount": 190
+    },
+    {
+      "id": 6,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-09",
+      "amount": 210
+    },
+    {
+      "id": 7,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-10",
+      "amount": 230
+    },
+    {
+      "id": 8,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-11",
+      "amount": 220
+    },
+    {
+      "id": 9,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-15",
+      "amount": 190
+    },
+    {
+      "id": 10,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-16",
+      "amount": 210
+    },
+    {
+      "id": 11,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-17",
+      "amount": 230
+    },
+    {
+      "id": 12,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-18",
+      "amount": 220
+    },
+    {
+      "id": 13,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-22",
+      "amount": 190
+    },
+    {
+      "id": 14,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-23",
+      "amount": 210
+    },
+    {
+      "id": 15,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-24",
+      "amount": 230
+    },
+    {
+      "id": 16,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-25",
+      "amount": 220
+    },
+    {
+      "id": 17,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-29",
+      "amount": 190
+    },
+    {
+      "id": 18,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-30",
+      "amount": 210
+    },
+    {
+      "id": 19,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 1,
+      "date": "2026-10-31",
+      "amount": 230
+    },
+    {
+      "id": 20,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-01",
+      "amount": 210
+    },
+    {
+      "id": 21,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-02",
+      "amount": 230
+    },
+    {
+      "id": 22,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-03",
+      "amount": 250
+    },
+    {
+      "id": 23,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-04",
+      "amount": 240
+    },
+    {
+      "id": 24,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-08",
+      "amount": 210
+    },
+    {
+      "id": 25,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-09",
+      "amount": 230
+    },
+    {
+      "id": 26,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-10",
+      "amount": 250
+    },
+    {
+      "id": 27,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-11",
+      "amount": 240
+    },
+    {
+      "id": 28,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-15",
+      "amount": 210
+    },
+    {
+      "id": 29,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-16",
+      "amount": 230
+    },
+    {
+      "id": 30,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-17",
+      "amount": 250
+    },
+    {
+      "id": 31,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-18",
+      "amount": 240
+    },
+    {
+      "id": 32,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-22",
+      "amount": 210
+    },
+    {
+      "id": 33,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-23",
+      "amount": 230
+    },
+    {
+      "id": 34,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-24",
+      "amount": 250
+    },
+    {
+      "id": 35,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-25",
+      "amount": 240
+    },
+    {
+      "id": 36,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-29",
+      "amount": 210
+    },
+    {
+      "id": 37,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-30",
+      "amount": 230
+    },
+    {
+      "id": 38,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 2,
+      "date": "2026-10-31",
+      "amount": 250
+    },
+    {
+      "id": 39,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-01",
+      "amount": 310
+    },
+    {
+      "id": 40,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-02",
+      "amount": 350
+    },
+    {
+      "id": 41,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-03",
+      "amount": 390
+    },
+    {
+      "id": 42,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-04",
+      "amount": 370
+    },
+    {
+      "id": 43,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-08",
+      "amount": 310
+    },
+    {
+      "id": 44,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-09",
+      "amount": 350
+    },
+    {
+      "id": 45,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-10",
+      "amount": 390
+    },
+    {
+      "id": 46,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-11",
+      "amount": 370
+    },
+    {
+      "id": 47,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-15",
+      "amount": 310
+    },
+    {
+      "id": 48,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-16",
+      "amount": 350
+    },
+    {
+      "id": 49,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-17",
+      "amount": 390
+    },
+    {
+      "id": 50,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-18",
+      "amount": 370
+    },
+    {
+      "id": 51,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-22",
+      "amount": 310
+    },
+    {
+      "id": 52,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-23",
+      "amount": 350
+    },
+    {
+      "id": 53,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-24",
+      "amount": 390
+    },
+    {
+      "id": 54,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-25",
+      "amount": 370
+    },
+    {
+      "id": 55,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-29",
+      "amount": 310
+    },
+    {
+      "id": 56,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-30",
+      "amount": 350
+    },
+    {
+      "id": 57,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 3,
+      "date": "2026-10-31",
+      "amount": 390
+    },
+    {
+      "id": 58,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-01",
+      "amount": 440
+    },
+    {
+      "id": 59,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-02",
+      "amount": 480
+    },
+    {
+      "id": 60,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-03",
+      "amount": 520
+    },
+    {
+      "id": 61,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-04",
+      "amount": 500
+    },
+    {
+      "id": 62,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-08",
+      "amount": 440
+    },
+    {
+      "id": 63,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-09",
+      "amount": 480
+    },
+    {
+      "id": 64,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-10",
+      "amount": 520
+    },
+    {
+      "id": 65,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-11",
+      "amount": 500
+    },
+    {
+      "id": 66,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-15",
+      "amount": 440
+    },
+    {
+      "id": 67,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-16",
+      "amount": 480
+    },
+    {
+      "id": 68,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-17",
+      "amount": 520
+    },
+    {
+      "id": 69,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-18",
+      "amount": 500
+    },
+    {
+      "id": 70,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-22",
+      "amount": 440
+    },
+    {
+      "id": 71,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-23",
+      "amount": 480
+    },
+    {
+      "id": 72,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-24",
+      "amount": 520
+    },
+    {
+      "id": 73,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-25",
+      "amount": 500
+    },
+    {
+      "id": 74,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-29",
+      "amount": 440
+    },
+    {
+      "id": 75,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-30",
+      "amount": 480
+    },
+    {
+      "id": 76,
+      "propertyId": 1,
+      "ratePlanId": 1,
+      "roomTypeId": 4,
+      "date": "2026-10-31",
+      "amount": 520
+    },
+    {
+      "id": 77,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-01",
+      "amount": 220
+    },
+    {
+      "id": 78,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-02",
+      "amount": 250
+    },
+    {
+      "id": 79,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-03",
+      "amount": 250
+    },
+    {
+      "id": 80,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-04",
+      "amount": 220
+    },
+    {
+      "id": 81,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-05",
+      "amount": 220
+    },
+    {
+      "id": 82,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-06",
+      "amount": 220
+    },
+    {
+      "id": 83,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-07",
+      "amount": 220
+    },
+    {
+      "id": 84,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-08",
+      "amount": 220
+    },
+    {
+      "id": 85,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-09",
+      "amount": 250
+    },
+    {
+      "id": 86,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-10",
+      "amount": 250
+    },
+    {
+      "id": 87,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-11",
+      "amount": 220
+    },
+    {
+      "id": 88,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-12",
+      "amount": 220
+    },
+    {
+      "id": 89,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-13",
+      "amount": 220
+    },
+    {
+      "id": 90,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-14",
+      "amount": 220
+    },
+    {
+      "id": 91,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-15",
+      "amount": 220
+    },
+    {
+      "id": 92,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-16",
+      "amount": 250
+    },
+    {
+      "id": 93,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-17",
+      "amount": 250
+    },
+    {
+      "id": 94,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-18",
+      "amount": 220
+    },
+    {
+      "id": 95,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-19",
+      "amount": 220
+    },
+    {
+      "id": 96,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-20",
+      "amount": 220
+    },
+    {
+      "id": 97,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-21",
+      "amount": 220
+    },
+    {
+      "id": 98,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-22",
+      "amount": 220
+    },
+    {
+      "id": 99,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-23",
+      "amount": 250
+    },
+    {
+      "id": 100,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-24",
+      "amount": 250
+    },
+    {
+      "id": 101,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-25",
+      "amount": 220
+    },
+    {
+      "id": 102,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-26",
+      "amount": 220
+    },
+    {
+      "id": 103,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-27",
+      "amount": 220
+    },
+    {
+      "id": 104,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-28",
+      "amount": 220
+    },
+    {
+      "id": 105,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-29",
+      "amount": 220
+    },
+    {
+      "id": 106,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-30",
+      "amount": 250
+    },
+    {
+      "id": 107,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 1,
+      "date": "2026-10-31",
+      "amount": 250
+    },
+    {
+      "id": 108,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-01",
+      "amount": 240
+    },
+    {
+      "id": 109,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-02",
+      "amount": 270
+    },
+    {
+      "id": 110,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-03",
+      "amount": 270
+    },
+    {
+      "id": 111,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-04",
+      "amount": 240
+    },
+    {
+      "id": 112,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-05",
+      "amount": 240
+    },
+    {
+      "id": 113,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-06",
+      "amount": 240
+    },
+    {
+      "id": 114,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-07",
+      "amount": 240
+    },
+    {
+      "id": 115,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-08",
+      "amount": 240
+    },
+    {
+      "id": 116,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-09",
+      "amount": 270
+    },
+    {
+      "id": 117,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-10",
+      "amount": 270
+    },
+    {
+      "id": 118,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-11",
+      "amount": 240
+    },
+    {
+      "id": 119,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-12",
+      "amount": 240
+    },
+    {
+      "id": 120,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-13",
+      "amount": 240
+    },
+    {
+      "id": 121,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-14",
+      "amount": 240
+    },
+    {
+      "id": 122,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-15",
+      "amount": 240
+    },
+    {
+      "id": 123,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-16",
+      "amount": 270
+    },
+    {
+      "id": 124,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-17",
+      "amount": 270
+    },
+    {
+      "id": 125,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-18",
+      "amount": 240
+    },
+    {
+      "id": 126,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-19",
+      "amount": 240
+    },
+    {
+      "id": 127,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-20",
+      "amount": 240
+    },
+    {
+      "id": 128,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-21",
+      "amount": 240
+    },
+    {
+      "id": 129,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-22",
+      "amount": 240
+    },
+    {
+      "id": 130,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-23",
+      "amount": 270
+    },
+    {
+      "id": 131,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-24",
+      "amount": 270
+    },
+    {
+      "id": 132,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-25",
+      "amount": 240
+    },
+    {
+      "id": 133,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-26",
+      "amount": 240
+    },
+    {
+      "id": 134,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-27",
+      "amount": 240
+    },
+    {
+      "id": 135,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-28",
+      "amount": 240
+    },
+    {
+      "id": 136,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-29",
+      "amount": 240
+    },
+    {
+      "id": 137,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-30",
+      "amount": 270
+    },
+    {
+      "id": 138,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 2,
+      "date": "2026-10-31",
+      "amount": 270
+    },
+    {
+      "id": 139,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-01",
+      "amount": 330
+    },
+    {
+      "id": 140,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-02",
+      "amount": 360
+    },
+    {
+      "id": 141,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-03",
+      "amount": 360
+    },
+    {
+      "id": 142,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-04",
+      "amount": 330
+    },
+    {
+      "id": 143,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-05",
+      "amount": 330
+    },
+    {
+      "id": 144,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-06",
+      "amount": 330
+    },
+    {
+      "id": 145,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-07",
+      "amount": 330
+    },
+    {
+      "id": 146,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-08",
+      "amount": 330
+    },
+    {
+      "id": 147,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-09",
+      "amount": 360
+    },
+    {
+      "id": 148,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-10",
+      "amount": 360
+    },
+    {
+      "id": 149,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-11",
+      "amount": 330
+    },
+    {
+      "id": 150,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-12",
+      "amount": 330
+    },
+    {
+      "id": 151,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-13",
+      "amount": 330
+    },
+    {
+      "id": 152,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-14",
+      "amount": 330
+    },
+    {
+      "id": 153,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-15",
+      "amount": 330
+    },
+    {
+      "id": 154,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-16",
+      "amount": 360
+    },
+    {
+      "id": 155,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-17",
+      "amount": 360
+    },
+    {
+      "id": 156,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-18",
+      "amount": 330
+    },
+    {
+      "id": 157,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-19",
+      "amount": 330
+    },
+    {
+      "id": 158,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-20",
+      "amount": 330
+    },
+    {
+      "id": 159,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-21",
+      "amount": 330
+    },
+    {
+      "id": 160,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-22",
+      "amount": 330
+    },
+    {
+      "id": 161,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-23",
+      "amount": 360
+    },
+    {
+      "id": 162,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-24",
+      "amount": 360
+    },
+    {
+      "id": 163,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-25",
+      "amount": 330
+    },
+    {
+      "id": 164,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-26",
+      "amount": 330
+    },
+    {
+      "id": 165,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-27",
+      "amount": 330
+    },
+    {
+      "id": 166,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-28",
+      "amount": 330
+    },
+    {
+      "id": 167,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-29",
+      "amount": 330
+    },
+    {
+      "id": 168,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-30",
+      "amount": 360
+    },
+    {
+      "id": 169,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 3,
+      "date": "2026-10-31",
+      "amount": 360
+    },
+    {
+      "id": 170,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-01",
+      "amount": 460
+    },
+    {
+      "id": 171,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-02",
+      "amount": 490
+    },
+    {
+      "id": 172,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-03",
+      "amount": 490
+    },
+    {
+      "id": 173,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-04",
+      "amount": 460
+    },
+    {
+      "id": 174,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-05",
+      "amount": 460
+    },
+    {
+      "id": 175,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-06",
+      "amount": 460
+    },
+    {
+      "id": 176,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-07",
+      "amount": 460
+    },
+    {
+      "id": 177,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-08",
+      "amount": 460
+    },
+    {
+      "id": 178,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-09",
+      "amount": 490
+    },
+    {
+      "id": 179,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-10",
+      "amount": 490
+    },
+    {
+      "id": 180,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-11",
+      "amount": 460
+    },
+    {
+      "id": 181,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-12",
+      "amount": 460
+    },
+    {
+      "id": 182,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-13",
+      "amount": 460
+    },
+    {
+      "id": 183,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-14",
+      "amount": 460
+    },
+    {
+      "id": 184,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-15",
+      "amount": 460
+    },
+    {
+      "id": 185,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-16",
+      "amount": 490
+    },
+    {
+      "id": 186,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-17",
+      "amount": 490
+    },
+    {
+      "id": 187,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-18",
+      "amount": 460
+    },
+    {
+      "id": 188,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-19",
+      "amount": 460
+    },
+    {
+      "id": 189,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-20",
+      "amount": 460
+    },
+    {
+      "id": 190,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-21",
+      "amount": 460
+    },
+    {
+      "id": 191,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-22",
+      "amount": 460
+    },
+    {
+      "id": 192,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-23",
+      "amount": 490
+    },
+    {
+      "id": 193,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-24",
+      "amount": 490
+    },
+    {
+      "id": 194,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-25",
+      "amount": 460
+    },
+    {
+      "id": 195,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-26",
+      "amount": 460
+    },
+    {
+      "id": 196,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-27",
+      "amount": 460
+    },
+    {
+      "id": 197,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-28",
+      "amount": 460
+    },
+    {
+      "id": 198,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-29",
+      "amount": 460
+    },
+    {
+      "id": 199,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-30",
+      "amount": 490
+    },
+    {
+      "id": 200,
+      "propertyId": 1,
+      "ratePlanId": 2,
+      "roomTypeId": 4,
+      "date": "2026-10-31",
+      "amount": 490
+    },
+    {
+      "id": 201,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-05",
+      "amount": 162
+    },
+    {
+      "id": 202,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-06",
+      "amount": 162
+    },
+    {
+      "id": 203,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-07",
+      "amount": 162
+    },
+    {
+      "id": 204,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-08",
+      "amount": 162
+    },
+    {
+      "id": 205,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-09",
+      "amount": 162
+    },
+    {
+      "id": 206,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-10",
+      "amount": 162
+    },
+    {
+      "id": 207,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-11",
+      "amount": 162
+    },
+    {
+      "id": 208,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-12",
+      "amount": 162
+    },
+    {
+      "id": 209,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-13",
+      "amount": 162
+    },
+    {
+      "id": 210,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-14",
+      "amount": 162
+    },
+    {
+      "id": 211,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-15",
+      "amount": 162
+    },
+    {
+      "id": 212,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-16",
+      "amount": 162
+    },
+    {
+      "id": 213,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-17",
+      "amount": 162
+    },
+    {
+      "id": 214,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 1,
+      "date": "2026-10-18",
+      "amount": 162
+    },
+    {
+      "id": 215,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-05",
+      "amount": 180
+    },
+    {
+      "id": 216,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-06",
+      "amount": 180
+    },
+    {
+      "id": 217,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-07",
+      "amount": 180
+    },
+    {
+      "id": 218,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-08",
+      "amount": 180
+    },
+    {
+      "id": 219,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-09",
+      "amount": 180
+    },
+    {
+      "id": 220,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-10",
+      "amount": 180
+    },
+    {
+      "id": 221,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-11",
+      "amount": 180
+    },
+    {
+      "id": 222,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-12",
+      "amount": 180
+    },
+    {
+      "id": 223,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-13",
+      "amount": 180
+    },
+    {
+      "id": 224,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-14",
+      "amount": 180
+    },
+    {
+      "id": 225,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-15",
+      "amount": 180
+    },
+    {
+      "id": 226,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-16",
+      "amount": 180
+    },
+    {
+      "id": 227,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-17",
+      "amount": 180
+    },
+    {
+      "id": 228,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 2,
+      "date": "2026-10-18",
+      "amount": 180
+    },
+    {
+      "id": 229,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-05",
+      "amount": 261
+    },
+    {
+      "id": 230,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-06",
+      "amount": 261
+    },
+    {
+      "id": 231,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-07",
+      "amount": 261
+    },
+    {
+      "id": 232,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-08",
+      "amount": 261
+    },
+    {
+      "id": 233,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-09",
+      "amount": 261
+    },
+    {
+      "id": 234,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-10",
+      "amount": 261
+    },
+    {
+      "id": 235,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-11",
+      "amount": 261
+    },
+    {
+      "id": 236,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-12",
+      "amount": 261
+    },
+    {
+      "id": 237,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-13",
+      "amount": 261
+    },
+    {
+      "id": 238,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-14",
+      "amount": 261
+    },
+    {
+      "id": 239,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-15",
+      "amount": 261
+    },
+    {
+      "id": 240,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-16",
+      "amount": 261
+    },
+    {
+      "id": 241,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-17",
+      "amount": 261
+    },
+    {
+      "id": 242,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 3,
+      "date": "2026-10-18",
+      "amount": 261
+    },
+    {
+      "id": 243,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-05",
+      "amount": 378
+    },
+    {
+      "id": 244,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-06",
+      "amount": 378
+    },
+    {
+      "id": 245,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-07",
+      "amount": 378
+    },
+    {
+      "id": 246,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-08",
+      "amount": 378
+    },
+    {
+      "id": 247,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-09",
+      "amount": 378
+    },
+    {
+      "id": 248,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-10",
+      "amount": 378
+    },
+    {
+      "id": 249,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-11",
+      "amount": 378
+    },
+    {
+      "id": 250,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-12",
+      "amount": 378
+    },
+    {
+      "id": 251,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-13",
+      "amount": 378
+    },
+    {
+      "id": 252,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-14",
+      "amount": 378
+    },
+    {
+      "id": 253,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-15",
+      "amount": 378
+    },
+    {
+      "id": 254,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-16",
+      "amount": 378
+    },
+    {
+      "id": 255,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-17",
+      "amount": 378
+    },
+    {
+      "id": 256,
+      "propertyId": 1,
+      "ratePlanId": 3,
+      "roomTypeId": 4,
+      "date": "2026-10-18",
+      "amount": 378
+    },
+    {
+      "id": 257,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-01",
+      "amount": 560
+    },
+    {
+      "id": 258,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-02",
+      "amount": 620
+    },
+    {
+      "id": 259,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-03",
+      "amount": 620
+    },
+    {
+      "id": 260,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-04",
+      "amount": 560
+    },
+    {
+      "id": 261,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-05",
+      "amount": 560
+    },
+    {
+      "id": 262,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-06",
+      "amount": 560
+    },
+    {
+      "id": 263,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-07",
+      "amount": 560
+    },
+    {
+      "id": 264,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-08",
+      "amount": 560
+    },
+    {
+      "id": 265,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-09",
+      "amount": 620
+    },
+    {
+      "id": 266,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-10",
+      "amount": 620
+    },
+    {
+      "id": 267,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-11",
+      "amount": 560
+    },
+    {
+      "id": 268,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-12",
+      "amount": 560
+    },
+    {
+      "id": 269,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-13",
+      "amount": 560
+    },
+    {
+      "id": 270,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-14",
+      "amount": 560
+    },
+    {
+      "id": 271,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-15",
+      "amount": 560
+    },
+    {
+      "id": 272,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-16",
+      "amount": 620
+    },
+    {
+      "id": 273,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-17",
+      "amount": 620
+    },
+    {
+      "id": 274,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-18",
+      "amount": 560
+    },
+    {
+      "id": 275,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-19",
+      "amount": 560
+    },
+    {
+      "id": 276,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-20",
+      "amount": 560
+    },
+    {
+      "id": 277,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-21",
+      "amount": 560
+    },
+    {
+      "id": 278,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-22",
+      "amount": 560
+    },
+    {
+      "id": 279,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-23",
+      "amount": 620
+    },
+    {
+      "id": 280,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-24",
+      "amount": 620
+    },
+    {
+      "id": 281,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-25",
+      "amount": 560
+    },
+    {
+      "id": 282,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-26",
+      "amount": 560
+    },
+    {
+      "id": 283,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-27",
+      "amount": 560
+    },
+    {
+      "id": 284,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-28",
+      "amount": 560
+    },
+    {
+      "id": 285,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-29",
+      "amount": 560
+    },
+    {
+      "id": 286,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-30",
+      "amount": 620
+    },
+    {
+      "id": 287,
+      "propertyId": 1,
+      "ratePlanId": 4,
+      "roomTypeId": 4,
+      "date": "2026-10-31",
+      "amount": 620
+    },
+    {
+      "id": 288,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-02",
+      "amount": 180
+    },
+    {
+      "id": 289,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-03",
+      "amount": 180
+    },
+    {
+      "id": 290,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-09",
+      "amount": 180
+    },
+    {
+      "id": 291,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-10",
+      "amount": 180
+    },
+    {
+      "id": 292,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-16",
+      "amount": 180
+    },
+    {
+      "id": 293,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-17",
+      "amount": 180
+    },
+    {
+      "id": 294,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-23",
+      "amount": 180
+    },
+    {
+      "id": 295,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-24",
+      "amount": 180
+    },
+    {
+      "id": 296,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-30",
+      "amount": 180
+    },
+    {
+      "id": 297,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 6,
+      "date": "2026-10-31",
+      "amount": 180
+    },
+    {
+      "id": 298,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-02",
+      "amount": 270
+    },
+    {
+      "id": 299,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-03",
+      "amount": 270
+    },
+    {
+      "id": 300,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-09",
+      "amount": 270
+    },
+    {
+      "id": 301,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-10",
+      "amount": 270
+    },
+    {
+      "id": 302,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-16",
+      "amount": 270
+    },
+    {
+      "id": 303,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-17",
+      "amount": 270
+    },
+    {
+      "id": 304,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-23",
+      "amount": 270
+    },
+    {
+      "id": 305,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-24",
+      "amount": 270
+    },
+    {
+      "id": 306,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-30",
+      "amount": 270
+    },
+    {
+      "id": 307,
+      "propertyId": 2,
+      "ratePlanId": 6,
+      "roomTypeId": 7,
+      "date": "2026-10-31",
+      "amount": 270
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "status-periods": [
+    {
+      "id": 1,
+      "propertyId": 1,
+      "roomId": 12,
+      "status": "blocked",
+      "startDate": "2026-10-10",
+      "endDate": "2026-10-11",
+      "reason": "Held for a corporate group"
+    },
+    {
+      "id": 2,
+      "propertyId": 1,
+      "roomId": 14,
+      "status": "out-of-service",
+      "startDate": "2026-10-11",
+      "endDate": "2026-10-14",
+      "reason": "Bathroom plumbing repair"
+    },
+    {
+      "id": 3,
+      "propertyId": 1,
+      "roomId": 17,
+      "status": "out-of-service",
+      "startDate": "2026-10-11",
+      "endDate": "2026-10-12",
+      "reason": "Air conditioning maintenance"
+    },
+    {
+      "id": 4,
+      "propertyId": 1,
+      "roomId": 4,
+      "status": "needs-cleaning",
+      "startDate": "2026-10-06",
+      "endDate": "2026-10-06",
+      "reason": "Deep cleaning after checkout"
+    },
+    {
+      "id": 5,
+      "propertyId": 1,
+      "roomId": 6,
+      "status": "blocked",
+      "startDate": "2026-10-09",
+      "endDate": "2026-10-09",
+      "reason": "Staff training"
+    },
+    {
+      "id": 6,
+      "propertyId": 1,
+      "roomId": 15,
+      "status": "out-of-service",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-20",
+      "reason": "Renovation"
+    },
+    {
+      "id": 7,
+      "propertyId": 1,
+      "roomId": 2,
+      "status": "blocked",
+      "startDate": "2026-10-05",
+      "endDate": "2026-10-07",
+      "reason": "Held for a VIP guest"
+    },
+    {
+      "id": 8,
+      "propertyId": 1,
+      "roomId": 11,
+      "status": "needs-cleaning",
+      "startDate": "2026-10-13",
+      "endDate": "2026-10-13",
+      "reason": "Deep cleaning after checkout"
+    },
+    {
+      "id": 9,
+      "propertyId": 2,
+      "roomId": 19,
+      "status": "blocked",
+      "startDate": "2026-10-06",
+      "endDate": "2026-10-07",
+      "reason": "Owner use"
+    }
+  ]
+}

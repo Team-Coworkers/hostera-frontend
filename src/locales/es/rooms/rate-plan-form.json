@@ -1,0 +1,20 @@
+{
+  "new-title": "Nuevo plan tarifario",
+  "edit-title": "Editar plan tarifario",
+  "name": "Nombre del plan",
+  "name-placeholder": "p. ej. Flexible",
+  "room-types": "Tipos de habitación",
+  "all-room-types": "Todos los tipos de habitación",
+  "room-types-help": "Déjalo vacío para vender todos los tipos de habitación, incluidos los que se agreguen después.",
+  "included-services": "Servicios incluidos",
+  "refundable": "Reembolsable",
+  "refundable-help": "Se aplica la política de cancelación",
+  "non-refundable-help": "No se devuelve el dinero si el huésped cancela",
+  "cancellation-policy": "Política de cancelación",
+  "cancellation-policy-placeholder": "p. ej. Cancelación gratuita hasta 24 horas antes de la llegada",
+  "active": "Activo",
+  "active-help": "Los planes inactivos conservan sus tarifas diarias, pero dejan de ofrecerse.",
+  "cancel": "Cancelar",
+  "create": "Crear plan",
+  "save": "Guardar plan"
+}

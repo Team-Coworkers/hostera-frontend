@@ -1,0 +1,22 @@
+{
+  "breadcrumb": "Check-out",
+  "title": "Check-out de {name}",
+  "checked-in-only": "Solo las reservas con estadía en curso pueden hacer check-out.",
+  "review": "Revisión de salida",
+  "departure": "Salida",
+  "early": "El huésped sale antes del día de salida. Se liberan las noches restantes y el total guardado no cambia.",
+  "room-condition": "Estado de la habitación",
+  "attention-help": "Pon el estado operativo de la habitación en Habitaciones si necesita limpieza o mantenimiento.",
+  "note": "Nota interna (opcional)",
+  "note-placeholder": "Agrega una nota de salida",
+  "balance-title": "Resuelve el saldo antes del check-out",
+  "balance-text": "Registra el pago pendiente para completar la salida.",
+  "changes": "Cambios de estado",
+  "booking": "Reserva",
+  "room-released": "Liberada",
+  "outstanding": "Pendiente",
+  "complete": "Completar check-out",
+  "completed": "Se cerró la estadía de {name}",
+  "key-cards": "Tarjetas de acceso",
+  "key-cards-ended": "No termina ninguna tarjeta | Termina {count} tarjeta | Terminan {count} tarjetas"
+}

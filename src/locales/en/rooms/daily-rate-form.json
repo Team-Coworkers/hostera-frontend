@@ -1,0 +1,15 @@
+{
+  "title": "Set daily rates",
+  "rate-plan": "Rate plan",
+  "room-type": "Room type",
+  "room-type-placeholder": "Choose a room type",
+  "dates": "Date range",
+  "use-base-rate": "Use base rate",
+  "use-base-rate-help": "Removes the daily rates of these nights so they follow the base nightly rate.",
+  "nightly-rate": "Nightly rate",
+  "base-rate": "Base nightly rate: {amount}",
+  "nights-updated": "No nights will be updated | {count} night will be updated | {count} nights will be updated",
+  "nights-reset": "No nights will return to the base rate | {count} night will return to the base rate | {count} nights will return to the base rate",
+  "cancel": "Cancel",
+  "save": "Save rates"
+}

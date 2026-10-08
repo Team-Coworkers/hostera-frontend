@@ -1,0 +1,9 @@
+{
+  "title": "Property overview",
+  "subtitle": "Occupancy tonight {rate} · {rooms}",
+  "available-rooms": "no rooms available | {count} room available | {count} rooms available",
+  "available-tonight": "No rooms available tonight | {count} room available tonight | {count} rooms available tonight",
+  "alerts": "No rooms need attention | {count} room needs attention | {count} rooms need attention",
+  "no-alerts": "No alerts",
+  "help": "Select a property to make it the active property."
+}

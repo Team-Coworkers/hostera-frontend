@@ -1,0 +1,15 @@
+{
+  "title": "Estado de habitaciones",
+  "subtitle": "Todas las habitaciones están listas | {count} habitación no está lista hoy | {count} habitaciones no están listas hoy",
+  "available": "disponibles",
+  "statuses": {
+    "available": "Disponible",
+    "booked": "Reservada",
+    "occupied": "Ocupada",
+    "needs-cleaning": "Requiere limpieza",
+    "blocked": "Bloqueada",
+    "out-of-service": "Fuera de servicio"
+  },
+  "view": "Ver estado de habitaciones",
+  "chart-label": "Habitaciones por estado hoy"
+}

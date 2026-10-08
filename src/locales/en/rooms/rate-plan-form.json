@@ -1,0 +1,20 @@
+{
+  "new-title": "New rate plan",
+  "edit-title": "Edit rate plan",
+  "name": "Plan name",
+  "name-placeholder": "e.g. Flexible",
+  "room-types": "Room types",
+  "all-room-types": "All room types",
+  "room-types-help": "Leave empty to sell every room type, including ones added later.",
+  "included-services": "Included services",
+  "refundable": "Refundable",
+  "refundable-help": "Cancellation policy applies",
+  "non-refundable-help": "Guests are not refunded if they cancel",
+  "cancellation-policy": "Cancellation policy",
+  "cancellation-policy-placeholder": "e.g. Free cancellation until 24 hours before arrival",
+  "active": "Active",
+  "active-help": "Inactive plans keep their daily rates but are no longer offered.",
+  "cancel": "Cancel",
+  "create": "Create plan",
+  "save": "Save plan"
+}

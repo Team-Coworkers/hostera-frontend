@@ -1,0 +1,8 @@
+{
+  "title": "Status controlled by booking",
+  "summary": "{status} cannot be changed here",
+  "detail": "Room {number} is assigned to booking {code} for {dates}. Update or cancel that booking to release the room.",
+  "help": "Operational statuses such as Blocked, Out of service, and Needs cleaning can be changed directly on days without a booking or stay.",
+  "close": "Close",
+  "open-booking": "Open booking"
+}

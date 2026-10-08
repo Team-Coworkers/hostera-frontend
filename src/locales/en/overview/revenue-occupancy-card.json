@@ -1,0 +1,15 @@
+{
+  "title": "Room revenue and occupancy",
+  "period": "Period",
+  "periods": {
+    "last-7": "Last 7 days",
+    "last-30": "Last 30 days",
+    "next-30": "Next 30 days"
+  },
+  "change": "{change} vs. previous period",
+  "no-previous": "No revenue in the previous period",
+  "average-occupancy": "Average occupancy {rate}",
+  "revenue": "Revenue",
+  "occupancy": "Occupancy",
+  "chart-label": "Room revenue per night as bars and occupancy as a line"
+}

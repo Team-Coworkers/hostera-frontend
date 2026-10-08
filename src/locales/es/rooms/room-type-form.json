@@ -1,0 +1,18 @@
+{
+  "new-title": "Agregar tipo de habitación",
+  "edit-title": "Editar tipo de habitación",
+  "rooms-count": "Ninguna habitación lo usa | Lo usa {count} habitación | Lo usan {count} habitaciones",
+  "name": "Nombre del tipo",
+  "name-placeholder": "p. ej. Suite familiar",
+  "capacity": "Capacidad",
+  "guests": "huéspedes",
+  "beds": "Configuración de camas",
+  "beds-placeholder": "p. ej. 1 queen",
+  "base-rate": "Tarifa base por noche",
+  "base-rate-help": "Se aplica a toda noche sin tarifa diaria.",
+  "active": "Activo",
+  "active-help": "Solo los tipos activos se pueden asignar a habitaciones.",
+  "in-use": "Ninguna habitación usa este tipo | {count} habitación usa este tipo; se puede desactivar, pero no eliminar. | {count} habitaciones usan este tipo; se puede desactivar, pero no eliminar.",
+  "cancel": "Cancelar",
+  "save": "Guardar tipo"
+}

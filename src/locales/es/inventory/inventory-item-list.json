@@ -1,0 +1,22 @@
+{
+  "new": "Añadir artículo",
+  "property-scope": "El estado de stock refleja el total de este establecimiento.",
+  "search": "Buscar por nombre o código",
+  "all-locations": "Todas las ubicaciones",
+  "all-categories": "Todas las categorías",
+  "clear": "Limpiar filtros",
+  "results": "{count} resultados | {count} resultado | {count} resultados",
+  "name": "Artículo",
+  "category": "Categoría",
+  "storage": "Almacenamiento",
+  "primary-storage": "Almacenamiento principal",
+  "quantity": "Existencias",
+  "condition": "Estado de stock",
+  "actions": "Acciones",
+  "adjust": "Ajustar stock",
+  "edit": "Editar",
+  "empty-title": "Todavía no hay registros",
+  "empty-text": "Añade el primer registro o limpia los filtros actuales.",
+  "saved": "Cambios guardados",
+  "all": "Todos"
+}

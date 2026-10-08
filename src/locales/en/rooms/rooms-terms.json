@@ -1,0 +1,51 @@
+{
+  "room-number": "Room {number}",
+  "guests": "{count} guests | {count} guest | {count} guests",
+  "day-statuses": {
+    "available": "Available",
+    "booked": "Booked",
+    "occupied": "Occupied",
+    "needs-cleaning": "Needs cleaning",
+    "blocked": "Blocked",
+    "out-of-service": "Out of service"
+  },
+  "room-type-statuses": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "rate-plan-statuses": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "included-services": {
+    "room-only": "Room only",
+    "breakfast-included": "Breakfast included",
+    "half-board": "Half board",
+    "full-board": "Full board"
+  },
+  "errors": {
+    "connection": "The mock API is unavailable. Start the server and try again.",
+    "no-properties": "No properties are configured.",
+    "required-fields": "Complete all required fields.",
+    "invalid-capacity": "Enter a capacity between 1 and 12 guests.",
+    "invalid-rate": "Enter a base nightly rate greater than zero.",
+    "invalid-room-type-status": "Choose a supported room type status.",
+    "invalid-floor": "Enter the floor as a whole number.",
+    "invalid-status": "Choose a supported status.",
+    "invalid-date-range": "Choose a valid date range.",
+    "reason-required": "Add the reason for this status.",
+    "booking-controlled": "The selected dates include days controlled by a booking. Choose dates without bookings or stays.",
+    "duplicate-room-type-name": "This room type name already exists in the property.",
+    "duplicate-room-number": "This room number already exists in the property.",
+    "room-type-in-use": "Rooms still use this room type. Make it inactive instead.",
+    "room-type-required": "Choose a room type of the active property.",
+    "inactive-room-type": "Inactive room types cannot be assigned to rooms.",
+    "not-found": "The record no longer exists in the active property.",
+    "invalid-nightly-rate": "Enter a nightly rate greater than zero.",
+    "invalid-included-services": "Choose the services included in the rate plan.",
+    "cancellation-policy-required": "Add the cancellation policy of this refundable plan.",
+    "invalid-rate-plan-status": "Choose a supported rate plan status.",
+    "duplicate-rate-plan-name": "This rate plan name already exists in the property.",
+    "room-type-not-in-plan": "This room type is not sold under the selected rate plan."
+  }
+}

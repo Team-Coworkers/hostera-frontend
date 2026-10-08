@@ -1,0 +1,10 @@
+{
+  "title": "Cancel booking?",
+  "reason": "Cancellation reason",
+  "note": "Internal note (optional)",
+  "note-required": "Internal note",
+  "note-placeholder": "e.g. Cancellation requested by phone.",
+  "release": "Room {number} will be released for these nights.",
+  "keep": "Keep booking",
+  "submit": "Cancel booking"
+}

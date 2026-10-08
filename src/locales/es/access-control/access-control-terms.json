@@ -1,0 +1,73 @@
+{
+  "room-number": "Habitación {number}",
+  "demo-operator": "Operador de demostración",
+  "statuses": {
+    "active": "Activa",
+    "scheduled": "Programada",
+    "expired": "Vencida",
+    "revoked": "Revocada"
+  },
+  "types": {
+    "guest-key-card": "Tarjeta RFID",
+    "staff-credential": "Credencial de personal"
+  },
+  "holders": {
+    "guest-key-card": "Huésped",
+    "staff-credential": "Personal"
+  },
+  "holder-types": {
+    "guest": "Huésped",
+    "staff": "Personal"
+  },
+  "scopes": {
+    "service-areas": "Áreas de servicio",
+    "all-rooms": "Todas las habitaciones",
+    "all-areas": "Todas las áreas"
+  },
+  "scope-help": {
+    "service-areas": "Recepción, pasillos de servicio y almacenes.",
+    "all-rooms": "Todas las habitaciones, para limpieza y mantenimiento.",
+    "all-areas": "Todas las puertas del establecimiento."
+  },
+  "revocation-reasons": {
+    "lost-card": "Tarjeta perdida",
+    "damaged-card": "Tarjeta dañada",
+    "security-risk": "Riesgo de seguridad",
+    "staff-left": "Ya no trabaja aquí",
+    "replaced": "Reemplazada",
+    "other": "Otro"
+  },
+  "results": {
+    "granted": "Permitido",
+    "denied": "Denegado"
+  },
+  "denial-reasons": {
+    "outside-scope": "Fuera del alcance de acceso",
+    "not-active-yet": "Todavía no activa",
+    "expired": "Credencial vencida",
+    "revoked": "Credencial revocada"
+  },
+  "access-points": {
+    "main-entrance": "Entrada principal",
+    "room-door": "Puerta de habitación",
+    "elevator": "Ascensor",
+    "service-corridor": "Pasillo de servicio",
+    "storage-room": "Almacén"
+  },
+  "errors": {
+    "connection": "La API simulada no está disponible. Inicia el servidor e inténtalo de nuevo.",
+    "no-properties": "No hay establecimientos configurados.",
+    "required-fields": "Completa todos los campos obligatorios.",
+    "invalid-card-id": "El lector devolvió un ID de tarjeta no válido. Graba la tarjeta otra vez.",
+    "invalid-credential-type": "La credencial tiene un tipo no válido.",
+    "invalid-access-scope": "Elige quién recibe la credencial y qué áreas abre.",
+    "invalid-access-period": "Elige cuándo termina un acceso temporal, después de su inicio.",
+    "invalid-credential-change": "Solo se pueden cambiar credenciales activas o programadas.",
+    "invalid-revocation-reason": "Elige un motivo de revocación.",
+    "revocation-note-required": "Explica la revocación en la nota.",
+    "staff-member-required": "Elige a una persona del personal del establecimiento activo.",
+    "staff-credential-exists": "Esta persona ya tiene una credencial. Revócala antes de emitir otra.",
+    "key-card-required": "Graba al menos una tarjeta.",
+    "not-found": "La credencial ya no existe en el establecimiento activo."
+  }
+}

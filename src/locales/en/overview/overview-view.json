@@ -1,0 +1,7 @@
+{
+  "title": "Overview",
+  "property": "Active property",
+  "new-booking": "New booking",
+  "no-properties": "No properties are configured.",
+  "connection": "The mock API is unavailable. Start the server and try again."
+}

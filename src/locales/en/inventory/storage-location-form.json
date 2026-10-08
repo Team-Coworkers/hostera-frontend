@@ -1,0 +1,13 @@
+{
+  "new-title": "Add storage location",
+  "edit-title": "Edit storage location",
+  "name": "Location name",
+  "code": "Location code",
+  "type": "Location type",
+  "area": "Floor or area",
+  "team": "Responsible team",
+  "description": "Description (optional)",
+  "code-locked": "The code stays unchanged to preserve traceability.",
+  "save": "Save location",
+  "cancel": "Cancel"
+}
