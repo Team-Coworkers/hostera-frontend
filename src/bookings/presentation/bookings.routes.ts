@@ -12,11 +12,27 @@ export const bookingsRoutes: Routes = [
       ),
   },
   {
+    path: 'new',
+    title: 'New Booking',
+    loadComponent: () =>
+      import('./views/booking-form/booking-form.component').then(
+        (m) => m.BookingFormComponent,
+      ),
+  },
+  {
     matcher: numericIdMatcher(),
     title: 'Booking',
     loadComponent: () =>
       import('./views/booking-detail/booking-detail.component').then(
         (m) => m.BookingDetailComponent,
+      ),
+  },
+  {
+    matcher: numericIdMatcher('edit'),
+    title: 'Edit Booking',
+    loadComponent: () =>
+      import('./views/booking-form/booking-form.component').then(
+        (m) => m.BookingFormComponent,
       ),
   },
 ];

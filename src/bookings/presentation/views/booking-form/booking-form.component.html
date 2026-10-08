@@ -1,0 +1,458 @@
+<app-bookings-layout>
+  <ng-template layoutBody>
+    @if (isEdit() && !currentBooking()) {
+      <app-message severity="warn" icon="search">
+        <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+          <span>{{ i18n.t('bookings.booking-detail.not-found') }}</span>
+          <a routerLink="/bookings" class="font-medium">{{
+            i18n.t('bookings.booking-detail.back')
+          }}</a>
+        </div>
+      </app-message>
+    } @else {
+      <header
+        class="flex flex-column md:flex-row md:align-items-center gap-3 pb-4 border-bottom-1 surface-border"
+      >
+        <div class="flex align-items-center gap-3 flex-1 min-w-0">
+          <span
+            class="flex align-items-center justify-content-center w-3rem h-3rem flex-shrink-0 bg-primary-50 text-primary border-round-lg"
+            aria-hidden="true"
+            ><mat-icon>{{
+              isEdit() ? 'edit' : 'edit_calendar'
+            }}</mat-icon></span
+          >
+          <div class="flex flex-column gap-1 min-w-0">
+            <h2 class="m-0 text-2xl font-bold tracking-tight">
+              {{
+                isEdit()
+                  ? i18n.t('bookings.booking-form.edit-title')
+                  : i18n.t('bookings.booking-form.new-title')
+              }}
+            </h2>
+            @if (currentBooking(); as booking) {
+              <span
+                class="flex flex-wrap align-items-center gap-2 text-sm text-color-secondary"
+              >
+                <span class="font-mono">{{ booking.code }}</span>
+                <span aria-hidden="true">·</span>
+                <span>{{ booking.guestName }}</span>
+                <app-booking-status-tag [status]="booking.status" />
+              </span>
+            } @else if (sourceBooking()) {
+              <span class="text-sm text-color-secondary">{{
+                i18n.t('bookings.booking-form.copied-from', {
+                  code: sourceBooking()!.code,
+                })
+              }}</span>
+            } @else {
+              <span class="text-sm text-color-secondary">{{
+                roomsStore.currentProperty()?.name
+              }}</span>
+            }
+          </div>
+        </div>
+      </header>
+
+      @if (currentBooking() && !currentBooking()!.isEditable) {
+        <app-message severity="warn" icon="lock">
+          {{ i18n.t('bookings.bookings-terms.errors.not-editable') }}
+        </app-message>
+      } @else {
+        <form id="booking-form" class="grid" (ngSubmit)="saveBooking()">
+          <div class="col-12 lg:col-8">
+            <div
+              class="flex flex-column gap-4 h-full p-4 surface-card border-1 surface-border border-round-xl"
+            >
+              <fieldset class="flex flex-column gap-3 m-0 p-0 border-none">
+                <legend
+                  class="flex align-items-center gap-2 mb-3 p-0 text-base font-semibold"
+                >
+                  <mat-icon class="text-color-secondary" aria-hidden="true"
+                    >badge</mat-icon
+                  >
+                  {{ i18n.t('bookings.booking-form.guest-information') }}
+                </legend>
+                <div class="grid">
+                  <mat-form-field class="col-12 md:col-6">
+                    <mat-label>{{
+                      i18n.t('bookings.booking-form.full-name')
+                    }}</mat-label>
+                    <input
+                      matInput
+                      name="guestName"
+                      autocomplete="off"
+                      maxlength="80"
+                      required
+                      [placeholder]="
+                        i18n.t('bookings.booking-form.full-name-placeholder')
+                      "
+                      [(ngModel)]="guestName"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-12 md:col-6">
+                    <mat-label>{{
+                      i18n.t('bookings.booking-form.email')
+                    }}</mat-label>
+                    <input
+                      matInput
+                      type="email"
+                      name="guestEmail"
+                      autocomplete="off"
+                      maxlength="120"
+                      required
+                      [placeholder]="
+                        i18n.t('bookings.booking-form.email-placeholder')
+                      "
+                      [(ngModel)]="guestEmail"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-12 md:col-6">
+                    <mat-label>{{
+                      i18n.t('bookings.booking-form.phone')
+                    }}</mat-label>
+                    <input
+                      matInput
+                      type="tel"
+                      name="guestPhone"
+                      autocomplete="off"
+                      maxlength="30"
+                      [placeholder]="
+                        i18n.t('bookings.booking-form.phone-placeholder')
+                      "
+                      [(ngModel)]="guestPhone"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="col-12 md:col-6">
+                    <mat-label>{{
+                      i18n.t('bookings.booking-form.language')
+                    }}</mat-label>
+                    <mat-select
+                      name="preferredLanguage"
+                      [(ngModel)]="preferredLanguage"
+                    >
+                      @for (value of languages; track value) {
+                        <mat-option [value]="value">{{
+                          i18n.t('bookings.bookings-terms.languages.' + value)
+                        }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </fieldset>
+
+              <fieldset class="flex flex-column gap-3 m-0 p-0 border-none">
+                <legend
+                  class="flex align-items-center gap-2 mb-3 p-0 text-base font-semibold"
+                >
+                  <mat-icon class="text-color-secondary" aria-hidden="true"
+                    >calendar_month</mat-icon
+                  >
+                  {{ i18n.t('bookings.booking-form.stay') }}
+                </legend>
+                <div class="grid">
+                  <mat-form-field class="col-12 md:col-6">
+                    <mat-label>{{
+                      i18n.t('bookings.booking-form.check-in')
+                    }}</mat-label>
+                    <input
+                      matInput
+                      name="checkIn"
+                      readonly
+                      required
+                      [placeholder]="
+                        i18n.t('bookings.booking-form.date-placeholder')
+                      "
+                      [matDatepicker]="checkInPicker"
+                      [min]="isEdit() ? null : minCheckIn"
+                      [(ngModel)]="checkIn"
+                      (click)="checkInPicker.open()"
+                    />
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="checkInPicker"
+                    />
+                    <mat-datepicker #checkInPicker />
+                  </mat-form-field>
+                  <mat-form-field class="col-12 md:col-6">
+                    <mat-label>{{
+                      i18n.t('bookings.booking-form.check-out')
+                    }}</mat-label>
+                    <input
+                      matInput
+                      name="checkOut"
+                      readonly
+                      required
+                      [placeholder]="
+                        i18n.t('bookings.booking-form.date-placeholder')
+                      "
+                      [matDatepicker]="checkOutPicker"
+                      [min]="minCheckOut()"
+                      [(ngModel)]="checkOut"
+                      (click)="checkOutPicker.open()"
+                    />
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="checkOutPicker"
+                    />
+                    <mat-datepicker #checkOutPicker />
+                  </mat-form-field>
+                </div>
+                <small class="text-color-secondary">{{
+                  datesSelected()
+                    ? i18n.t('bookings.bookings-terms.nights', {
+                        count: draft().nights.length,
+                      })
+                    : i18n.t('bookings.booking-form.dates-help')
+                }}</small>
+              </fieldset>
+
+              <fieldset class="flex flex-column gap-3 m-0 p-0 border-none">
+                <legend
+                  class="flex align-items-center gap-2 mb-3 p-0 text-base font-semibold"
+                >
+                  <mat-icon class="text-color-secondary" aria-hidden="true"
+                    >chat</mat-icon
+                  >
+                  <label for="booking-request">{{
+                    i18n.t('bookings.booking-form.guest-request')
+                  }}</label>
+                </legend>
+                <mat-form-field class="w-full">
+                  <textarea
+                    matInput
+                    id="booking-request"
+                    name="guestRequest"
+                    rows="3"
+                    maxlength="300"
+                    cdkTextareaAutosize
+                    [placeholder]="
+                      i18n.t('bookings.booking-form.request-placeholder')
+                    "
+                    [(ngModel)]="guestRequest"
+                  ></textarea>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+
+          <aside class="col-12 lg:col-4">
+            <div
+              class="flex flex-column gap-3 p-4 surface-50 border-1 surface-border border-round-xl"
+            >
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >key</mat-icon
+                >
+                {{ i18n.t('bookings.booking-form.room-and-rate') }}
+              </h3>
+              <mat-form-field class="w-full">
+                <mat-label>{{
+                  i18n.t('bookings.booking-form.guests')
+                }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  name="guests"
+                  min="1"
+                  max="12"
+                  step="1"
+                  required
+                  [(ngModel)]="guests"
+                />
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>{{
+                  i18n.t('bookings.booking-form.room-type')
+                }}</mat-label>
+                <mat-select
+                  name="roomTypeId"
+                  [placeholder]="
+                    i18n.t('bookings.booking-form.room-type-placeholder')
+                  "
+                  [(ngModel)]="roomTypeId"
+                >
+                  <!-- Show the chosen room type even after the guests exceed its capacity. -->
+                  <mat-select-trigger>{{
+                    selectedRoomType()?.name
+                  }}</mat-select-trigger>
+                  @for (option of roomTypeOptions(); track option.roomType.id) {
+                    <mat-option
+                      [value]="option.roomType.id"
+                      [disabled]="option.tooSmall"
+                    >
+                      <span
+                        class="flex align-items-center justify-content-between gap-3 w-full"
+                      >
+                        <span>{{ option.roomType.name }}</span>
+                        <span class="text-sm text-color-secondary">{{
+                          i18n.t('bookings.booking-form.capacity', {
+                            count: option.roomType.capacity,
+                          })
+                        }}</span>
+                      </span>
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>{{
+                  i18n.t('bookings.booking-form.room')
+                }}</mat-label>
+                <mat-select
+                  name="roomId"
+                  [placeholder]="
+                    i18n.t('bookings.booking-form.room-placeholder')
+                  "
+                  [(ngModel)]="roomId"
+                >
+                  <!-- Show the chosen room even when the stay dates make it unavailable. -->
+                  <mat-select-trigger>
+                    @if (selectedRoomOption(); as room) {
+                      <span class="flex align-items-center gap-2">
+                        <span class="font-mono">{{ room.number }}</span>
+                        @if (room.unavailable) {
+                          <span class="text-sm text-red-600">{{
+                            i18n.t('bookings.booking-form.unavailable')
+                          }}</span>
+                        }
+                      </span>
+                    } @else {
+                      —
+                    }
+                  </mat-select-trigger>
+                  @for (option of roomOptions(); track option.id) {
+                    <mat-option
+                      [value]="option.id"
+                      [disabled]="option.unavailable"
+                    >
+                      <span
+                        class="flex align-items-center justify-content-between gap-3 w-full"
+                      >
+                        <span class="font-mono">{{ option.number }}</span>
+                        @if (option.unavailable) {
+                          <span class="text-sm text-color-secondary">{{
+                            i18n.t('bookings.booking-form.unavailable')
+                          }}</span>
+                        }
+                      </span>
+                    </mat-option>
+                  } @empty {
+                    <mat-option disabled>{{
+                      i18n.t('bookings.booking-form.no-rooms')
+                    }}</mat-option>
+                  }
+                </mat-select>
+                @if (!datesSelected()) {
+                  <mat-hint>{{
+                    i18n.t('bookings.booking-form.room-help')
+                  }}</mat-hint>
+                }
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>{{
+                  i18n.t('bookings.booking-form.rate-plan')
+                }}</mat-label>
+                <mat-select
+                  name="ratePlanId"
+                  [placeholder]="
+                    i18n.t('bookings.booking-form.rate-plan-placeholder')
+                  "
+                  [(ngModel)]="ratePlanId"
+                >
+                  @for (plan of ratePlanOptions(); track plan.id) {
+                    <mat-option [value]="plan.id">{{ plan.name }}</mat-option>
+                  } @empty {
+                    <mat-option disabled>{{
+                      i18n.t('bookings.booking-form.no-rate-plans')
+                    }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              @if (selectedRoomUnavailable()) {
+                <app-message severity="error" icon="event_busy">
+                  <div class="flex flex-column gap-1">
+                    <span class="font-semibold">{{
+                      i18n.t('bookings.booking-form.room-unavailable-title')
+                    }}</span>
+                    <span>{{
+                      i18n.t('bookings.bookings-terms.errors.room-unavailable')
+                    }}</span>
+                  </div>
+                </app-message>
+              }
+
+              <mat-divider />
+              <div
+                class="flex align-items-end justify-content-between gap-3"
+                aria-live="polite"
+              >
+                <span
+                  class="flex flex-column gap-1 text-sm text-color-secondary"
+                >
+                  @if (datesSelected()) {
+                    <span>
+                      {{ stay() }} ·
+                      {{
+                        i18n.t('bookings.bookings-terms.nights', {
+                          count: draft().nights.length,
+                        })
+                      }}
+                    </span>
+                  }
+                  <span>{{ selectedRatePlan()?.name }}</span>
+                </span>
+                <span class="flex flex-column align-items-end gap-1">
+                  <span class="text-sm text-color-secondary">{{
+                    i18n.t('bookings.booking-form.estimated-total')
+                  }}</span>
+                  <span class="font-mono text-2xl font-semibold">{{
+                    estimatedTotal() === null ? '—' : money(estimatedTotal()!)
+                  }}</span>
+                </span>
+              </div>
+            </div>
+          </aside>
+
+          <div class="col-12">
+            @if (errorCode() && errorCode() !== 'room-unavailable') {
+              <app-message severity="error" icon="cancel" class="mb-3">
+                {{ i18n.t('bookings.bookings-terms.errors.' + errorCode()) }}
+              </app-message>
+            }
+            <div
+              class="flex justify-content-end gap-2 pt-3 border-top-1 surface-border"
+            >
+              <button
+                mat-stroked-button
+                type="button"
+                [disabled]="store.saving()"
+                (click)="cancel()"
+              >
+                {{ i18n.t('bookings.booking-form.cancel') }}
+              </button>
+              <button
+                mat-flat-button
+                type="submit"
+                [disabled]="store.saving() || selectedRoomUnavailable()"
+              >
+                @if (store.saving()) {
+                  <mat-spinner diameter="18" />
+                } @else {
+                  <mat-icon>{{ isEdit() ? 'check' : 'add' }}</mat-icon>
+                }
+                {{
+                  isEdit()
+                    ? i18n.t('bookings.booking-form.save')
+                    : i18n.t('bookings.booking-form.create')
+                }}
+              </button>
+            </div>
+          </div>
+        </form>
+      }
+    }
+  </ng-template>
+</app-bookings-layout>
