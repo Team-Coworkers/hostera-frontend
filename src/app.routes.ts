@@ -26,6 +26,13 @@ export const routes: Routes = [
       import('./rooms/presentation/rooms.routes').then((m) => m.roomsRoutes),
   },
   {
+    path: 'access-control',
+    loadChildren: () =>
+      import('./access-control/presentation/access-control.routes').then(
+        (m) => m.accessControlRoutes,
+      ),
+  },
+  {
     path: '',
     pathMatch: 'full',
     title: 'Home',

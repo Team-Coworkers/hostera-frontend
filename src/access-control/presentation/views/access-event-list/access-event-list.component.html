@@ -1,0 +1,277 @@
+<app-access-control-layout
+  backLink="/access-control"
+  [title]="i18n.t('access-control.access-event-list.title')"
+>
+  <ng-template layoutBody>
+    <section class="flex flex-column gap-3">
+      <dl
+        class="flex flex-wrap align-items-baseline gap-4 m-0 pb-3 border-bottom-1 surface-border"
+      >
+        <div class="flex align-items-baseline gap-2">
+          <dd class="m-0 text-2xl font-semibold">
+            {{ number(counts().total) }}
+          </dd>
+          <dt class="text-color-secondary">
+            {{
+              selectedDay() === today
+                ? i18n.t('access-control.access-event-list.events-today', {
+                    count: counts().total,
+                  })
+                : i18n.t('access-control.access-event-list.events', {
+                    count: counts().total,
+                  })
+            }}
+          </dt>
+        </div>
+        <div class="flex align-items-baseline gap-2">
+          <dd class="m-0 text-xl font-semibold text-green-700">
+            {{ number(counts().granted) }}
+          </dd>
+          <dt class="text-color-secondary">
+            {{ i18n.t('access-control.access-control-terms.results.granted') }}
+          </dt>
+        </div>
+        <div class="flex align-items-baseline gap-2">
+          <dd class="m-0 text-xl font-semibold text-red-600">
+            {{ number(counts().denied) }}
+          </dd>
+          <dt class="text-color-secondary">
+            {{ i18n.t('access-control.access-control-terms.results.denied') }}
+          </dt>
+        </div>
+      </dl>
+
+      <div class="flex flex-wrap align-items-center gap-2">
+        <mat-form-field class="w-full md:w-18rem">
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input
+            matInput
+            [placeholder]="i18n.t('access-control.access-event-list.search')"
+            [attr.aria-label]="
+              i18n.t('access-control.access-event-list.search')
+            "
+            [(ngModel)]="search"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-11rem">
+          <mat-select
+            [placeholder]="
+              i18n.t('access-control.access-event-list.all-results')
+            "
+            [attr.aria-label]="
+              i18n.t('access-control.access-event-list.result')
+            "
+            [(ngModel)]="resultFilter"
+          >
+            <mat-option [value]="null">{{
+              i18n.t('access-control.access-event-list.all-results')
+            }}</mat-option>
+            @for (value of results; track value) {
+              <mat-option [value]="value">{{
+                i18n.t('access-control.access-control-terms.results.' + value)
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-13rem">
+          <mat-select
+            [placeholder]="
+              i18n.t('access-control.access-event-list.all-access-points')
+            "
+            [attr.aria-label]="
+              i18n.t('access-control.access-event-list.access-point')
+            "
+            [(ngModel)]="accessPointFilter"
+          >
+            <mat-option [value]="null">{{
+              i18n.t('access-control.access-event-list.all-access-points')
+            }}</mat-option>
+            @for (value of accessPoints; track value) {
+              <mat-option [value]="value">{{
+                i18n.t(
+                  'access-control.access-control-terms.access-points.' + value
+                )
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-15rem">
+          <input
+            matInput
+            readonly
+            [attr.aria-label]="i18n.t('access-control.access-event-list.day')"
+            [matDatepicker]="dayPicker"
+            [max]="maxDate"
+            [(ngModel)]="day"
+            (click)="dayPicker.open()"
+          />
+          @if (day()) {
+            <button
+              matIconSuffix
+              mat-icon-button
+              [attr.aria-label]="
+                i18n.t('access-control.access-event-list.clear')
+              "
+              (click)="day.set(null)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+          <mat-datepicker-toggle matIconSuffix [for]="dayPicker" />
+          <mat-datepicker #dayPicker />
+        </mat-form-field>
+        @if (filtersActive()) {
+          <button mat-button (click)="resetFilters()">
+            <mat-icon>filter_alt_off</mat-icon>
+            {{ i18n.t('access-control.access-event-list.clear') }}
+          </button>
+        }
+        <span class="ml-auto text-sm text-color-secondary" aria-live="polite">{{
+          i18n.t('access-control.access-event-list.results', {
+            count: filteredRows().length,
+          })
+        }}</span>
+      </div>
+
+      <div
+        class="surface-card border-1 surface-border border-round-xl overflow-auto"
+      >
+        <table
+          mat-table
+          class="hostera-table"
+          style="min-width: 58rem"
+          [dataSource]="dataSource"
+        >
+          <ng-container matColumnDef="time">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('access-control.access-event-list.time') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="flex flex-column">
+                <span class="font-mono font-semibold white-space-nowrap">{{
+                  time(row.accessEvent.occurredAt)
+                }}</span>
+                <span class="text-sm text-color-secondary">{{
+                  dayLabel(row.day)
+                }}</span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="credential">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('access-control.access-event-list.credential') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="flex flex-column">
+                <span class="font-mono font-semibold">{{
+                  row.accessEvent.cardId
+                }}</span>
+                <span class="text-sm text-color-secondary">{{
+                  i18n.t(
+                    'access-control.access-control-terms.holder-types.' +
+                      row.accessEvent.holderType
+                  )
+                }}</span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="person">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('access-control.access-event-list.person') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.accessEvent.holderName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="accessPoint">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('access-control.access-event-list.access-point') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{
+                i18n.t(
+                  'access-control.access-control-terms.access-points.' +
+                    row.accessEvent.accessPoint
+                )
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="result">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('access-control.access-event-list.result') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span
+                class="flex align-items-start gap-2"
+                [class]="
+                  row.accessEvent.isDenied ? 'text-red-600' : 'text-green-700'
+                "
+              >
+                <mat-icon aria-hidden="true">{{
+                  row.accessEvent.isDenied ? 'block' : 'login'
+                }}</mat-icon>
+                <span class="flex flex-column">
+                  <span class="font-medium">{{
+                    i18n.t(
+                      'access-control.access-control-terms.results.' +
+                        row.accessEvent.result
+                    )
+                  }}</span>
+                  @if (row.accessEvent.isDenied) {
+                    <span class="text-sm text-color-secondary">{{
+                      i18n.t(
+                        'access-control.access-control-terms.denial-reasons.' +
+                          row.accessEvent.denialReason
+                      )
+                    }}</span>
+                  }
+                </span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="access">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('access-control.access-event-list.access') }}
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.access }}</td>
+          </ng-container>
+          <ng-container matColumnDef="open">
+            <th mat-header-cell *matHeaderCellDef style="width: 1%"></th>
+            <td mat-cell *matCellDef="let row">
+              <mat-icon class="text-color-secondary" aria-hidden="true"
+                >chevron_right</mat-icon
+              >
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            class="clickable"
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="openEvent(row.accessEvent)"
+          ></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              <div
+                class="empty-state flex flex-column align-items-center gap-2 py-6 text-center"
+              >
+                <mat-icon aria-hidden="true">history</mat-icon>
+                <span class="font-medium">{{
+                  i18n.t('access-control.access-event-list.empty-title')
+                }}</span>
+                <span class="text-sm text-color-secondary">{{
+                  i18n.t('access-control.access-event-list.empty-text')
+                }}</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <mat-paginator
+          [pageSize]="12"
+          [hidePageSize]="true"
+          [class.hidden]="filteredRows().length <= 12"
+        />
+      </div>
+    </section>
+  </ng-template>
+</app-access-control-layout>
