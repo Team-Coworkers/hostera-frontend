@@ -1,0 +1,107 @@
+<app-drawer-header
+  [title]="
+    isEdit
+      ? i18n.t('rooms.room-form.edit-title', { number: room?.number })
+      : i18n.t('rooms.room-form.new-title')
+  "
+  [subtitle]="store.currentProperty()?.name ?? ''"
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('rooms.room-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="room-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="saveRoom()"
+  >
+    <div class="grid">
+      <mat-form-field class="col-12 sm:col-7">
+        <mat-label>{{ i18n.t('rooms.room-form.number') }}</mat-label>
+        <input
+          matInput
+          name="number"
+          class="font-mono"
+          required
+          maxlength="10"
+          cdkFocusInitial
+          [placeholder]="i18n.t('rooms.room-form.number-placeholder')"
+          [(ngModel)]="number"
+        />
+      </mat-form-field>
+      <mat-form-field class="col-12 sm:col-5">
+        <mat-label>{{ i18n.t('rooms.room-form.floor') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          name="floor"
+          min="-5"
+          max="200"
+          step="1"
+          [(ngModel)]="floor"
+        />
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.room-form.room-type') }}</mat-label>
+      <mat-select
+        name="roomTypeId"
+        [placeholder]="i18n.t('rooms.room-form.room-type-placeholder')"
+        [(ngModel)]="roomTypeId"
+      >
+        @for (option of roomTypeOptions(); track option.id) {
+          <mat-option [value]="option.id">
+            <span class="flex flex-column">
+              <span class="font-medium">{{ option.name }}</span>
+              <span class="text-sm text-color-secondary">{{
+                summary(option, 'rooms.room-form.room-type-summary')
+              }}</span>
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+      @if (selectedRoomType(); as roomType) {
+        <mat-hint>{{ summary(roomType, 'rooms.room-form.inherits') }}</mat-hint>
+      }
+    </mat-form-field>
+    @if (!roomTypeOptions().length) {
+      <app-message severity="warn">
+        {{ i18n.t('rooms.room-form.no-room-types') }}
+      </app-message>
+    }
+    @if (!isEdit) {
+      <app-message severity="secondary" icon="check_circle">
+        {{ i18n.t('rooms.room-form.starts-available') }}
+      </app-message>
+    }
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('rooms.rooms-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('rooms.room-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="room-form"
+    [disabled]="store.saving() || !roomTypeOptions().length"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>save</mat-icon>
+    }
+    {{ i18n.t('rooms.room-form.save') }}
+  </button>
+</mat-dialog-actions>

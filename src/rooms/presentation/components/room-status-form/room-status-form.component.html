@@ -1,0 +1,125 @@
+<app-drawer-header
+  [title]="i18n.t('rooms.room-status-form.title')"
+  [subtitle]="
+    i18n.t('rooms.rooms-terms.room-number', { number: data.room.number })
+  "
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('rooms.room-status-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="room-status-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="saveStatus()"
+  >
+    @if (currentStatusPeriod; as period) {
+      <div
+        class="flex flex-column gap-2 p-3 surface-50 border-1 surface-border border-round-lg"
+      >
+        <span class="text-sm text-color-secondary">{{
+          i18n.t('rooms.room-status-form.current')
+        }}</span>
+        <div class="flex flex-wrap align-items-center gap-2">
+          <app-day-status-tag [status]="period.status" />
+          <span class="text-sm">{{
+            formatDayRange(period.startDate, period.endDate, i18n.locale())
+          }}</span>
+        </div>
+        <span class="line-height-3">{{ period.reason }}</span>
+      </div>
+    }
+
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.room-status-form.status') }}</mat-label>
+      <mat-select name="status" [(ngModel)]="status">
+        <mat-select-trigger>
+          <span class="flex align-items-center gap-2">
+            <mat-icon aria-hidden="true">{{ statusIcons[status()] }}</mat-icon>
+            {{ i18n.t('rooms.rooms-terms.day-statuses.' + status()) }}
+          </span>
+        </mat-select-trigger>
+        @for (value of statuses; track value) {
+          <mat-option [value]="value">
+            <mat-icon aria-hidden="true">{{ statusIcons[value] }}</mat-icon>
+            {{ i18n.t('rooms.rooms-terms.day-statuses.' + value) }}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-hint>{{
+        i18n.t('rooms.room-status-form.help.' + status())
+      }}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.room-status-form.dates') }}</mat-label>
+      <mat-date-range-input [rangePicker]="datesPicker">
+        <input
+          matStartDate
+          name="startDate"
+          readonly
+          [(ngModel)]="startDate"
+          (click)="datesPicker.open()"
+        />
+        <input
+          matEndDate
+          name="endDate"
+          readonly
+          [(ngModel)]="endDate"
+          (click)="datesPicker.open()"
+        />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="datesPicker" />
+      <mat-date-range-picker #datesPicker />
+      <mat-hint>{{ i18n.t('rooms.room-status-form.dates-help') }}</mat-hint>
+    </mat-form-field>
+
+    @if (!releasing()) {
+      <mat-form-field class="w-full">
+        <mat-label>{{ i18n.t('rooms.room-status-form.reason') }}</mat-label>
+        <textarea
+          matInput
+          name="reason"
+          rows="3"
+          maxlength="200"
+          required
+          cdkTextareaAutosize
+          [placeholder]="i18n.t('rooms.room-status-form.reason-placeholder')"
+          [(ngModel)]="reason"
+        ></textarea>
+      </mat-form-field>
+    }
+    <app-message severity="secondary" icon="lock">
+      {{ i18n.t('rooms.room-status-form.booking-note') }}
+    </app-message>
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('rooms.rooms-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('rooms.room-status-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="room-status-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>check</mat-icon>
+    }
+    {{ i18n.t('rooms.room-status-form.save') }}
+  </button>
+</mat-dialog-actions>
