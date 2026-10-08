@@ -1,0 +1,232 @@
+<app-bookings-layout>
+  <a layoutActions mat-flat-button routerLink="/bookings/new">
+    <mat-icon>add</mat-icon>
+    {{ i18n.t('bookings.booking-list.new') }}
+  </a>
+
+  <ng-template layoutBody>
+    <section class="flex flex-column gap-3">
+      <div class="flex flex-wrap align-items-center gap-2">
+        <mat-form-field class="w-full md:w-20rem">
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input
+            matInput
+            [placeholder]="i18n.t('bookings.booking-list.search')"
+            [attr.aria-label]="i18n.t('bookings.booking-list.search')"
+            [(ngModel)]="search"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-12rem">
+          <mat-select
+            [attr.aria-label]="i18n.t('bookings.booking-list.period')"
+            [(ngModel)]="period"
+          >
+            @for (value of periods; track value) {
+              <mat-option [value]="value">{{
+                i18n.t('bookings.booking-list.periods.' + value)
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-12rem">
+          <mat-select
+            [placeholder]="i18n.t('bookings.booking-list.all-statuses')"
+            [attr.aria-label]="i18n.t('bookings.booking-list.status')"
+            [(ngModel)]="statusFilter"
+          >
+            <mat-option [value]="null">{{
+              i18n.t('bookings.booking-list.all-statuses')
+            }}</mat-option>
+            @for (value of statuses; track value) {
+              <mat-option [value]="value">{{
+                i18n.t('bookings.bookings-terms.statuses.' + value)
+              }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        @if (filtersActive()) {
+          <button mat-button (click)="resetFilters()">
+            <mat-icon>filter_alt_off</mat-icon>
+            {{ i18n.t('bookings.booking-list.clear') }}
+          </button>
+        }
+        <span class="ml-auto text-sm text-color-secondary" aria-live="polite">{{
+          i18n.t('bookings.booking-list.results', {
+            count: filteredRows().length,
+          })
+        }}</span>
+      </div>
+
+      @if (!filteredRows().length) {
+        <div
+          class="empty-state flex flex-column align-items-center gap-2 py-6 text-center border-1 surface-border border-round-xl"
+        >
+          <mat-icon aria-hidden="true">calendar_month</mat-icon>
+          <span class="font-medium">{{
+            i18n.t('bookings.booking-list.empty-title')
+          }}</span>
+          <span class="text-sm text-color-secondary">{{
+            store.bookings().length
+              ? i18n.t('bookings.booking-list.empty-filtered')
+              : i18n.t('bookings.booking-list.empty-text')
+          }}</span>
+        </div>
+      } @else if (compact()) {
+        <ul
+          class="list-none m-0 p-0 surface-card border-1 surface-border border-round-xl overflow-hidden"
+        >
+          @for (row of filteredRows(); track row.id; let index = $index) {
+            <li [class.border-top-1]="index > 0" class="surface-border">
+              <a
+                [routerLink]="['/bookings', row.booking.id]"
+                class="flex flex-column gap-2 px-3 py-3 text-color"
+              >
+                <span
+                  class="flex align-items-start justify-content-between gap-2"
+                >
+                  <span class="flex flex-column min-w-0">
+                    <span
+                      class="font-semibold white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                      >{{ row.booking.guestName }}</span
+                    >
+                    <span class="font-mono text-sm text-color-secondary">{{
+                      row.booking.code
+                    }}</span>
+                  </span>
+                  <app-booking-status-tag [status]="row.booking.status" />
+                </span>
+                <span
+                  class="flex flex-wrap justify-content-between gap-2 text-sm text-color-secondary"
+                >
+                  <span>{{ stay(row.booking) }}</span>
+                  <span>{{
+                    i18n.t('bookings.bookings-terms.room-number', {
+                      number: row.room?.number ?? '—',
+                    })
+                  }}</span>
+                </span>
+              </a>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div
+          class="surface-card border-1 surface-border border-round-xl overflow-auto"
+        >
+          <table
+            mat-table
+            class="hostera-table"
+            style="min-width: 56rem"
+            [dataSource]="dataSource"
+            matSort
+            matSortActive="stay"
+            matSortDirection="desc"
+          >
+            <ng-container matColumnDef="guest">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ i18n.t('bookings.booking-list.guest') }}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <span class="flex flex-column">
+                  <a
+                    [routerLink]="['/bookings', row.booking.id]"
+                    class="font-semibold text-color hover:text-primary"
+                    (click)="$event.stopPropagation()"
+                    >{{ row.booking.guestName }}</a
+                  >
+                  <span class="font-mono text-sm text-color-secondary">{{
+                    row.booking.code
+                  }}</span>
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="stay">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ i18n.t('bookings.booking-list.stay') }}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <span class="flex flex-column">
+                  <span class="white-space-nowrap">{{
+                    stay(row.booking)
+                  }}</span>
+                  <span class="text-sm text-color-secondary">{{
+                    i18n.t('bookings.bookings-terms.nights', {
+                      count: row.nightsCount,
+                    })
+                  }}</span>
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="room">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ i18n.t('bookings.booking-list.room') }}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <span class="flex flex-column">
+                  <span class="font-mono font-semibold">{{
+                    row.room?.number ?? '—'
+                  }}</span>
+                  <span class="text-sm text-color-secondary">{{
+                    row.roomType?.name
+                  }}</span>
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ i18n.t('bookings.booking-list.status') }}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <app-booking-status-tag [status]="row.booking.status" />
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="payment">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ i18n.t('bookings.booking-list.payment') }}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <app-payment-status-tag [status]="row.paymentStatus" />
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="total">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                arrowPosition="before"
+                class="text-right"
+              >
+                {{ i18n.t('bookings.booking-list.total') }}
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-right">
+                <span class="font-mono white-space-nowrap">{{
+                  money(row.booking.totalAmount)
+                }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="open">
+              <th mat-header-cell *matHeaderCellDef style="width: 1%"></th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >chevron_right</mat-icon
+                >
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              class="clickable"
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="openBooking(row.booking)"
+            ></tr>
+          </table>
+          <mat-paginator
+            [pageSize]="10"
+            [hidePageSize]="true"
+            [class.hidden]="filteredRows().length <= 10"
+          />
+        </div>
+      }
+    </section>
+  </ng-template>
+</app-bookings-layout>
