@@ -21,6 +21,14 @@ export const roomsRoutes: Routes = [
       ),
   },
   {
+    path: 'rates',
+    title: 'Rates',
+    loadComponent: () =>
+      import('./views/room-rates/room-rates.component').then(
+        (m) => m.RoomRatesComponent,
+      ),
+  },
+  {
     matcher: numericIdMatcher(),
     title: 'Room',
     loadComponent: () =>
