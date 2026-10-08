@@ -1,1 +1,281 @@
-/* Global styles: the Hostera theme on Angular Material is added next. */
+@use '@angular/material' as mat;
+@use './theme-colors' as hostera;
+
+/*
+ * Hostera theme: Angular Material 3 with the palette generated from the Paper design system
+ * tokens (`ng generate @angular/material:theme-color`), plus the CSS variables PrimeFlex reads,
+ * so the layout utilities of the Vue templates keep their Hostera colors.
+ */
+html {
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: (
+        primary: hostera.$primary-palette,
+        tertiary: hostera.$tertiary-palette,
+        theme-type: light,
+      ),
+      typography: (
+        plain-family: 'Geist, system-ui, -apple-system, Segoe UI, sans-serif',
+        brand-family: 'Geist, system-ui, -apple-system, Segoe UI, sans-serif',
+      ),
+      density: -1,
+    )
+  );
+  // Compact form fields for the operational screens, as PrimeVue's inputs.
+  @include mat.form-field-density(-4);
+}
+
+:root {
+  // Hostera design tokens from the Paper design system (the PrimeVue preset of the Vue version).
+  --p-primary-50: #eef7f2;
+  --p-primary-100: #d5ebe0;
+  --p-primary-200: #aed8c4;
+  --p-primary-300: #82c2a5;
+  --p-primary-400: #4f9e7f;
+  --p-primary-500: #2d7a5d;
+  --p-primary-600: #1e6a4f;
+  --p-primary-700: #14523e;
+  --p-primary-800: #0e4030;
+  --p-primary-900: #0a3024;
+  --p-primary-950: #051a14;
+  --p-primary-color: var(--p-primary-700);
+  --p-primary-contrast-color: #ffffff;
+  --p-surface-0: #ffffff;
+  --p-surface-50: #f9fbfa;
+  --p-surface-100: #f3f6f4;
+  --p-surface-200: #e7ece9;
+  --p-surface-300: #c6cfca;
+  --p-surface-400: #9aa6a0;
+  --p-surface-500: #6e7b75;
+  --p-surface-600: #5b6862;
+  --p-surface-700: #3f4a45;
+  --p-surface-800: #2a302e;
+  --p-surface-900: #18201d;
+  --p-surface-950: #0d1613;
+  --p-text-color: var(--p-surface-950);
+  --p-text-muted-color: var(--p-surface-600);
+  --p-content-border-radius: 6px;
+  --p-red-50: #fef2f2;
+  --p-red-500: #ef4444;
+  --p-red-600: #dc2626;
+  --p-red-700: #b91c1c;
+  --p-green-400: #4ade80;
+  --p-blue-400: #60a5fa;
+  --p-orange-400: #fb923c;
+  --p-red-400: #f87171;
+  --p-green-50: #f0fdf4;
+  --p-green-500: #22c55e;
+  --p-green-600: #16a34a;
+  --p-green-700: #15803d;
+  --p-orange-50: #fff7ed;
+  --p-orange-500: #f97316;
+  --p-orange-600: #ea580c;
+  --p-orange-700: #c2410c;
+
+  // Material components follow the Hostera primary and surfaces.
+  --mat-sys-primary: var(--p-primary-700);
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-surface: var(--p-surface-0);
+  --mat-sys-on-surface: var(--p-text-color);
+  --mat-sys-on-surface-variant: var(--p-text-muted-color);
+  --mat-sys-outline-variant: var(--p-surface-200);
+
+  // Soft status chips: tinted background with a darker same-hue label (AA contrast).
+  --hostera-tag-primary-bg: var(--p-primary-100);
+  --hostera-tag-primary-fg: var(--p-primary-800);
+  --hostera-tag-success-bg: #dcf5e3;
+  --hostera-tag-success-fg: #1b6e37;
+  --hostera-tag-warn-bg: #fdebd3;
+  --hostera-tag-warn-fg: #a8430d;
+  --hostera-tag-danger-bg: #fbe1e1;
+  --hostera-tag-danger-fg: #b0261c;
+  --hostera-tag-info-bg: #e1eefa;
+  --hostera-tag-info-fg: #1d5a91;
+  --hostera-tag-secondary-bg: var(--p-surface-100);
+  --hostera-tag-secondary-fg: var(--p-surface-700);
+}
+
+/* Global styles for what PrimeFlex utilities and Material tokens do not cover. */
+:root {
+  font-family:
+    'Geist',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  color: var(--p-text-color);
+  background-color: var(--p-surface-50);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* PrimeFlex scales with rem; a 14px root gives a denser operational UI. */
+html {
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Codes and quantities use the design system's monospaced typeface. */
+.font-mono {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+}
+
+.tracking-tight {
+  letter-spacing: -0.02em;
+}
+
+/* Material Symbols sized like the PrimeIcons they replace. */
+.mat-icon.hostera-icon,
+mat-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+mat-icon.text-lg {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+mat-icon.text-sm {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Cards of the workspaces, as PrimeVue Card. */
+.hostera-card {
+  background: var(--p-surface-0);
+  border: 1px solid var(--p-surface-200);
+  border-radius: 0.75rem;
+}
+
+/* Full-width form fields inside the PrimeFlex grid. */
+.mat-mdc-form-field.w-full {
+  width: 100%;
+}
+
+/* Tables keep the card background and a compact row height. */
+.mat-mdc-table.hostera-table {
+  background: transparent;
+}
+
+.hostera-table .mat-mdc-row.clickable {
+  cursor: pointer;
+}
+
+.hostera-table .mat-mdc-row.clickable:hover {
+  background: var(--p-surface-50);
+}
+
+/* Toasts: snack bar variants for success and error. */
+.mat-mdc-snack-bar-container.hostera-toast-error {
+  --mdc-snackbar-container-color: var(--hostera-tag-danger-fg);
+}
+
+.mat-mdc-snack-bar-container.hostera-toast-success {
+  --mdc-snackbar-container-color: var(--p-primary-700);
+}
+
+/* Right-side sheets keep a full-height column with a scrolling body. */
+.hostera-drawer .mat-mdc-dialog-surface {
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hostera-drawer .mat-mdc-dialog-content {
+  flex: 1;
+  max-height: none;
+}
+
+/* Danger buttons, as PrimeVue's danger severity. */
+.mat-mdc-unelevated-button.danger-button:not(:disabled) {
+  --mdc-filled-button-container-color: var(--hostera-tag-danger-fg);
+  --mdc-filled-button-label-text-color: #fff;
+}
+
+.mat-mdc-outlined-button.danger-button:not(:disabled) {
+  --mdc-outlined-button-label-text-color: var(--hostera-tag-danger-fg);
+}
+
+/* Description lists of facts. */
+dl.facts dt {
+  color: var(--p-text-muted-color);
+}
+
+dl.facts dd {
+  margin: 0;
+}
+
+/* Empty states inside cards. */
+.empty-state mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: var(--p-text-muted-color);
+}
+
+/* Menu items with a caption under the label. */
+.mat-mdc-menu-item .menu-caption {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--p-text-muted-color);
+  line-height: 1.2;
+}
+
+/* Rounded buttons, as PrimeVue's rounded buttons. */
+.mat-mdc-button-base {
+  --mdc-filled-button-container-shape: 999px;
+  --mdc-outlined-button-container-shape: 999px;
+  --mdc-text-button-container-shape: 999px;
+}
+
+.mat-mdc-button-base.w-full {
+  width: 100%;
+}
+
+.mat-mdc-table.hostera-table {
+  width: 100%;
+}
+
+/* Steppers sit on the page background, as PrimeVue's transparent step panels. */
+.mat-stepper-horizontal.check-in-stepper {
+  background: transparent;
+}
+
+.check-in-stepper .mat-horizontal-content-container {
+  padding: 1rem 0 0;
+}
