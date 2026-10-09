@@ -119,6 +119,10 @@ Open `/access-control` to review a property's RFID credentials (guest key cards 
 
 The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in production builds and turns on `demoApiEnabled`, so the deployed SPA answers its API requests in the browser (see below). Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). When the Spring Boot RESTful API is deployed, `environment.production.ts` sets `demoApiEnabled` to false and points `hosteraApiUrl` to the API.
 
+## External service
+
+The Rooms context calls [Nager.Date](https://date.nager.at), a free third-party API of public holidays that needs no key, through `src/rooms/infrastructure/public-holidays-api.service.ts` (`GET /api/v3/PublicHolidays/{year}/PE`). The availability view flags the public holidays of the visible days, because they change hotel demand. `publicHolidaysApiUrl` and `publicHolidaysCountryCode` in `src/environments/` configure it; if the API cannot be reached, the view shows no holidays.
+
 ## Deployment
 
 The SPA is published on GitHub Pages at <https://team-coworkers.github.io/hostera-frontend/>.

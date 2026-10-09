@@ -17,6 +17,33 @@
         [(startDate)]="startDate"
       />
 
+      @if (visibleHolidays().length) {
+        <app-message severity="info" icon="celebration">
+          <span class="font-medium">{{
+            i18n.t('rooms.room-availability.holidays-title')
+          }}</span>
+          <ul class="list-none m-0 mt-1 p-0 flex flex-column gap-1">
+            @for (holiday of visibleHolidays(); track holiday.date) {
+              <li>
+                {{
+                  i18n.t('rooms.room-availability.holiday', {
+                    date: day(holiday.date, {
+                      weekday: 'short',
+                      day: 'numeric',
+                      month: 'short',
+                    }),
+                    name: holiday.displayName(i18n.locale()),
+                  })
+                }}
+              </li>
+            }
+          </ul>
+          <span class="block mt-1 text-sm text-color-secondary">{{
+            i18n.t('rooms.room-availability.holidays-source')
+          }}</span>
+        </app-message>
+      }
+
       <div class="flex flex-column gap-2">
         <span id="status-filter-label" class="text-sm text-color-secondary">{{
           i18n.t('rooms.room-availability.status-on', {
@@ -192,9 +219,18 @@
                         ? i18n.t('rooms.room-availability.today')
                         : day(dayValue, { weekday: 'short' })
                     }}</span>
-                    <span class="font-semibold">{{
-                      day(dayValue, { day: 'numeric', month: 'short' })
-                    }}</span>
+                    <span class="flex align-items-center gap-1 font-semibold"
+                      >{{ day(dayValue, { day: 'numeric', month: 'short' }) }}
+                      @if (holidayName(dayValue); as name) {
+                        <mat-icon
+                          class="holiday-icon"
+                          [matTooltip]="name"
+                          [attr.aria-label]="name"
+                          role="img"
+                          >celebration</mat-icon
+                        >
+                      }
+                    </span>
                   </span>
                 </th>
                 <td

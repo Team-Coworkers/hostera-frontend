@@ -21,4 +21,7 @@ export const environment = {
   accessEventsEndpointPath: '/access-events',
   ratePlansEndpointPath: '/rate-plans',
   dailyRatesEndpointPath: '/daily-rates',
+  /** Nager.Date, the third-party public holidays API, and the properties' country. */
+  publicHolidaysApiUrl: 'https://date.nager.at/api/v3',
+  publicHolidaysCountryCode: 'PE',
 };

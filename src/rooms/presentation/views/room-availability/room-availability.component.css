@@ -32,3 +32,10 @@
 .status-filter {
   --mat-standard-button-toggle-height: 2.25rem;
 }
+
+.holiday-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+  color: var(--p-primary-color);
+}
