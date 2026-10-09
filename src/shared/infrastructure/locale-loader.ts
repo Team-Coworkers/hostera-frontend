@@ -87,7 +87,7 @@ export class LocaleLoader implements TranslateLoader {
   private readonly http = inject(HttpClient);
 
   /**
-   * @param lang - Language code, such as `en` or `es`.
+   * @param lang - Language code, such as `en` or `es-419`.
    * @returns Messages of the language.
    */
   getTranslation(lang: string): Observable<TranslationObject> {

@@ -1,11 +1,21 @@
+import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { InterpolationParameters, TranslateService } from '@ngx-translate/core';
 
-/** Languages offered by the language switcher, as `availableLocales` in the Vue version. */
-export const availableLocales = ['en', 'es'] as const;
+/**
+ * Languages offered by the language switcher: English, the default, and Latin American
+ * Spanish (BCP 47 `es-419`). Their message files live in `src/locales/<locale>/`.
+ */
+export const availableLocales = ['en', 'es-419'] as const;
 export type AppLocale = (typeof availableLocales)[number];
+
+/** Short label of each language in the language switcher. */
+export const localeLabels: Record<AppLocale, string> = {
+  en: 'EN',
+  'es-419': 'ES',
+};
 
 /**
  * Signal-friendly facade over ngx-translate, replacing `useI18n()` of the Vue version.
@@ -19,6 +29,7 @@ export class I18nService {
   private readonly translate = inject(TranslateService);
   private readonly dateAdapter = inject(DateAdapter);
   private readonly paginatorIntl = inject(MatPaginatorIntl);
+  private readonly document = inject(DOCUMENT);
 
   /** Active locale, used for messages and for `Intl` date and currency formats. */
   readonly locale = signal<AppLocale>('en');
@@ -40,6 +51,7 @@ export class I18nService {
    */
   use(locale: AppLocale): void {
     this.locale.set(locale);
+    this.document.documentElement.lang = locale;
     this.dateAdapter.setLocale(locale);
     this.translate.use(locale);
   }
