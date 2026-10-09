@@ -137,6 +137,16 @@ The deployed SPA reads its data from the same fixtures as the local mock API. Th
 
 The mock API can also be published on Render as `team-coworkers-hostera-api` from `render.yaml`; see [server/README.md](server/README.md#demonstration-deployment-on-render). To use it, set `demoApiEnabled` to false in `environment.production.ts`.
 
+## Tests
+
+Unit tests use Jasmine and Karma, configured by the Angular CLI. Each `.spec.ts` file sits next to the class it tests: the domain model of IAM, Bookings and Inventory, the Nager.Date assembler, and the in-browser demonstration API.
+
+```bash
+npm test -- --watch=false --browsers=ChromeHeadless
+```
+
+The workflow in `.github/workflows/test.yml` runs them on every push and pull request to `main` and `develop`.
+
 ## Code quality
 
 Run `npm run build` and `npm run format:check` before committing. The production build type-checks every component template. Prettier uses single quotes and semicolons for TypeScript and the Angular parser for templates.
