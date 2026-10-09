@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { AppLayoutComponent } from './shared/presentation/components/app-layout/app-layout.component';
+import { RouterOutlet } from '@angular/router';
 import { I18nService } from './shared/presentation/i18n.service';
 
-/** Root component: the application layout around the routed workspaces. */
+/** Root component: the public IAM views or the application shell, chosen by the route. */
 @Component({
   selector: 'app-root',
-  imports: [AppLayoutComponent],
-  template: `<app-layout />`,
+  imports: [RouterOutlet],
+  template: `<router-outlet />`,
 })
 export class AppComponent {
   constructor() {
