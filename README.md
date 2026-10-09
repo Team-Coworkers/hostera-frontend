@@ -117,7 +117,7 @@ Open `/access-control` to review a property's RFID credentials (guest key cards 
 
 ## Environment
 
-The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in production builds and turns on `demoApiEnabled`, so the deployed SPA answers its API requests in the browser (see below). Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). When the Spring Boot RESTful API is deployed, `environment.production.ts` sets `demoApiEnabled` to false and points `hosteraApiUrl` to the API.
+The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in production builds and points `hosteraApiUrl` to the demonstration mock API on Render, `https://team-coworkers-hostera-api.onrender.com` (see below). Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). When the Spring Boot RESTful API is deployed, `hosteraApiUrl` in `environment.production.ts` is the only value that changes.
 
 ## External service
 
@@ -133,9 +133,9 @@ Following Git Flow, a deployment happens when a release is merged into `main`.
 
 ### Demonstration mock API
 
-The deployed SPA reads its data from the same fixtures as the local mock API. The build copies `server/data/*.json` to `demo-data/`, and `src/shared/infrastructure/demo-api.interceptor.ts` answers the requests to `hosteraApiUrl` from them inside the browser, with the JSON Server filters (`propertyId=1`, `_sort`, `_order`, `_limit`) and `GET`, `POST`, `PUT`, `PATCH` and `DELETE` by id. Changes last until the page is reloaded.
+The deployed SPA reads its data from a copy of the local mock API published on Render as `team-coworkers-hostera-api`, defined in `render.yaml`; see [server/README.md](server/README.md#demonstration-deployment-on-render). On Render's free plan the service sleeps after 15 minutes without requests, so the first request after a pause can take about a minute.
 
-The mock API can also be published on Render as `team-coworkers-hostera-api` from `render.yaml`; see [server/README.md](server/README.md#demonstration-deployment-on-render). To use it, set `demoApiEnabled` to false in `environment.production.ts`.
+As a fallback that needs no server, `environment.production.ts` can set `demoApiEnabled` to true: the build copies `server/data/*.json` to `demo-data/`, and `src/shared/infrastructure/demo-api.interceptor.ts` answers the requests to `hosteraApiUrl` from them inside the browser, with the JSON Server filters (`propertyId=1`, `_sort`, `_order`, `_limit`) and `GET`, `POST`, `PUT`, `PATCH` and `DELETE` by id.
 
 ## Tests
 
