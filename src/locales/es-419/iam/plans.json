@@ -1,0 +1,20 @@
+{
+  "starter": {
+    "name": "Starter",
+    "scope": "Para una propiedad con hasta 10 habitaciones.",
+    "rate": "S/{price} por propiedad / mes",
+    "i1": "Reservas y disponibilidad básicas",
+    "i2": "Almacén sin alertas automáticas",
+    "i3": "Un lector RFID simulado",
+    "i4": "Un administrador"
+  },
+  "professional": {
+    "name": "Professional",
+    "scope": "Para cadenas hoteleras de 2 a 5 sedes.",
+    "rate": "S/{price} por habitación / mes entre todos tus hoteles",
+    "i1": "Habitaciones ilimitadas entre sedes",
+    "i2": "Alertas automáticas de stock crítico",
+    "i3": "Hasta 25 lectores RFID",
+    "i4": "Reportes por sede y cinco administradores con roles"
+  }
+}

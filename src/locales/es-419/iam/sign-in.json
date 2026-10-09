@@ -1,0 +1,15 @@
+{
+  "title": "Inicia sesión en Hostera",
+  "subtitle": "Usa tu correo de trabajo para abrir el espacio de tu hotel.",
+  "email": "Correo de trabajo",
+  "password": "Contraseña",
+  "show-password": "Mostrar contraseña",
+  "hide-password": "Ocultar contraseña",
+  "required": "Ingresa tu correo de trabajo y tu contraseña.",
+  "submit": "Iniciar sesión",
+  "demo-notice": "Versión de demostración: cualquier correo y contraseña abren el espacio de trabajo con datos de ejemplo. Las cuentas llegarán con la RESTful API de Hostera.",
+  "demo-summary": "Sesión de demostración iniciada",
+  "demo-detail": "Estás viendo datos de ejemplo.",
+  "no-account": "¿Eres nuevo en Hostera?",
+  "create-account": "Elige un plan y crea una cuenta"
+}

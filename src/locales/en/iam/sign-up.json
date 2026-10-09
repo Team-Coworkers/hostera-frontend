@@ -1,0 +1,25 @@
+{
+  "title": "Create your Hostera account",
+  "subtitle": "Choose the plan for your operating scale and tell us about your hotel.",
+  "plan-legend": "Plan",
+  "account-legend": "Your account",
+  "estimate-label": "Estimated monthly price",
+  "per-month": "per month",
+  "properties": "Properties",
+  "rooms": "Total rooms",
+  "full-name": "Full name",
+  "email": "Work e-mail",
+  "organization": "Hotel or chain name",
+  "demo-notice": "Demonstration version: the account is not stored yet, and the workspace opens with sample data.",
+  "submit": "Create account",
+  "has-account": "Already have an account?",
+  "sign-in": "Sign in",
+  "created-summary": "Account ready",
+  "created-detail": "Your {plan} workspace opens with sample data.",
+  "errors": {
+    "full-name-required": "Enter your full name.",
+    "email-invalid": "Enter a valid work e-mail.",
+    "organization-required": "Enter the name of your hotel or chain.",
+    "plan-does-not-fit": "{plan} does not cover that number of properties and rooms. Check the plan scope or choose another plan."
+  }
+}

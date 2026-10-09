@@ -1,0 +1,25 @@
+{
+  "title": "Crea tu cuenta de Hostera",
+  "subtitle": "Elige el plan para tu escala de operación y cuéntanos sobre tu hotel.",
+  "plan-legend": "Plan",
+  "account-legend": "Tu cuenta",
+  "estimate-label": "Precio mensual estimado",
+  "per-month": "al mes",
+  "properties": "Propiedades",
+  "rooms": "Habitaciones en total",
+  "full-name": "Nombre completo",
+  "email": "Correo de trabajo",
+  "organization": "Nombre del hotel o de la cadena",
+  "demo-notice": "Versión de demostración: la cuenta todavía no se guarda y el espacio de trabajo se abre con datos de ejemplo.",
+  "submit": "Crear cuenta",
+  "has-account": "¿Ya tienes una cuenta?",
+  "sign-in": "Inicia sesión",
+  "created-summary": "Cuenta lista",
+  "created-detail": "Tu espacio {plan} se abre con datos de ejemplo.",
+  "errors": {
+    "full-name-required": "Ingresa tu nombre completo.",
+    "email-invalid": "Ingresa un correo de trabajo válido.",
+    "organization-required": "Ingresa el nombre de tu hotel o de tu cadena.",
+    "plan-does-not-fit": "{plan} no cubre esa cantidad de propiedades y habitaciones. Revisa el alcance del plan o elige otro plan."
+  }
+}

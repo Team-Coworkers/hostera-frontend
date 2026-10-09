@@ -1,10 +1,13 @@
 import { Routes } from '@angular/router';
+import { iamRoutes } from './iam/presentation/iam.routes';
+import { AppLayoutComponent } from './shared/presentation/components/app-layout/app-layout.component';
 
 /**
- * Application routes. Each bounded context lazy-loads its own routes, and each view
- * is a lazy standalone component; `title` replaces the `meta.title` of the Vue router.
+ * Workspace routes, shown inside the application shell. Each bounded context lazy-loads
+ * its own routes, and each view is a lazy standalone component; `title` replaces the
+ * `meta.title` of the Vue router.
  */
-export const routes: Routes = [
+const workspaceRoutes: Routes = [
   {
     path: 'inventory',
     loadChildren: () =>
@@ -47,5 +50,14 @@ export const routes: Routes = [
         (m) => m.overviewRoutes,
       ),
   },
+];
+
+/**
+ * Application routes: the public IAM views, opened from the landing page, and the
+ * workspace inside the application shell.
+ */
+export const routes: Routes = [
+  ...iamRoutes,
+  { path: '', component: AppLayoutComponent, children: workspaceRoutes },
   { path: '**', redirectTo: '' },
 ];

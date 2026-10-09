@@ -17,6 +17,7 @@ export const localeNamespaces: Record<string, string[]> = {
     'sidebar-toggle',
     'primevue-locale',
   ],
+  iam: ['plans', 'sign-in', 'sign-up'],
   inventory: [
     'inventory-terms',
     'inventory-layout',
