@@ -1,0 +1,15 @@
+{
+  "title": "Sign in to Hostera",
+  "subtitle": "Use your work e-mail to open your hotel's workspace.",
+  "email": "Work e-mail",
+  "password": "Password",
+  "show-password": "Show password",
+  "hide-password": "Hide password",
+  "required": "Enter your work e-mail and password.",
+  "submit": "Sign in",
+  "demo-notice": "Demonstration version: any e-mail and password open the workspace with sample data. Accounts arrive with the Hostera RESTful API.",
+  "demo-summary": "Signed in to the demonstration",
+  "demo-detail": "You are viewing sample data.",
+  "no-account": "New to Hostera?",
+  "create-account": "Choose a plan and create an account"
+}

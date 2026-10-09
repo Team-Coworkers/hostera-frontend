@@ -17,12 +17,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import {
   CalendarDate,
   formatDay,
 } from '../../../../shared/presentation/calendar-format';
 import { LayoutBodyDirective } from '../../../../shared/presentation/components/context-layout/layout-body.directive';
+import { MessageComponent } from '../../../../shared/presentation/components/message/message.component';
 import { I18nService } from '../../../../shared/presentation/i18n.service';
 import { mediaQuerySignal } from '../../../../shared/presentation/media-query';
 import {
@@ -31,6 +33,7 @@ import {
 } from '../../../../shared/presentation/services/drawer.config';
 import { ToastService } from '../../../../shared/presentation/services/toast.service';
 import { signalTableDataSource } from '../../../../shared/presentation/table-data-source';
+import { PublicHolidaysStore } from '../../../application/public-holidays.store';
 import { RoomsStore } from '../../../application/rooms.store';
 import { RoomType } from '../../../domain/model/room-type.entity';
 import { DayStatus, Room } from '../../../domain/model/room.entity';
@@ -59,6 +62,8 @@ interface RoomRow {
 /**
  * Weekly availability of the property's rooms, filterable by room number, room type,
  * and status on the first visible day. Below 768px it shows one day as a list.
+ * Public holidays of the visible days, read from the Nager.Date API, are flagged
+ * because they change hotel demand.
  */
 @Component({
   selector: 'app-room-availability',
@@ -73,8 +78,10 @@ interface RoomRow {
     MatPaginatorModule,
     MatSelectModule,
     MatTableModule,
+    MatTooltipModule,
     RoomsLayoutComponent,
     LayoutBodyDirective,
+    MessageComponent,
     DayStatusTagComponent,
     RoomAvatarComponent,
     WeekNavigatorComponent,
@@ -85,6 +92,7 @@ interface RoomRow {
 export class RoomAvailabilityComponent {
   protected readonly i18n = inject(I18nService);
   protected readonly store = inject(RoomsStore);
+  protected readonly holidays = inject(PublicHolidaysStore);
   private readonly dialog = inject(MatDialog);
   private readonly toast = inject(ToastService);
 
@@ -98,6 +106,12 @@ export class RoomAvailabilityComponent {
 
   protected readonly visibleDays = computed(() =>
     CalendarDate.sequence(this.startDate(), this.compact() ? 1 : 7),
+  );
+  /** Public holidays among the visible days. */
+  protected readonly visibleHolidays = computed(() =>
+    this.visibleDays()
+      .map((date) => this.holidays.getHoliday(date))
+      .filter((holiday) => holiday !== undefined),
   );
   protected readonly displayedColumns = computed(() => [
     'room',
@@ -172,6 +186,7 @@ export class RoomAvailabilityComponent {
       this.store.currentPropertyId();
       untracked(() => this.resetFilters());
     });
+    effect(() => this.holidays.ensureLoaded(this.visibleDays()));
   }
 
   /** @param value - Count to format for the active locale. */
@@ -182,6 +197,14 @@ export class RoomAvailabilityComponent {
   /** @param date - ISO day formatted with the given options. */
   protected day(date: string, options: Intl.DateTimeFormatOptions): string {
     return formatDay(date, this.i18n.locale(), options);
+  }
+
+  /**
+   * @param date - ISO calendar day.
+   * @returns Name of the public holiday on that day in the active language, if any.
+   */
+  protected holidayName(date: string): string | undefined {
+    return this.holidays.getHoliday(date)?.displayName(this.i18n.locale());
   }
 
   /** Clears the search text, room type, and status filters. */
@@ -210,6 +233,7 @@ export class RoomAvailabilityComponent {
       }),
       this.i18n.t(`rooms.rooms-terms.day-statuses.${row.days[date]}`),
       bookingCode,
+      this.holidayName(date),
     ]
       .filter(Boolean)
       .join(', ');

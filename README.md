@@ -2,7 +2,7 @@
 
 Hostera is a hotel operations web application for front desk and operations teams. It brings bookings, rooms and rates, supplies inventory, and RFID access control together for each property, with an overview of how the property is doing today.
 
-This repository holds the Angular single-page application (SPA) and a development-only mock API. The SPA is organized by bounded context, following a domain-driven design (DDD) structure. The interface is available in English and Spanish from the sidebar language selector.
+This repository holds the Angular single-page application (SPA) and a development-only mock API. The SPA is organized by bounded context, following a domain-driven design (DDD) structure. The interface is available in English (`en`, the default) and Latin American Spanish (`es-419`) from the sidebar language selector.
 
 ## Tech stack
 
@@ -67,7 +67,7 @@ src/
   inventory/         Inventory bounded context
   access-control/    Access Control bounded context
   shared/            Cross-context infrastructure and presentation
-  locales/           Translations by language and context
+  locales/           Translations by language (en, es-419) and context
   environments/      API URL and resource paths per build configuration
   app.routes.ts      Application routes composed from each context
   app.config.ts      Providers: router, HttpClient, Material defaults, i18n
@@ -117,7 +117,11 @@ Open `/access-control` to review a property's RFID credentials (guest key cards 
 
 ## Environment
 
-The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in production builds and points to the demonstration mock API at `https://team-coworkers-hostera-api.onrender.com`. Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). When the Spring Boot RESTful API is deployed, `hosteraApiUrl` in `environment.production.ts` is the only value that changes.
+The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in production builds and turns on `demoApiEnabled`, so the deployed SPA answers its API requests in the browser (see below). Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). When the Spring Boot RESTful API is deployed, `environment.production.ts` sets `demoApiEnabled` to false and points `hosteraApiUrl` to the API.
+
+## External service
+
+The Rooms context calls [Nager.Date](https://date.nager.at), a free third-party API of public holidays that needs no key, through `src/rooms/infrastructure/public-holidays-api.service.ts` (`GET /api/v3/PublicHolidays/{year}/PE`). The availability view flags the public holidays of the visible days, because they change hotel demand. `publicHolidaysApiUrl` and `publicHolidaysCountryCode` in `src/environments/` configure it; if the API cannot be reached, the view shows no holidays.
 
 ## Deployment
 
@@ -129,7 +133,19 @@ Following Git Flow, a deployment happens when a release is merged into `main`.
 
 ### Demonstration mock API
 
-The SPA reads its data from a copy of the local mock API published on Render as `team-coworkers-hostera-api`. It is defined in `render.yaml`, so creating it only takes a Render Blueprint connected to this repository; see [server/README.md](server/README.md#demonstration-deployment-on-render).
+The deployed SPA reads its data from the same fixtures as the local mock API. The build copies `server/data/*.json` to `demo-data/`, and `src/shared/infrastructure/demo-api.interceptor.ts` answers the requests to `hosteraApiUrl` from them inside the browser, with the JSON Server filters (`propertyId=1`, `_sort`, `_order`, `_limit`) and `GET`, `POST`, `PUT`, `PATCH` and `DELETE` by id. Changes last until the page is reloaded.
+
+The mock API can also be published on Render as `team-coworkers-hostera-api` from `render.yaml`; see [server/README.md](server/README.md#demonstration-deployment-on-render). To use it, set `demoApiEnabled` to false in `environment.production.ts`.
+
+## Tests
+
+Unit tests use Jasmine and Karma, configured by the Angular CLI. Each `.spec.ts` file sits next to the class it tests: the domain model of IAM, Bookings and Inventory, the Nager.Date assembler, and the in-browser demonstration API.
+
+```bash
+npm test -- --watch=false --browsers=ChromeHeadless
+```
+
+The workflow in `.github/workflows/test.yml` runs them on every push and pull request to `main` and `develop`.
 
 ## Code quality
 

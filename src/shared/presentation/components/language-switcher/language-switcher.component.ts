@@ -1,7 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AppLocale, availableLocales, I18nService } from '../../i18n.service';
+import {
+  AppLocale,
+  availableLocales,
+  I18nService,
+  localeLabels,
+} from '../../i18n.service';
 
 /** Segmented control that switches the interface language. */
 @Component({
@@ -16,9 +21,12 @@ import { AppLocale, availableLocales, I18nService } from '../../i18n.service';
       (change)="use($event.value)"
     >
       @for (locale of locales; track locale) {
-        <mat-button-toggle class="flex-1" [value]="locale">{{
-          locale.toUpperCase()
-        }}</mat-button-toggle>
+        <mat-button-toggle
+          class="flex-1"
+          [value]="locale"
+          [attr.lang]="locale"
+          >{{ labels[locale] }}</mat-button-toggle
+        >
       }
     </mat-button-toggle-group>
   `,
@@ -35,6 +43,7 @@ import { AppLocale, availableLocales, I18nService } from '../../i18n.service';
 export class LanguageSwitcherComponent {
   protected readonly i18n = inject(I18nService);
   protected readonly locales = availableLocales;
+  protected readonly labels = localeLabels;
 
   /** @param locale - Selected language. */
   protected use(locale: AppLocale): void {

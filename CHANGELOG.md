@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-10-08
+
+### Added
+
+- IAM context with the public `/sign-in` and `/sign-up` views. Sign-up reads the plan from the `plan` query parameter (`starter` or `professional`), so each segment's call-to-action on the landing page opens its own plan, and estimates the monthly price as the landing page calculator does. Both views run on the demonstration data until the IAM endpoints of the RESTful API exist.
+- `SubscriptionPlan` and `AccountRegistration` domain model: Starter at S/39 per property for one hotel with up to 10 rooms, Professional at S/8 per room for chains with 2 to 5 properties.
+- Site footer with the copyright notice and links to the terms and conditions and the home page of the landing page.
+- Public holidays of Peru from Nager.Date, the solution's third-party service, flagged in the room availability view.
+- In-browser demonstration API (`demo-api.interceptor.ts`) that answers the deployed SPA's requests from the `server/data` fixtures, copied to `demo-data/` at build time.
+- Description, keywords, author, robots and theme-color meta tags in `index.html`.
+- First unit tests (28 specs) and the `.github/workflows/test.yml` workflow that runs them on every push and pull request to `main` and `develop`.
+
+### Changed
+
+- Latin American Spanish uses the `es-419` locale code; its messages moved to `src/locales/es-419/`, and switching languages updates the `lang` attribute of the page.
+- The workspace routes are children of the application shell, so the IAM views render on their own page.
+- Production turns on `demoApiEnabled`; the Render Blueprint stays as an alternative.
+
 ## [0.3.0] - 2026-10-08
 
 ### Added

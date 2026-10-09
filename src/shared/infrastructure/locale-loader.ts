@@ -12,10 +12,12 @@ export const localeNamespaces: Record<string, string[]> = {
   shared: [
     'home',
     'app-layout',
+    'app-footer',
     'language-switcher',
     'sidebar-toggle',
     'primevue-locale',
   ],
+  iam: ['plans', 'sign-in', 'sign-up'],
   inventory: [
     'inventory-terms',
     'inventory-layout',
@@ -87,7 +89,7 @@ export class LocaleLoader implements TranslateLoader {
   private readonly http = inject(HttpClient);
 
   /**
-   * @param lang - Language code, such as `en` or `es`.
+   * @param lang - Language code, such as `en` or `es-419`.
    * @returns Messages of the language.
    */
   getTranslation(lang: string): Observable<TranslationObject> {
