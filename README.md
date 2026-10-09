@@ -125,9 +125,12 @@ The Rooms context calls [Nager.Date](https://date.nager.at), a free third-party 
 
 ## Deployment
 
-The SPA is published on GitHub Pages at <https://team-coworkers.github.io/hostera-frontend/>.
+The SPA is published in two places from `main`:
 
-The workflow in `.github/workflows/deploy-pages.yml` runs on every push to `main`, and can also be started by hand from the **Actions** tab. It installs the dependencies, runs `npm run build:pages` so the SPA is served from the `/hostera-frontend/` path, copies `index.html` to `404.html` so the Angular router resolves deep links such as `/bookings` after a reload, and publishes `dist/browser/`.
+- **Render**, as the static site `team-coworkers-hostera-web` at <https://team-coworkers-hostera-web.onrender.com/>, next to the mock API it reads from. `render.yaml` builds it with `npm run build`, publishes `dist/browser/` from the root path, and rewrites every route to `index.html` so the Angular router resolves deep links such as `/bookings` or `/sign-up`.
+- **GitHub Pages**, at <https://team-coworkers.github.io/hostera-frontend/>, the URL linked from the landing page.
+
+For GitHub Pages, the workflow in `.github/workflows/deploy-pages.yml` runs on every push to `main`, and can also be started by hand from the **Actions** tab. It installs the dependencies, runs `npm run build:pages` so the SPA is served from the `/hostera-frontend/` path, copies `index.html` to `404.html` so the Angular router resolves deep links such as `/bookings` after a reload, and publishes `dist/browser/`.
 
 Following Git Flow, a deployment happens when a release is merged into `main`.
 

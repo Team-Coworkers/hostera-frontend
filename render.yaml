@@ -1,6 +1,21 @@
-# Render Blueprint for the Hostera demonstration mock API (JSON Server).
-# The SPA on GitHub Pages reads from this service until the Spring Boot RESTful API is deployed.
+# Render Blueprint for Hostera: the Angular SPA as a static site and the
+# demonstration mock API (JSON Server) it reads from until the Spring Boot RESTful API is deployed.
 services:
+  - type: web
+    name: team-coworkers-hostera-web
+    runtime: static
+    branch: main
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist/browser
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+    # Every client-side route, such as /bookings or /sign-up, is served by the Angular router.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
   - type: web
     name: team-coworkers-hostera-api
     runtime: node
