@@ -51,7 +51,7 @@ Open the URL that the Angular CLI prints, normally `http://localhost:4200`.
 | `npm run build`        | Build the SPA for production into `dist/browser/`.   |
 | `npm run watch`        | Rebuild the SPA in development mode on every change. |
 | `npm test`             | Run the unit tests with Karma.                       |
-| `npm run deploy`       | Build the SPA and deploy it to Firebase Hosting.     |
+| `npm run build:pages`  | Build the SPA for GitHub Pages under `/hostera-frontend/`. |
 | `npm run format`       | Format `src/` and `server/` with Prettier.           |
 | `npm run format:check` | Verify formatting without modifying files.           |
 | `npm run server:start` | Rebuild the mock database and start JSON Server.     |
@@ -117,29 +117,19 @@ Open `/access-control` to review a property's RFID credentials (guest key cards 
 
 ## Environment
 
-The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in `npm run build` and points to the deployed demonstration API. Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). The mock API is not deployed with the SPA; set `hosteraApiUrl` in `environment.production.ts` to the deployed backend before deploying.
+The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in production builds and points to the demonstration mock API at `https://team-coworkers-hostera-api.onrender.com`. Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). When the Spring Boot RESTful API is deployed, `hosteraApiUrl` in `environment.production.ts` is the only value that changes.
 
 ## Deployment
 
-The SPA is deployed to Firebase Hosting in the `hostera-f4116` project, configured in `.firebaserc`. `firebase.json` publishes `dist/browser/`, rewrites every route to `index.html` so that the Angular router handles client-side routes, caches the hashed script, style, and font files for a year, and revalidates every other file on each request.
+The SPA is published on GitHub Pages at <https://team-coworkers.github.io/hostera-frontend/>.
 
-1. Install the [Firebase CLI](https://firebase.google.com/docs/cli) and sign in with an account that has access to the project:
+The workflow in `.github/workflows/deploy-pages.yml` runs on every push to `main`, and can also be started by hand from the **Actions** tab. It installs the dependencies, runs `npm run build:pages` so the SPA is served from the `/hostera-frontend/` path, copies `index.html` to `404.html` so the Angular router resolves deep links such as `/bookings` after a reload, and publishes `dist/browser/`.
 
-   ```bash
-   firebase login
-   ```
+Following Git Flow, a deployment happens when a release is merged into `main`.
 
-2. In `src/environments/environment.production.ts`, set `hosteraApiUrl` to the deployed API. The mock API is not deployed with the SPA; a demonstration copy can run on Render, as described in [server/README.md](server/README.md#demonstration-deployment-on-render).
+### Demonstration mock API
 
-3. Build and deploy:
-
-   ```bash
-   npm run deploy
-   ```
-
-   The script runs `npm run build` and then `firebase deploy --only hosting`, which prints the Hosting URL when it finishes. The build is not a Firebase `predeploy` hook because the standalone Firebase CLI cannot run npm scripts.
-
-Earlier releases remain available in the Hosting release history of the Firebase console, where they can be rolled back.
+The SPA reads its data from a copy of the local mock API published on Render as `team-coworkers-hostera-api`. It is defined in `render.yaml`, so creating it only takes a Render Blueprint connected to this repository; see [server/README.md](server/README.md#demonstration-deployment-on-render).
 
 ## Code quality
 

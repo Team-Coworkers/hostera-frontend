@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-10-08
+
+### Added
+
+- GitHub Pages deployment through `.github/workflows/deploy-pages.yml`, run on every push to `main`, with a `404.html` fallback so the Angular router resolves deep links after a reload.
+- `npm run build:pages` builds the SPA for the `/hostera-frontend/` path.
+- `render.yaml` Blueprint to publish the demonstration mock API on Render as `team-coworkers-hostera-api`.
+
+### Changed
+
+- The repository is published as `hostera-frontend`.
+- The production API URL points to the Team Coworkers demonstration mock API, replacing a placeholder that resolved to an unrelated service.
+- The README and the mock API guide describe the GitHub Pages and Render deployment.
+
+### Removed
+
+- The Firebase Hosting configuration (`firebase.json`, `.firebaserc`), the `deploy` script and the Firebase ignore rules inherited from the Vue version.
+
 ## [0.2.0] - 2026-10-08
 
 ### Changed

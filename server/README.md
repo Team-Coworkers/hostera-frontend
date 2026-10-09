@@ -88,16 +88,19 @@ The frontend generates card IDs with a simulated encoder and keeps at most one u
 
 ## Demonstration deployment on Render
 
-The mock API can be published as a Render Web Service from this repository, so that the SPA deployed on Firebase Hosting has data to read. Create a **Web Service** connected to the repository and its `main` branch, with these settings:
+The mock API is published as a Render Web Service so that the SPA deployed on GitHub Pages has data to read. The service is described in `render.yaml` at the repository root:
 
 | Setting           | Value                                                 |
 | ----------------- | ----------------------------------------------------- |
+| Name              | `team-coworkers-hostera-api`                          |
 | Language          | Node                                                  |
-| Root Directory    | Empty (the repository root)                           |
-| Build Command     | `npm ci`                                              |
+| Branch            | `main`                                                |
+| Build Command     | `npm ci --include=dev`                                |
 | Start Command     | `npm run server:start -- --host 0.0.0.0 --port $PORT` |
 | Health Check Path | `/properties`                                         |
 
-Render provides `PORT`, and `--host 0.0.0.0` makes JSON Server accept external connections. JSON Server allows cross-origin requests, so the SPA can call it from its Firebase Hosting domain. Set the service URL, such as `https://hostera-api.onrender.com`, as `VITE_HOSTERA_API_URL` in `.env.production` and deploy the SPA again.
+To create it, sign in to Render, choose **New → Blueprint**, select this repository and apply it. The service is then published at `https://team-coworkers-hostera-api.onrender.com`, the URL already configured in `src/environments/environment.production.ts`. If Render assigns a different URL, update `hosteraApiUrl` there and release again.
+
+JSON Server is a development dependency, so the build command installs development dependencies explicitly. Render provides `PORT`, and `--host 0.0.0.0` makes JSON Server accept external connections. JSON Server allows cross-origin requests, so the SPA can call it from `https://team-coworkers.github.io`.
 
 Every deploy and restart rebuilds `db.json` from `data/`, so writes made through the demonstration API are temporary. On Render's free plan the service also stops after a period without requests, and the next request waits while it starts again.
