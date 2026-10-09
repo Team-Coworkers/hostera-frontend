@@ -17,5 +17,8 @@
   "empty-title": "No hay habitaciones para mostrar",
   "empty-filtered": "Cambia la fecha o limpia los filtros actuales.",
   "empty-text": "Agrega la primera habitación del establecimiento para seguir su disponibilidad.",
-  "saved": "Cambios guardados"
+  "saved": "Cambios guardados",
+  "holidays-title": "Feriados en estos días",
+  "holiday": "{date}: {name}",
+  "holidays-source": "Feriados del Perú obtenidos de Nager.Date. La demanda suele subir alrededor de ellos."
 }

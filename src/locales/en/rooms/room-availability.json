@@ -17,5 +17,8 @@
   "empty-title": "No rooms to show",
   "empty-filtered": "Change the date or clear the current filters.",
   "empty-text": "Add the property's first room to start tracking availability.",
-  "saved": "Changes saved"
+  "saved": "Changes saved",
+  "holidays-title": "Public holidays in these days",
+  "holiday": "{date}: {name}",
+  "holidays-source": "Holidays in Peru from Nager.Date. Demand usually rises around them."
 }
