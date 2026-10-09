@@ -1,0 +1,12 @@
+# Render Blueprint for the Hostera demonstration mock API (JSON Server).
+# The SPA on GitHub Pages reads from this service until the Spring Boot RESTful API is deployed.
+services:
+  - type: web
+    name: team-coworkers-hostera-api
+    runtime: node
+    plan: free
+    branch: main
+    # JSON Server is a development dependency, so it must be installed explicitly.
+    buildCommand: npm ci --include=dev
+    startCommand: npm run server:start -- --host 0.0.0.0 --port $PORT
+    healthCheckPath: /properties
