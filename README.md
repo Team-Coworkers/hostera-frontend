@@ -2,26 +2,24 @@
 
 Hostera is a hotel operations web application for front desk and operations teams. It brings bookings, rooms and rates, supplies inventory, and RFID access control together for each property, with an overview of how the property is doing today.
 
-This repository holds the Vue single-page application (SPA) and a development-only mock API. The SPA is organized by bounded context, following a domain-driven design (DDD) structure. The interface is available in English and Spanish from the sidebar language selector.
+This repository holds the Angular single-page application (SPA) and a development-only mock API. The SPA is organized by bounded context, following a domain-driven design (DDD) structure. The interface is available in English and Spanish from the sidebar language selector.
 
 ## Tech stack
 
-- Vue 3 with `<script setup>` single-file components
-- Vite
-- Pinia
-- Vue Router
-- Vue I18n
-- PrimeVue 5, PrimeFlex, and PrimeIcons
-- Chart.js, through PrimeVue Chart
-- Axios
+- Angular 19 with standalone components, signals, and the built-in control flow
+- Angular Router with lazy-loaded routes per bounded context
+- Angular Material 3 and the Angular CDK, with a Hostera theme
+- ngx-translate, reading the per-context locale JSON files
+- PrimeFlex, kept as a CSS utility library
+- Chart.js
+- `HttpClient` through the shared `BaseApiService` and `BaseEndpoint`
 - JSON Server `^0.17.4` for the local mock API
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js `^20.19.0` or `>=22.12.0`, as required by Vite, and npm.
-- A PrimeUI license key for PrimeVue 5.
+- Node.js `^18.19.1`, `^20.11.1`, or `^22.0.0`, as required by Angular 19, and npm.
 
 ### Install and run
 
@@ -31,41 +29,33 @@ This repository holds the Vue single-page application (SPA) and a development-on
    npm install
    ```
 
-2. Create the environment files from the example, then replace the PrimeVue license key placeholder:
-
-   ```bash
-   cp .env.example .env.development
-   cp .env.example .env.production
-   ```
-
-3. Start the mock API at `http://localhost:3000`:
+2. Start the mock API at `http://localhost:3000`:
 
    ```bash
    npm run server:start
    ```
 
-4. In another terminal, start the SPA:
+3. In another terminal, start the SPA:
 
    ```bash
-   npm run dev
+   npm start
    ```
 
-Open the URL that Vite prints, normally `http://localhost:5173`.
+Open the URL that the Angular CLI prints, normally `http://localhost:4200`.
 
 ## Scripts
 
-| Command                | Description                                                     |
-| ---------------------- | --------------------------------------------------------------- |
-| `npm run dev`          | Start the Vite development server.                              |
-| `npm run build`        | Build the SPA for production into `dist/`.                      |
-| `npm run preview`      | Serve the production build locally.                             |
-| `npm run deploy`       | Build the SPA and deploy it to Firebase Hosting.                |
-| `npm run lint`         | Validate JavaScript and Vue files; fails on errors or warnings. |
-| `npm run lint:fix`     | Apply automatic lint fixes.                                     |
-| `npm run format`       | Format `src/`, `server/`, and `index.html` with Prettier.       |
-| `npm run format:check` | Verify formatting without modifying files.                      |
-| `npm run server:start` | Rebuild the mock database and start JSON Server.                |
-| `npm run server:build` | Rebuild the mock database without starting it.                  |
+| Command                | Description                                          |
+| ---------------------- | ---------------------------------------------------- |
+| `npm start`            | Start the Angular development server.                |
+| `npm run build`        | Build the SPA for production into `dist/browser/`.   |
+| `npm run watch`        | Rebuild the SPA in development mode on every change. |
+| `npm test`             | Run the unit tests with Karma.                       |
+| `npm run deploy`       | Build the SPA and deploy it to Firebase Hosting.     |
+| `npm run format`       | Format `src/` and `server/` with Prettier.           |
+| `npm run format:check` | Verify formatting without modifying files.           |
+| `npm run server:start` | Rebuild the mock database and start JSON Server.     |
+| `npm run server:build` | Rebuild the mock database without starting it.       |
 
 ## Project structure
 
@@ -78,9 +68,11 @@ src/
   access-control/    Access Control bounded context
   shared/            Cross-context infrastructure and presentation
   locales/           Translations by language and context
-  router.js          Application routes composed from each context
-  i18n.js            Vue I18n setup and locale registration
-  main.js            Application setup and PrimeVue theme
+  environments/      API URL and resource paths per build configuration
+  app.routes.ts      Application routes composed from each context
+  app.config.ts      Providers: router, HttpClient, Material defaults, i18n
+  main.ts            Application bootstrap
+  styles.scss        Angular Material theme and Hostera design tokens
 server/              Development-only mock API
 ```
 
@@ -89,21 +81,21 @@ Each bounded context uses the same layers:
 ```text
 src/<context>/
   domain/            Entities, commands, and business rules
-  application/       Pinia store that orchestrates use cases
+  application/       Signal-based store that orchestrates use cases
   infrastructure/    API client and assemblers
   presentation/      Views, components, and context routes
 ```
 
-- **Domain:** plain JavaScript classes for business concepts and invariants, independent of Vue, Pinia, and HTTP.
-- **Application:** Pinia stores coordinate domain objects and infrastructure, and expose state to the views.
-- **Infrastructure:** Axios clients built on the shared `BaseApi` and `BaseEndpoint`, and assemblers that map API payloads to domain entities.
-- **Presentation:** Vue views and components that call store actions and render reactive state.
+- **Domain:** plain TypeScript classes for business concepts and invariants, independent of Angular and HTTP.
+- **Application:** injectable stores (`providedIn: 'root'`) coordinate domain objects and infrastructure, and expose state to the views as signals.
+- **Infrastructure:** API services built on the shared `BaseApiService` and `BaseEndpoint` over `HttpClient`, and assemblers that map API payloads to domain entities.
+- **Presentation:** standalone components and lazy routes that call store actions and render signal state.
 
 ## Workspaces
 
 ### Overview
 
-The start page (`/`) summarizes the active property: room revenue and occupancy for the last 7 or 30 days or the next 30 days, compared with the previous period; the occupancy, rooms available tonight, and rooms needing attention of every property; today's arrivals with their status and actions; and today's rooms by day status. Search bookings by guest or code from the header (Ctrl+K or ⌘K). Each panel shows its own error and retry when its data cannot be loaded. Charts use PrimeVue Chart, which renders with the `chart.js` dependency.
+The start page (`/`) summarizes the active property: room revenue and occupancy for the last 7 or 30 days or the next 30 days, compared with the previous period; the occupancy, rooms available tonight, and rooms needing attention of every property; today's arrivals with their status and actions; and today's rooms by day status. Search bookings by guest or code from the header (Ctrl+K or ⌘K). Each panel shows its own error and retry when its data cannot be loaded. Charts are drawn with Chart.js.
 
 ### Bookings
 
@@ -125,15 +117,11 @@ Open `/access-control` to review a property's RFID credentials (guest key cards 
 
 ## Environment
 
-The SPA connects directly to the API configured by `VITE_HOSTERA_API_URL`. `.env.example` points it to the local mock at `http://localhost:3000` and defines the resource paths in `VITE_PROPERTIES_ENDPOINT_PATH`, `VITE_INVENTORY_ITEMS_ENDPOINT_PATH`, `VITE_STORAGE_LOCATIONS_ENDPOINT_PATH`, `VITE_ROOM_TYPES_ENDPOINT_PATH`, `VITE_ROOMS_ENDPOINT_PATH`, `VITE_STATUS_PERIODS_ENDPOINT_PATH`, `VITE_RATE_PLANS_ENDPOINT_PATH`, `VITE_DAILY_RATES_ENDPOINT_PATH`, `VITE_BOOKINGS_ENDPOINT_PATH`, `VITE_PAYMENTS_ENDPOINT_PATH`, `VITE_CREDENTIALS_ENDPOINT_PATH`, `VITE_STAFF_MEMBERS_ENDPOINT_PATH`, and `VITE_ACCESS_EVENTS_ENDPOINT_PATH`. `vite-env.d.ts` declares these variables for editor type information and autocompletion; it does not assign or validate their runtime values.
-
-Vite loads `.env.development` for `npm run dev` and `.env.production` for `npm run build`. These files are ignored by Git; create them from `.env.example`. Use the ignored `.env.development.local` or `.env.production.local` files to override API settings for a specific mode. Restart Vite after changing environment files. Before deployment, set `VITE_HOSTERA_API_URL` to the deployed backend URL; the mock API is not deployed with the SPA. See [Vite environment variables and modes](https://vite.dev/guide/env-and-mode).
-
-PrimeVue 5 requires a valid PrimeUI license. Replace the `VITE_PRIMEVUE_LICENSE_KEY` placeholder in `.env.development` and `.env.production`, or set it in their `.local` overrides, and restart Vite. A key in `.env.local` does not take effect while a mode file still defines the placeholder, because mode files take priority. For deployed builds, configure the variable in the build environment.
+The SPA connects directly to the API configured in `src/environments/`. `environment.ts` is used by `npm start` and points `hosteraApiUrl` to the local mock at `http://localhost:3000`; `environment.production.ts` replaces it in `npm run build` and points to the deployed demonstration API. Both define the resource paths (`propertiesEndpointPath`, `roomsEndpointPath`, `bookingsEndpointPath`, and the others). The mock API is not deployed with the SPA; set `hosteraApiUrl` in `environment.production.ts` to the deployed backend before deploying.
 
 ## Deployment
 
-The SPA is deployed to Firebase Hosting in the `hostera-f4116` project, configured in `.firebaserc`. `firebase.json` publishes `dist/`, rewrites every route to `index.html` so that Vue Router handles client-side routes, caches the hashed files in `dist/assets/` for a year, and revalidates every other file on each request.
+The SPA is deployed to Firebase Hosting in the `hostera-f4116` project, configured in `.firebaserc`. `firebase.json` publishes `dist/browser/`, rewrites every route to `index.html` so that the Angular router handles client-side routes, caches the hashed script, style, and font files for a year, and revalidates every other file on each request.
 
 1. Install the [Firebase CLI](https://firebase.google.com/docs/cli) and sign in with an account that has access to the project:
 
@@ -141,7 +129,7 @@ The SPA is deployed to Firebase Hosting in the `hostera-f4116` project, configur
    firebase login
    ```
 
-2. In `.env.production`, set `VITE_HOSTERA_API_URL` to the deployed API and `VITE_PRIMEVUE_LICENSE_KEY` to a valid PrimeUI license key. The mock API is not deployed with the SPA; a demonstration copy can run on Render, as described in [server/README.md](server/README.md#demonstration-deployment-on-render).
+2. In `src/environments/environment.production.ts`, set `hosteraApiUrl` to the deployed API. The mock API is not deployed with the SPA; a demonstration copy can run on Render, as described in [server/README.md](server/README.md#demonstration-deployment-on-render).
 
 3. Build and deploy:
 
@@ -155,7 +143,7 @@ Earlier releases remain available in the Hosting release history of the Firebase
 
 ## Code quality
 
-Run `npm run lint` and `npm run format:check` before committing. Prettier uses single quotes and semicolons for JavaScript, and ESLint disables the formatting rules that conflict with Prettier.
+Run `npm run build` and `npm run format:check` before committing. The production build type-checks every component template. Prettier uses single quotes and semicolons for TypeScript and the Angular parser for templates.
 
 ## Local mock API
 

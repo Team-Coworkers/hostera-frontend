@@ -1,0 +1,151 @@
+<app-drawer-header
+  [title]="i18n.t('rooms.daily-rate-form.title')"
+  [subtitle]="store.currentProperty()?.name ?? ''"
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('rooms.daily-rate-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="daily-rate-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="saveDailyRates()"
+  >
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.daily-rate-form.rate-plan') }}</mat-label>
+      <mat-select
+        name="ratePlanId"
+        [ngModel]="ratePlanId()"
+        (ngModelChange)="changeRatePlan($event)"
+      >
+        @for (plan of store.ratePlans(); track plan.id) {
+          <mat-option [value]="plan.id">{{ plan.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.daily-rate-form.room-type') }}</mat-label>
+      <mat-select
+        name="roomTypeId"
+        [placeholder]="i18n.t('rooms.daily-rate-form.room-type-placeholder')"
+        [ngModel]="roomTypeId()"
+        (ngModelChange)="changeRoomType($event)"
+      >
+        @for (option of roomTypeOptions(); track option.id) {
+          <mat-option [value]="option.id">{{ option.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.daily-rate-form.dates') }}</mat-label>
+      <mat-date-range-input [rangePicker]="datesPicker">
+        <input
+          matStartDate
+          name="startDate"
+          readonly
+          [(ngModel)]="startDate"
+          (click)="datesPicker.open()"
+        />
+        <input
+          matEndDate
+          name="endDate"
+          readonly
+          [(ngModel)]="endDate"
+          (click)="datesPicker.open()"
+        />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="datesPicker" />
+      <mat-date-range-picker #datesPicker />
+    </mat-form-field>
+    <div
+      class="flex align-items-center justify-content-between gap-3 p-3 border-1 surface-border border-round-lg"
+    >
+      <label for="daily-rate-base" class="flex flex-column gap-1">
+        <span class="font-medium">{{
+          i18n.t('rooms.daily-rate-form.use-base-rate')
+        }}</span>
+        <span class="text-sm text-color-secondary line-height-3">{{
+          i18n.t('rooms.daily-rate-form.use-base-rate-help')
+        }}</span>
+      </label>
+      <mat-slide-toggle
+        id="daily-rate-base"
+        name="useBaseRate"
+        [(ngModel)]="useBaseRate"
+      />
+    </div>
+    @if (!useBaseRate()) {
+      <mat-form-field class="w-full">
+        <mat-label>{{
+          i18n.t('rooms.daily-rate-form.nightly-rate')
+        }}</mat-label>
+        <span matTextPrefix class="mr-1">{{ currencySymbol() }}</span>
+        <input
+          matInput
+          type="number"
+          name="amount"
+          class="font-mono"
+          min="0"
+          step="0.01"
+          required
+          [(ngModel)]="amount"
+        />
+        @if (selectedRoomType(); as roomType) {
+          <mat-hint>{{
+            i18n.t('rooms.daily-rate-form.base-rate', {
+              amount: money(roomType.baseNightlyRate),
+            })
+          }}</mat-hint>
+        }
+      </mat-form-field>
+    }
+    @if (nightsCount() && selectedRoomType()) {
+      <div
+        class="flex flex-wrap align-items-center justify-content-between gap-2 p-3 surface-50 border-round-lg text-sm"
+        aria-live="polite"
+      >
+        <span>{{
+          useBaseRate()
+            ? i18n.t('rooms.daily-rate-form.nights-reset', {
+                count: nightsCount(),
+              })
+            : i18n.t('rooms.daily-rate-form.nights-updated', {
+                count: nightsCount(),
+              })
+        }}</span>
+        <span class="font-semibold"
+          >{{ selectedRoomType()?.name }} · {{ selectedRatePlan()?.name }}</span
+        >
+      </div>
+    }
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('rooms.rooms-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('rooms.daily-rate-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="daily-rate-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>check</mat-icon>
+    }
+    {{ i18n.t('rooms.daily-rate-form.save') }}
+  </button>
+</mat-dialog-actions>

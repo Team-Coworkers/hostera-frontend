@@ -1,0 +1,223 @@
+<app-inventory-layout>
+  <button
+    layoutActions
+    mat-flat-button
+    [disabled]="store.saving()"
+    (click)="openStorageLocationForm()"
+  >
+    <mat-icon>add</mat-icon>
+    {{ i18n.t('inventory.storage-location-list.new') }}
+  </button>
+
+  <ng-template layoutBody>
+    <section class="flex flex-column gap-3">
+      <div class="flex align-items-center gap-2 overflow-x-auto">
+        <mat-button-toggle-group
+          class="type-filter flex-shrink-0"
+          hideSingleSelectionIndicator
+          [attr.aria-label]="i18n.t('inventory.storage-location-list.type')"
+          [value]="typeFilter()"
+          (change)="typeFilter.set($event.value)"
+        >
+          @for (option of typeOptions(); track option.value) {
+            <mat-button-toggle [value]="option.value">
+              <span class="flex align-items-center gap-2 white-space-nowrap">
+                <span>{{ option.label }}</span>
+                <span class="font-mono text-sm opacity-70">{{
+                  number(option.count)
+                }}</span>
+              </span>
+            </mat-button-toggle>
+          }
+        </mat-button-toggle-group>
+      </div>
+      <div class="flex flex-wrap align-items-center gap-2">
+        <mat-form-field class="w-full md:w-20rem">
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input
+            matInput
+            [placeholder]="i18n.t('inventory.storage-location-list.search')"
+            [attr.aria-label]="i18n.t('inventory.storage-location-list.search')"
+            [(ngModel)]="search"
+          />
+        </mat-form-field>
+        @if (search() || typeFilter() !== 'all') {
+          <button mat-button (click)="resetFilters()">
+            <mat-icon>filter_alt_off</mat-icon>
+            {{ i18n.t('inventory.storage-location-list.clear') }}
+          </button>
+        }
+        <span class="ml-auto text-sm text-color-secondary" aria-live="polite">{{
+          i18n.t('inventory.storage-location-list.results', {
+            count: filteredStorageLocations().length,
+          })
+        }}</span>
+      </div>
+
+      <div
+        class="surface-card border-1 surface-border border-round-xl overflow-auto"
+      >
+        <table
+          mat-table
+          class="hostera-table"
+          style="min-width: 56rem"
+          [dataSource]="dataSource"
+          matSort
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('inventory.storage-location-list.name') }}
+            </th>
+            <td mat-cell *matCellDef="let location">
+              <a
+                [routerLink]="['/inventory/storage-locations', location.id]"
+                class="flex align-items-center gap-3 text-color"
+                (click)="$event.stopPropagation()"
+              >
+                <app-storage-location-avatar [type]="location.type" />
+                <span class="flex flex-column">
+                  <span class="font-semibold white-space-nowrap">{{
+                    location.name
+                  }}</span>
+                  <span class="font-mono text-sm text-color-secondary">{{
+                    location.code
+                  }}</span>
+                </span>
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.storage-location-list.type') }}
+            </th>
+            <td mat-cell *matCellDef="let location">
+              {{
+                i18n.t(
+                  'inventory.inventory-terms.location-types.' + location.type
+                )
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="assignedItems">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.storage-location-list.assigned-items') }}
+            </th>
+            <td mat-cell *matCellDef="let location">
+              <span class="font-mono">{{
+                number(assignedItemsCount(location.id))
+              }}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="alerts">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.storage-location-list.alerts') }}
+            </th>
+            <td mat-cell *matCellDef="let location">
+              @if (stockAlertsCount(location.id); as alerts) {
+                <app-status-tag
+                  severity="warn"
+                  [value]="
+                    i18n.t('inventory.storage-location-list.alerts-count', {
+                      count: alerts,
+                    })
+                  "
+                />
+              } @else {
+                <app-status-tag
+                  severity="success"
+                  [value]="i18n.t('inventory.storage-location-list.no-alerts')"
+                />
+              }
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="area">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.storage-location-list.area') }}
+            </th>
+            <td mat-cell *matCellDef="let location">{{ location.area }}</td>
+          </ng-container>
+          <ng-container matColumnDef="team">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('inventory.storage-location-list.team') }}
+            </th>
+            <td mat-cell *matCellDef="let location">
+              {{ location.responsibleTeam }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-right"
+              style="width: 1%"
+            >
+              {{ i18n.t('inventory.storage-location-list.actions') }}
+            </th>
+            <td mat-cell *matCellDef="let location" class="white-space-nowrap">
+              <div class="flex justify-content-end gap-1">
+                <button
+                  mat-icon-button
+                  [matTooltip]="i18n.t('inventory.storage-location-list.edit')"
+                  [attr.aria-label]="
+                    i18n.t('inventory.storage-location-list.edit') +
+                    ': ' +
+                    location.name
+                  "
+                  [disabled]="store.saving()"
+                  (click)="
+                    $event.stopPropagation(); openStorageLocationForm(location)
+                  "
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  class="text-red-600"
+                  [matTooltip]="
+                    i18n.t('inventory.storage-location-list.delete')
+                  "
+                  [attr.aria-label]="
+                    i18n.t('inventory.storage-location-list.delete') +
+                    ': ' +
+                    location.name
+                  "
+                  [disabled]="store.saving()"
+                  (click)="$event.stopPropagation(); confirmDelete(location)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            class="clickable"
+            *matRowDef="let location; columns: displayedColumns"
+            (click)="navigateToDetail(location.id)"
+          ></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              <div
+                class="empty-state flex flex-column align-items-center gap-2 py-6 text-center"
+              >
+                <mat-icon aria-hidden="true">apartment</mat-icon>
+                <span class="font-medium">{{
+                  i18n.t('inventory.storage-location-list.empty-title')
+                }}</span>
+                <span class="text-sm text-color-secondary">{{
+                  i18n.t('inventory.storage-location-list.empty-text')
+                }}</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <mat-paginator
+          [pageSize]="10"
+          [hidePageSize]="true"
+          [class.hidden]="filteredStorageLocations().length <= 10"
+        />
+      </div>
+    </section>
+  </ng-template>
+</app-inventory-layout>

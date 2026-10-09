@@ -1,0 +1,433 @@
+<app-bookings-layout>
+  <ng-template layoutBody>
+    @if (booking(); as booking) {
+      <nav
+        class="flex align-items-center gap-2 text-sm"
+        aria-label="breadcrumb"
+      >
+        <a
+          routerLink="/bookings"
+          class="text-color-secondary hover:text-primary"
+          >{{ i18n.t('bookings.booking-detail.bookings') }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <span class="font-mono font-medium" aria-current="page">{{
+          booking.code
+        }}</span>
+      </nav>
+
+      <header
+        class="flex flex-column md:flex-row md:align-items-center gap-3 pb-4 border-bottom-1 surface-border"
+      >
+        <div class="flex align-items-center gap-3 flex-1 min-w-0">
+          <span
+            class="flex align-items-center justify-content-center w-3rem h-3rem flex-shrink-0 bg-primary-50 text-primary border-round-lg"
+            aria-hidden="true"
+          >
+            <mat-icon>person</mat-icon>
+          </span>
+          <div class="flex flex-column gap-1 min-w-0">
+            <div class="flex flex-wrap align-items-center gap-2">
+              <h2 class="m-0 text-2xl font-bold tracking-tight">
+                {{ booking.guestName }}
+              </h2>
+              <app-booking-status-tag [status]="booking.status" />
+            </div>
+            <span class="font-mono text-sm text-color-secondary">{{
+              booking.code
+            }}</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap align-items-center gap-2">
+          @if (room(); as room) {
+            <a mat-button [routerLink]="['/rooms', room.id]">
+              <mat-icon>key</mat-icon>
+              {{ i18n.t('bookings.booking-detail.view-room') }}
+            </a>
+          }
+          @if (booking.isEditable) {
+            <a mat-flat-button [routerLink]="['/bookings', booking.id, 'edit']">
+              <mat-icon>edit</mat-icon>
+              {{ i18n.t('bookings.booking-detail.edit') }}
+            </a>
+          }
+          @if (hasActions()) {
+            <button
+              mat-stroked-button
+              [matMenuTriggerFor]="actionsMenu"
+              [disabled]="store.saving()"
+            >
+              {{ i18n.t('bookings.booking-detail.actions') }}
+              <mat-icon iconPositionEnd>expand_more</mat-icon>
+            </button>
+            <mat-menu #actionsMenu="matMenu" xPosition="before">
+              <button
+                mat-menu-item
+                [disabled]="!booking.canBeCancelled"
+                (click)="openCancelDialog()"
+              >
+                <mat-icon>cancel</mat-icon>
+                <span>
+                  {{ i18n.t('bookings.booking-detail.cancel') }}
+                  @if (!booking.canBeCancelled && checkedIn()) {
+                    <small class="menu-caption">{{
+                      i18n.t('bookings.booking-detail.checked-in-locked')
+                    }}</small>
+                  }
+                </span>
+              </button>
+              <button
+                mat-menu-item
+                [disabled]="!booking.canBeMarkedNoShow(today)"
+                (click)="openStatusDialog('no-show')"
+              >
+                <mat-icon>person_remove</mat-icon>
+                <span>
+                  {{ i18n.t('bookings.booking-detail.no-show') }}
+                  @if (!booking.canBeMarkedNoShow(today)) {
+                    <small class="menu-caption">{{ noShowCaption() }}</small>
+                  }
+                </span>
+              </button>
+            </mat-menu>
+          }
+        </div>
+      </header>
+
+      @if (!booking.isEditable) {
+        <app-message severity="secondary" icon="lock">
+          {{ i18n.t('bookings.booking-detail.read-only') }}
+        </app-message>
+      }
+
+      <section
+        class="grid grid-nogutter align-items-center gap-3 md:gap-0 p-4 surface-card border-1 surface-border border-round-xl"
+        [attr.aria-label]="i18n.t('bookings.booking-detail.stay')"
+      >
+        <div class="col-12 md:col-3 flex flex-column gap-1">
+          <span class="text-sm text-color-secondary">{{
+            i18n.t('bookings.booking-detail.check-in')
+          }}</span>
+          <span class="text-xl font-semibold">{{
+            stayDay(booking.checkInDate)
+          }}</span>
+        </div>
+        <div
+          class="col-12 md:col-2 flex align-items-center gap-2 text-color-secondary"
+        >
+          <mat-icon aria-hidden="true">dark_mode</mat-icon>
+          <span class="text-sm">{{
+            i18n.t('bookings.bookings-terms.nights', { count: nightsCount() })
+          }}</span>
+        </div>
+        <div class="col-12 md:col-3 flex flex-column gap-1">
+          <span class="text-sm text-color-secondary">{{
+            i18n.t('bookings.booking-detail.check-out')
+          }}</span>
+          <span class="text-xl font-semibold">{{
+            stayDay(booking.checkOutDate)
+          }}</span>
+        </div>
+        <div class="col-6 md:col-2 flex flex-column gap-1">
+          <span class="text-sm text-color-secondary">{{
+            i18n.t('bookings.booking-detail.room')
+          }}</span>
+          <span class="font-semibold"
+            ><span class="font-mono">{{ room()?.number ?? '—' }}</span> ·
+            {{ roomType()?.name }}</span
+          >
+        </div>
+        <div class="col-6 md:col-2 flex flex-column gap-1">
+          <span class="text-sm text-color-secondary">{{
+            i18n.t('bookings.booking-detail.guests')
+          }}</span>
+          <span class="font-semibold">{{
+            i18n.t('bookings.bookings-terms.guests', { count: booking.guests })
+          }}</span>
+        </div>
+      </section>
+
+      <div class="grid">
+        <div class="col-12 xl:col-8">
+          <div
+            class="flex flex-column gap-4 h-full p-4 surface-card border-1 surface-border border-round-xl"
+          >
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >badge</mat-icon
+                >
+                {{ i18n.t('bookings.booking-detail.guest-information') }}
+              </h3>
+              <dl class="facts grid m-0">
+                @for (fact of guestFacts(); track fact.label) {
+                  <div class="col-12 md:col-4 flex flex-column gap-1">
+                    <dt class="text-sm">{{ fact.label }}</dt>
+                    <dd
+                      class="font-medium overflow-hidden text-overflow-ellipsis"
+                    >
+                      {{ fact.value }}
+                    </dd>
+                  </div>
+                }
+              </dl>
+            </section>
+            <mat-divider />
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >confirmation_number</mat-icon
+                >
+                {{ i18n.t('bookings.booking-detail.booking-information') }}
+              </h3>
+              <dl class="facts grid m-0">
+                @for (fact of bookingFacts(); track fact.label) {
+                  <div class="col-12 md:col-4 flex flex-column gap-1">
+                    <dt class="text-sm">{{ fact.label }}</dt>
+                    <dd class="font-medium" [class.font-mono]="fact.mono">
+                      {{ fact.value }}
+                    </dd>
+                  </div>
+                }
+              </dl>
+            </section>
+            <mat-divider />
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >chat</mat-icon
+                >
+                {{ i18n.t('bookings.booking-detail.guest-request') }}
+              </h3>
+              <p
+                class="m-0 p-3 surface-50 border-round-lg line-height-3"
+                [class.text-color-secondary]="!booking.guestRequest"
+              >
+                {{
+                  booking.guestRequest ||
+                    i18n.t('bookings.booking-detail.no-request')
+                }}
+              </p>
+            </section>
+          </div>
+        </div>
+
+        <aside class="col-12 xl:col-4 flex flex-column gap-3">
+          @if (statusPanels[booking.status]; as panelIcon) {
+            <section
+              class="flex flex-column gap-3 p-4 surface-card border-1 surface-border border-round-xl"
+              aria-labelledby="booking-status-title"
+            >
+              <h3
+                id="booking-status-title"
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true">{{
+                  panelIcon
+                }}</mat-icon>
+                {{ i18n.t('bookings.booking-detail.panels.' + booking.status) }}
+              </h3>
+              @if (booking.status === 'pending') {
+                <p class="m-0 text-sm text-color-secondary line-height-3">
+                  {{ i18n.t('bookings.booking-detail.pending-help') }}
+                </p>
+              }
+              @if (statusFacts().length) {
+                <dl class="facts flex flex-column gap-2 m-0">
+                  @for (fact of statusFacts(); track fact.label) {
+                    <div class="flex justify-content-between gap-3">
+                      <dt>{{ fact.label }}</dt>
+                      <dd class="text-right font-medium">{{ fact.value }}</dd>
+                    </div>
+                  }
+                </dl>
+              }
+              @if (booking.cancellationNote) {
+                <p
+                  class="m-0 p-3 surface-50 border-round-lg text-sm line-height-3"
+                >
+                  {{ booking.cancellationNote }}
+                </p>
+              }
+              @if (!booking.holdsRoom && booking.status !== 'checked-out') {
+                <app-message severity="secondary" icon="key">
+                  {{
+                    i18n.t(
+                      'bookings.booking-detail.released.' + booking.status,
+                      {
+                        number: room()?.number ?? '—',
+                      }
+                    )
+                  }}
+                </app-message>
+              }
+              @if (booking.canBeConfirmed) {
+                <button
+                  mat-flat-button
+                  class="w-full"
+                  [disabled]="store.saving()"
+                  (click)="openStatusDialog('confirm')"
+                >
+                  <mat-icon>check</mat-icon>
+                  {{ i18n.t('bookings.booking-detail.confirm') }}
+                </button>
+              }
+              @if (booking.departureNote) {
+                <p
+                  class="m-0 p-3 surface-50 border-round-lg text-sm line-height-3"
+                >
+                  {{ booking.departureNote }}
+                </p>
+              }
+              @if (booking.status === 'confirmed') {
+                <a
+                  mat-flat-button
+                  class="w-full"
+                  [routerLink]="['/bookings', booking.id, 'check-in']"
+                  [disabled]="store.saving() || !booking.canBeCheckedIn(today)"
+                >
+                  <mat-icon>login</mat-icon>
+                  {{ i18n.t('bookings.booking-detail.start-check-in') }}
+                </a>
+                @if (!booking.canBeCheckedIn(today)) {
+                  <small
+                    class="text-center text-color-secondary line-height-3"
+                    >{{
+                      today < booking.checkInDate
+                        ? i18n.t('bookings.booking-detail.check-in-from')
+                        : i18n.t('bookings.booking-detail.check-in-ended')
+                    }}</small
+                  >
+                }
+              }
+              @if (booking.canBeCheckedOut) {
+                <a
+                  mat-flat-button
+                  class="w-full"
+                  [routerLink]="['/bookings', booking.id, 'check-out']"
+                  [disabled]="store.saving()"
+                >
+                  <mat-icon>logout</mat-icon>
+                  {{ i18n.t('bookings.booking-detail.start-check-out') }}
+                </a>
+              }
+              @if (
+                booking.status === 'cancelled' || booking.status === 'no-show'
+              ) {
+                <button mat-stroked-button class="w-full" (click)="duplicate()">
+                  <mat-icon>content_copy</mat-icon>
+                  {{ i18n.t('bookings.booking-detail.duplicate') }}
+                </button>
+                @if (booking.status === 'cancelled') {
+                  <button
+                    mat-flat-button
+                    class="w-full"
+                    [disabled]="store.saving() || !canRestore()"
+                    (click)="restore()"
+                  >
+                    @if (store.saving()) {
+                      <mat-spinner diameter="18" />
+                    } @else {
+                      <mat-icon>replay</mat-icon>
+                    }
+                    {{ i18n.t('bookings.booking-detail.restore') }}
+                  </button>
+                  <small
+                    class="text-center text-color-secondary line-height-3"
+                    >{{ i18n.t('bookings.booking-detail.restore-help') }}</small
+                  >
+                  @if (restoreErrorCode()) {
+                    <app-message severity="error" icon="cancel">
+                      {{
+                        i18n.t(
+                          'bookings.bookings-terms.errors.' + restoreErrorCode()
+                        )
+                      }}
+                    </app-message>
+                  }
+                }
+              }
+            </section>
+          }
+
+          @if (keyCards().length) {
+            <section
+              class="flex flex-column gap-3 p-4 surface-card border-1 surface-border border-round-xl"
+              aria-labelledby="booking-key-cards-title"
+            >
+              <h3
+                id="booking-key-cards-title"
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >contactless</mat-icon
+                >
+                {{ i18n.t('bookings.booking-detail.key-cards') }}
+              </h3>
+              <ul class="list-none m-0 p-0 flex flex-column gap-2">
+                @for (keyCard of keyCards(); track keyCard.id) {
+                  <li>
+                    <a
+                      [routerLink]="['/access-control/credentials', keyCard.id]"
+                      class="flex align-items-center justify-content-between gap-2 p-2 surface-50 border-round-lg text-color hover:surface-100"
+                    >
+                      <span class="flex flex-column">
+                        <span class="font-mono font-semibold"
+                          >RFID {{ keyCard.cardId }}</span
+                        >
+                        <span class="text-sm text-color-secondary">{{
+                          i18n.t('bookings.booking-detail.key-card-until', {
+                            date: dateTime(keyCard.validUntil),
+                          })
+                        }}</span>
+                      </span>
+                      <app-credential-status-tag
+                        [status]="
+                          accessControlStore.getCredentialStatus(keyCard)
+                        "
+                      />
+                    </a>
+                  </li>
+                }
+              </ul>
+            </section>
+          }
+
+          <div
+            class="flex flex-column gap-3 p-4 surface-50 border-1 surface-border border-round-xl"
+          >
+            <app-booking-payment-summary [booking]="booking" />
+            <span class="text-sm text-color-secondary">
+              {{
+                i18n.t('bookings.bookings-terms.nights', {
+                  count: nightsCount(),
+                })
+              }}
+              · {{ ratePlan()?.name }}
+            </span>
+            <p class="m-0 text-sm text-color-secondary line-height-3">
+              {{ i18n.t('bookings.booking-detail.total-help') }}
+            </p>
+          </div>
+        </aside>
+      </div>
+    } @else {
+      <app-message severity="warn" icon="search">
+        <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+          <span>{{ i18n.t('bookings.booking-detail.not-found') }}</span>
+          <a routerLink="/bookings" class="font-medium">{{
+            i18n.t('bookings.booking-detail.back')
+          }}</a>
+        </div>
+      </app-message>
+    }
+  </ng-template>
+</app-bookings-layout>

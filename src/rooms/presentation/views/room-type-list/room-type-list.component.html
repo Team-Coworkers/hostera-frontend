@@ -1,0 +1,183 @@
+<app-rooms-layout>
+  <button
+    layoutActions
+    mat-flat-button
+    [disabled]="store.saving()"
+    (click)="openRoomTypeForm()"
+  >
+    <mat-icon>add</mat-icon>
+    {{ i18n.t('rooms.room-type-list.new') }}
+  </button>
+
+  <ng-template layoutBody>
+    <section class="flex flex-column gap-3">
+      <div class="flex flex-wrap align-items-center gap-2">
+        <mat-form-field class="w-full md:w-20rem">
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input
+            matInput
+            [placeholder]="i18n.t('rooms.room-type-list.search')"
+            [attr.aria-label]="i18n.t('rooms.room-type-list.search')"
+            [(ngModel)]="search"
+          />
+        </mat-form-field>
+        <span class="ml-auto text-sm text-color-secondary" aria-live="polite">{{
+          i18n.t('rooms.room-type-list.summary', {
+            types: i18n.t('rooms.room-type-list.types-count', {
+              count: store.roomTypes().length,
+            }),
+            rooms: i18n.t('rooms.room-type-list.rooms-count', {
+              count: store.roomsCount(),
+            }),
+          })
+        }}</span>
+      </div>
+
+      <div
+        class="surface-card border-1 surface-border border-round-xl overflow-auto"
+      >
+        <table
+          mat-table
+          class="hostera-table"
+          style="min-width: 52rem"
+          [dataSource]="dataSource"
+          matSort
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('rooms.room-type-list.name') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="flex align-items-center gap-3">
+                <app-room-avatar icon="grid_view" />
+                <span class="font-semibold white-space-nowrap">{{
+                  row.roomType.name
+                }}</span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="capacity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('rooms.room-type-list.capacity') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{
+                i18n.t('rooms.rooms-terms.guests', {
+                  count: row.roomType.capacity,
+                })
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="beds">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('rooms.room-type-list.beds') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.roomType.bedConfiguration }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="rooms">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('rooms.room-type-list.rooms') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="font-mono">{{ count(row.roomsCount) }}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="baseRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ i18n.t('rooms.room-type-list.base-rate') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="font-mono white-space-nowrap">{{
+                money(row.roomType.baseNightlyRate)
+              }}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ i18n.t('rooms.room-type-list.status') }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <app-status-tag
+                [severity]="row.roomType.isActive ? 'success' : 'secondary'"
+                [value]="
+                  i18n.t(
+                    'rooms.rooms-terms.room-type-statuses.' +
+                      row.roomType.status
+                  )
+                "
+              />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="text-right"
+              style="width: 1%"
+            >
+              {{ i18n.t('rooms.room-type-list.actions') }}
+            </th>
+            <td mat-cell *matCellDef="let row" class="white-space-nowrap">
+              <div class="flex justify-content-end gap-1">
+                <button
+                  mat-icon-button
+                  [matTooltip]="i18n.t('rooms.room-type-list.edit')"
+                  [attr.aria-label]="
+                    i18n.t('rooms.room-type-list.edit') +
+                    ': ' +
+                    row.roomType.name
+                  "
+                  [disabled]="store.saving()"
+                  (click)="openRoomTypeForm(row.roomType)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <!-- The wrapper keeps the tooltip available while the button is disabled. -->
+                <span
+                  [matTooltip]="
+                    row.roomsCount
+                      ? i18n.t('rooms.room-type-list.delete-in-use')
+                      : i18n.t('rooms.room-type-list.delete')
+                  "
+                >
+                  <button
+                    mat-icon-button
+                    class="text-red-600"
+                    [attr.aria-label]="
+                      i18n.t('rooms.room-type-list.delete') +
+                      ': ' +
+                      row.roomType.name
+                    "
+                    [disabled]="store.saving() || row.roomsCount > 0"
+                    (click)="confirmDelete(row.roomType)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </span>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              <div
+                class="empty-state flex flex-column align-items-center gap-2 py-6 text-center"
+              >
+                <mat-icon aria-hidden="true">grid_view</mat-icon>
+                <span class="font-medium">{{
+                  i18n.t('rooms.room-type-list.empty-title')
+                }}</span>
+                <span class="text-sm text-color-secondary">{{
+                  i18n.t('rooms.room-type-list.empty-text')
+                }}</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </ng-template>
+</app-rooms-layout>

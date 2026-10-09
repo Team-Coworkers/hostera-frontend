@@ -1,0 +1,159 @@
+<app-drawer-header
+  [title]="
+    isEdit
+      ? i18n.t('rooms.rate-plan-form.edit-title')
+      : i18n.t('rooms.rate-plan-form.new-title')
+  "
+  [subtitle]="store.currentProperty()?.name ?? ''"
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('rooms.rate-plan-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="rate-plan-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="saveRatePlan()"
+  >
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.rate-plan-form.name') }}</mat-label>
+      <input
+        matInput
+        name="name"
+        required
+        maxlength="60"
+        cdkFocusInitial
+        [placeholder]="i18n.t('rooms.rate-plan-form.name-placeholder')"
+        [(ngModel)]="name"
+      />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.rate-plan-form.room-types') }}</mat-label>
+      <mat-select
+        multiple
+        name="roomTypeIds"
+        [placeholder]="i18n.t('rooms.rate-plan-form.all-room-types')"
+        [(ngModel)]="roomTypeIds"
+      >
+        <mat-select-trigger>
+          <mat-chip-set>
+            @for (id of roomTypeIds(); track id) {
+              <mat-chip (removed)="removeRoomType(id)">
+                {{ roomTypeName(id) }}
+                <button matChipRemove [attr.aria-label]="roomTypeName(id)">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            }
+          </mat-chip-set>
+        </mat-select-trigger>
+        @for (option of roomTypeOptions(); track option.id) {
+          <mat-option [value]="option.id">{{ option.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-hint>{{ i18n.t('rooms.rate-plan-form.room-types-help') }}</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>{{
+        i18n.t('rooms.rate-plan-form.included-services')
+      }}</mat-label>
+      <mat-select name="includedServices" [(ngModel)]="includedServices">
+        @for (value of includedServicesOptions; track value) {
+          <mat-option [value]="value">{{
+            i18n.t('rooms.rooms-terms.included-services.' + value)
+          }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div
+      class="flex align-items-center justify-content-between gap-3 p-3 border-1 surface-border border-round-lg"
+    >
+      <label for="rate-plan-refundable" class="flex flex-column gap-1">
+        <span class="font-medium">{{
+          i18n.t('rooms.rate-plan-form.refundable')
+        }}</span>
+        <span class="text-sm text-color-secondary">{{
+          refundable()
+            ? i18n.t('rooms.rate-plan-form.refundable-help')
+            : i18n.t('rooms.rate-plan-form.non-refundable-help')
+        }}</span>
+      </label>
+      <mat-slide-toggle
+        id="rate-plan-refundable"
+        name="refundable"
+        [(ngModel)]="refundable"
+      />
+    </div>
+    @if (refundable()) {
+      <mat-form-field class="w-full">
+        <mat-label>{{
+          i18n.t('rooms.rate-plan-form.cancellation-policy')
+        }}</mat-label>
+        <textarea
+          matInput
+          name="cancellationPolicy"
+          rows="2"
+          maxlength="200"
+          required
+          cdkTextareaAutosize
+          [placeholder]="
+            i18n.t('rooms.rate-plan-form.cancellation-policy-placeholder')
+          "
+          [(ngModel)]="cancellationPolicy"
+        ></textarea>
+      </mat-form-field>
+    }
+    @if (isEdit) {
+      <div
+        class="flex align-items-center justify-content-between gap-3 p-3 border-1 surface-border border-round-lg"
+      >
+        <label for="rate-plan-active" class="flex flex-column gap-1">
+          <span class="font-medium">{{
+            i18n.t('rooms.rate-plan-form.active')
+          }}</span>
+          <span class="text-sm text-color-secondary">{{
+            i18n.t('rooms.rate-plan-form.active-help')
+          }}</span>
+        </label>
+        <mat-slide-toggle
+          id="rate-plan-active"
+          name="active"
+          [(ngModel)]="active"
+        />
+      </div>
+    }
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('rooms.rooms-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('rooms.rate-plan-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="rate-plan-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>{{ isEdit ? 'save' : 'check' }}</mat-icon>
+    }
+    {{
+      isEdit
+        ? i18n.t('rooms.rate-plan-form.save')
+        : i18n.t('rooms.rate-plan-form.create')
+    }}
+  </button>
+</mat-dialog-actions>

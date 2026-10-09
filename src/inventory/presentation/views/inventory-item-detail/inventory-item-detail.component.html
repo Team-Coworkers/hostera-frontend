@@ -1,0 +1,311 @@
+<app-inventory-layout>
+  <ng-template layoutBody>
+    @if (inventoryItem(); as item) {
+      <nav
+        class="flex align-items-center gap-2 text-sm"
+        aria-label="breadcrumb"
+      >
+        <a
+          routerLink="/inventory/items"
+          class="text-color-secondary hover:text-primary"
+          >{{ i18n.t('inventory.inventory-item-detail.inventory') }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <span class="font-mono font-medium" aria-current="page">{{
+          item.code
+        }}</span>
+      </nav>
+
+      <header
+        class="flex flex-column md:flex-row md:align-items-center gap-3 pb-4 border-bottom-1 surface-border"
+      >
+        <div class="flex align-items-center gap-3 flex-1 min-w-0">
+          <app-inventory-item-avatar [category]="item.category" size="large" />
+          <div class="flex flex-column gap-1 min-w-0">
+            <div class="flex flex-wrap align-items-center gap-2">
+              <h2 class="m-0 text-2xl font-bold tracking-tight">
+                {{ item.name }}
+              </h2>
+              <app-stock-condition-tag [condition]="item.stockCondition" />
+            </div>
+            <span class="text-sm text-color-secondary">
+              <span class="font-mono">{{ item.code }}</span> ·
+              {{
+                i18n.t('inventory.inventory-terms.categories.' + item.category)
+              }}
+            </span>
+          </div>
+        </div>
+        <div class="flex align-items-center gap-4">
+          <div class="flex flex-column md:align-items-end">
+            <span class="text-sm text-color-secondary">{{
+              i18n.t('inventory.inventory-item-detail.quantity')
+            }}</span>
+            <span class="font-mono text-xl white-space-nowrap"
+              >{{ number(item.totalQuantity) }}
+              <span class="text-sm text-color-secondary">{{
+                i18n.t('inventory.inventory-terms.units.' + item.unit)
+              }}</span></span
+            >
+          </div>
+          <div class="flex gap-2 ml-auto md:ml-0">
+            <button
+              mat-stroked-button
+              [disabled]="store.saving()"
+              (click)="editItem()"
+            >
+              <mat-icon>edit</mat-icon>
+              {{ i18n.t('inventory.inventory-item-detail.edit') }}
+            </button>
+            <button
+              mat-flat-button
+              [disabled]="store.saving()"
+              (click)="adjustStock()"
+            >
+              <mat-icon>swap_horiz</mat-icon>
+              {{ i18n.t('inventory.inventory-item-detail.adjust') }}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid">
+        <section class="col-12 lg:col-8 flex flex-column gap-3">
+          <h3 class="flex align-items-center gap-2 m-0 text-base font-semibold">
+            <mat-icon class="text-color-secondary" aria-hidden="true"
+              >history</mat-icon
+            >
+            {{ i18n.t('inventory.inventory-item-detail.history') }}
+          </h3>
+          <div
+            class="surface-card border-1 surface-border border-round-xl overflow-auto"
+          >
+            <table
+              mat-table
+              class="hostera-table"
+              style="min-width: 44rem"
+              [dataSource]="historySource"
+            >
+              <ng-container matColumnDef="recordedAt">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.inventory-item-detail.recorded-at') }}
+                </th>
+                <td mat-cell *matCellDef="let entry">
+                  <span class="white-space-nowrap">{{
+                    formatDate(entry.recordedAt)
+                  }}</span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="operation">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.inventory-item-detail.operation') }}
+                </th>
+                <td mat-cell *matCellDef="let entry">
+                  <span
+                    class="flex align-items-center gap-2 white-space-nowrap"
+                  >
+                    <mat-icon
+                      [class]="
+                        entry.operation === 'in'
+                          ? 'text-primary'
+                          : 'text-red-600'
+                      "
+                      aria-hidden="true"
+                      >{{
+                        entry.operation === 'in'
+                          ? 'add_circle'
+                          : 'remove_circle'
+                      }}</mat-icon
+                    >
+                    <span class="flex flex-column">
+                      <span>{{
+                        i18n.t(
+                          'inventory.inventory-terms.operations.' +
+                            entry.operation
+                        )
+                      }}</span>
+                      @if (entry.transferId) {
+                        <span class="text-sm text-color-secondary">{{
+                          i18n.t(
+                            'inventory.inventory-terms.operations.transfer'
+                          )
+                        }}</span>
+                      }
+                    </span>
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="change">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.inventory-item-detail.change') }}
+                </th>
+                <td mat-cell *matCellDef="let entry">
+                  <span
+                    class="font-mono font-medium"
+                    [class]="
+                      entry.operation === 'in' ? 'text-primary' : 'text-red-600'
+                    "
+                    >{{ entry.operation === 'in' ? '+' : '−'
+                    }}{{ number(entry.quantity) }}</span
+                  >
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="storage">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.inventory-item-detail.storage') }}
+                </th>
+                <td mat-cell *matCellDef="let entry">
+                  {{ entry.locationName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="reason">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.inventory-item-detail.reason') }}
+                </th>
+                <td mat-cell *matCellDef="let entry">
+                  <span class="flex flex-column">
+                    <span>{{
+                      i18n.t(
+                        'inventory.inventory-terms.reasons.' + entry.reason
+                      )
+                    }}</span>
+                    @if (entry.note) {
+                      <span class="text-sm text-color-secondary">{{
+                        entry.note
+                      }}</span>
+                    }
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="operator">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ i18n.t('inventory.inventory-item-detail.operator') }}
+                </th>
+                <td mat-cell *matCellDef="let entry">
+                  {{ operatorName(entry.operator) }}
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="historyColumns"></tr>
+              <tr mat-row *matRowDef="let entry; columns: historyColumns"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td
+                  class="mat-cell p-3 text-color-secondary"
+                  [attr.colspan]="historyColumns.length"
+                >
+                  {{ i18n.t('inventory.inventory-item-detail.no-history') }}
+                </td>
+              </tr>
+            </table>
+            <mat-paginator
+              [pageSize]="8"
+              [hidePageSize]="true"
+              [class.hidden]="stockHistory().length <= 8"
+            />
+          </div>
+        </section>
+
+        <aside class="col-12 lg:col-4">
+          <div
+            class="flex flex-column gap-4 p-4 surface-50 border-1 surface-border border-round-xl"
+          >
+            <section class="flex flex-column gap-3">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >info</mat-icon
+                >
+                {{ i18n.t('inventory.inventory-item-detail.details') }}
+              </h3>
+              <dl class="facts flex flex-column gap-2 m-0">
+                @for (fact of itemFacts(); track fact.label) {
+                  <div class="flex justify-content-between gap-3">
+                    <dt>{{ fact.label }}</dt>
+                    <dd class="text-right font-medium">{{ fact.value }}</dd>
+                  </div>
+                }
+              </dl>
+            </section>
+
+            <section class="flex flex-column gap-2">
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >warehouse</mat-icon
+                >
+                {{ i18n.t('inventory.inventory-item-detail.allocation') }}
+              </h3>
+              <ul class="list-none p-0 m-0">
+                @for (stock of item.stocks; track stock.locationId) {
+                  <li
+                    class="flex align-items-center gap-2 py-2 border-bottom-1 surface-border"
+                  >
+                    <div class="flex flex-column flex-1 min-w-0">
+                      <a
+                        [routerLink]="[
+                          '/inventory/storage-locations',
+                          stock.locationId,
+                        ]"
+                        class="font-medium text-color hover:text-primary"
+                        >{{ storageLocationName(stock.locationId) }}</a
+                      >
+                      <span class="text-sm text-color-secondary">{{
+                        stock.locationId === item.primaryLocationId
+                          ? i18n.t(
+                              'inventory.inventory-item-detail.primary-storage'
+                            )
+                          : i18n.t(
+                              'inventory.inventory-item-detail.secondary-storage'
+                            )
+                      }}</span>
+                    </div>
+                    <span class="font-mono">{{ number(stock.quantity) }}</span>
+                    @if (
+                      stock.quantity === 0 &&
+                      stock.locationId !== item.primaryLocationId
+                    ) {
+                      <button
+                        mat-icon-button
+                        [matTooltip]="
+                          i18n.t(
+                            'inventory.inventory-item-detail.remove-assignment'
+                          )
+                        "
+                        [attr.aria-label]="
+                          i18n.t(
+                            'inventory.inventory-item-detail.remove-assignment'
+                          ) +
+                          ': ' +
+                          storageLocationName(stock.locationId)
+                        "
+                        [disabled]="store.saving()"
+                        (click)="removeAssignment(stock.locationId)"
+                      >
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    }
+                  </li>
+                }
+              </ul>
+              <p class="m-0 text-sm text-color-secondary line-height-3">
+                {{ i18n.t('inventory.inventory-item-detail.unit-help') }}
+              </p>
+            </section>
+          </div>
+        </aside>
+      </div>
+    } @else {
+      <app-message severity="warn" icon="search">
+        <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+          <span>{{ i18n.t('inventory.inventory-item-detail.not-found') }}</span>
+          <a routerLink="/inventory/items" class="font-medium">{{
+            i18n.t('inventory.inventory-item-detail.back')
+          }}</a>
+        </div>
+      </app-message>
+    }
+  </ng-template>
+</app-inventory-layout>

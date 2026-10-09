@@ -1,0 +1,72 @@
+mat-sidenav-container {
+  background: var(--p-surface-50);
+}
+
+mat-sidenav {
+  width: 15rem;
+  border-right: 1px solid var(--p-surface-200);
+  border-radius: 0;
+  background: var(--p-surface-0);
+  transition:
+    width 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* Desktop: an icon rail that expands over the content, which keeps the rail's margin. */
+mat-sidenav.collapsed {
+  width: 3.75rem;
+}
+
+mat-sidenav.expanded {
+  width: 15rem;
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.08),
+    0 3px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu {
+  gap: 0.375rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 2.75rem;
+  padding: 0 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  color: var(--p-text-color);
+  overflow: hidden;
+}
+
+.nav-item mat-icon {
+  color: var(--p-surface-600);
+}
+
+.nav-item:hover,
+.nav-item:focus-visible {
+  background: var(--p-surface-100);
+}
+
+/* The current section carries a primary accent on its leading edge. */
+.nav-item.active {
+  background: var(--p-primary-50);
+  color: var(--p-primary-700);
+  box-shadow: inset 3px 0 0 var(--p-primary-color);
+}
+
+.nav-item.active mat-icon {
+  color: var(--p-primary-700);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}

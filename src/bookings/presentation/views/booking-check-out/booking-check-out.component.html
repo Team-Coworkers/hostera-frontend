@@ -1,0 +1,323 @@
+<app-bookings-layout>
+  <ng-template layoutBody>
+    @if (booking(); as booking) {
+      <nav
+        class="flex align-items-center gap-2 text-sm"
+        aria-label="breadcrumb"
+      >
+        <a
+          routerLink="/bookings"
+          class="text-color-secondary hover:text-primary"
+          >{{ i18n.t('bookings.booking-detail.bookings') }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <a
+          [routerLink]="['/bookings', booking.id]"
+          class="font-mono text-color-secondary hover:text-primary"
+          >{{ booking.code }}</a
+        >
+        <mat-icon class="text-sm text-color-secondary" aria-hidden="true"
+          >chevron_right</mat-icon
+        >
+        <span class="font-medium" aria-current="page">{{
+          i18n.t('bookings.booking-check-out.breadcrumb')
+        }}</span>
+      </nav>
+
+      <header
+        class="flex align-items-center gap-3 pb-4 border-bottom-1 surface-border"
+      >
+        <span
+          class="flex align-items-center justify-content-center w-3rem h-3rem flex-shrink-0 bg-primary-50 text-primary border-round-lg"
+          aria-hidden="true"
+          ><mat-icon>logout</mat-icon></span
+        >
+        <div class="flex flex-column gap-1 min-w-0">
+          <h2 class="m-0 text-2xl font-bold tracking-tight">
+            {{
+              i18n.t('bookings.booking-check-out.title', {
+                name: booking.guestName,
+              })
+            }}
+          </h2>
+          <span class="text-sm text-color-secondary">
+            {{
+              i18n.t('bookings.bookings-terms.room-number', {
+                number: room()?.number ?? '—',
+              })
+            }}
+            · {{ stay(booking) }}
+          </span>
+        </div>
+      </header>
+
+      @if (!booking.canBeCheckedOut) {
+        <app-message severity="warn" icon="lock">
+          <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+            <span>{{
+              i18n.t('bookings.booking-check-out.checked-in-only')
+            }}</span>
+            <a [routerLink]="['/bookings', booking.id]" class="font-medium">{{
+              i18n.t('bookings.booking-check-in.back-to-booking')
+            }}</a>
+          </div>
+        </app-message>
+      } @else {
+        <form id="check-out-form" class="grid" (ngSubmit)="completeCheckOut()">
+          <div class="col-12 lg:col-8 flex flex-column gap-3">
+            <div
+              class="flex flex-column gap-4 p-4 surface-card border-1 surface-border border-round-xl"
+            >
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >checklist</mat-icon
+                >
+                {{ i18n.t('bookings.booking-check-out.review') }}
+              </h3>
+              <dl
+                class="facts grid grid-nogutter m-0 border-1 surface-border border-round-lg overflow-hidden"
+              >
+                <div class="col-12 md:col-4 flex flex-column gap-1 p-3">
+                  <dt class="text-sm">
+                    {{ i18n.t('bookings.booking-check-out.departure') }}
+                  </dt>
+                  <dd class="font-semibold">{{ departureLabel() }}</dd>
+                </div>
+                <div
+                  class="col-12 md:col-4 flex flex-column gap-1 p-3 border-top-1 md:border-top-none md:border-left-1 surface-border"
+                >
+                  <dt class="text-sm">
+                    {{ i18n.t('bookings.booking-detail.room') }}
+                  </dt>
+                  <dd class="font-semibold">
+                    <span class="font-mono">{{ room()?.number ?? '—' }}</span> ·
+                    {{ roomType()?.name }}
+                  </dd>
+                </div>
+                <div
+                  class="col-12 md:col-4 flex flex-column gap-1 p-3 border-top-1 md:border-top-none md:border-left-1 surface-border"
+                >
+                  <dt class="text-sm">
+                    {{ i18n.t('bookings.booking-payment-summary.balance') }}
+                  </dt>
+                  <dd
+                    class="font-mono font-semibold"
+                    [class.text-red-600]="balanceDue() > 0"
+                  >
+                    {{ money(balanceDue()) }}
+                  </dd>
+                </div>
+              </dl>
+              @if (earlyDeparture()) {
+                <app-message severity="info">
+                  {{ i18n.t('bookings.booking-check-out.early') }}
+                </app-message>
+              }
+              <mat-form-field class="w-full">
+                <mat-label>{{
+                  i18n.t('bookings.booking-check-out.room-condition')
+                }}</mat-label>
+                <mat-select name="roomCondition" [(ngModel)]="roomCondition">
+                  <mat-select-trigger>
+                    <span class="flex align-items-center gap-2">
+                      <mat-icon aria-hidden="true">{{
+                        roomConditionIcons[roomCondition()]
+                      }}</mat-icon>
+                      {{
+                        i18n.t(
+                          'bookings.bookings-terms.room-conditions.' +
+                            roomCondition()
+                        )
+                      }}
+                    </span>
+                  </mat-select-trigger>
+                  @for (value of roomConditions; track value) {
+                    <mat-option [value]="value">
+                      <mat-icon aria-hidden="true">{{
+                        roomConditionIcons[value]
+                      }}</mat-icon>
+                      {{
+                        i18n.t(
+                          'bookings.bookings-terms.room-conditions.' + value
+                        )
+                      }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              @if (roomCondition() === 'needs-attention') {
+                <small class="text-color-secondary line-height-3 -mt-2"
+                  >{{ i18n.t('bookings.booking-check-out.attention-help') }}
+                  @if (room(); as room) {
+                    <a
+                      [routerLink]="['/rooms', room.id]"
+                      class="font-medium text-primary"
+                      >{{ i18n.t('bookings.booking-detail.view-room') }}</a
+                    >
+                  }
+                </small>
+              }
+              <mat-form-field class="w-full">
+                <mat-label>{{
+                  i18n.t('bookings.booking-check-out.note')
+                }}</mat-label>
+                <textarea
+                  matInput
+                  name="note"
+                  rows="2"
+                  maxlength="200"
+                  cdkTextareaAutosize
+                  [placeholder]="
+                    i18n.t('bookings.booking-check-out.note-placeholder')
+                  "
+                  [(ngModel)]="note"
+                ></textarea>
+              </mat-form-field>
+              @if (balanceDue() > 0) {
+                <app-message severity="warn" icon="account_balance_wallet">
+                  <div class="flex flex-column gap-1">
+                    <span class="font-semibold">{{
+                      i18n.t('bookings.booking-check-out.balance-title')
+                    }}</span>
+                    <span>{{
+                      i18n.t('bookings.booking-check-out.balance-text')
+                    }}</span>
+                  </div>
+                </app-message>
+              }
+            </div>
+            @if (balanceDue() > 0) {
+              <div
+                class="p-4 surface-card border-1 surface-border border-round-xl"
+              >
+                <app-booking-payment-summary [booking]="booking" />
+              </div>
+            }
+          </div>
+
+          <aside class="col-12 lg:col-4">
+            <div
+              class="flex flex-column gap-3 p-4 surface-50 border-1 surface-border border-round-xl"
+            >
+              <h3
+                class="flex align-items-center gap-2 m-0 text-base font-semibold"
+              >
+                <mat-icon class="text-color-secondary" aria-hidden="true"
+                  >swap_horiz</mat-icon
+                >
+                {{ i18n.t('bookings.booking-check-out.changes') }}
+              </h3>
+              <dl class="facts flex flex-column gap-3 m-0">
+                <div
+                  class="flex align-items-center justify-content-between gap-2"
+                >
+                  <dt>{{ i18n.t('bookings.booking-check-out.booking') }}</dt>
+                  <dd class="flex align-items-center gap-2">
+                    <app-booking-status-tag status="checked-in" />
+                    <mat-icon class="text-sm" aria-hidden="true"
+                      >arrow_forward</mat-icon
+                    >
+                    <app-booking-status-tag status="checked-out" />
+                  </dd>
+                </div>
+                <div
+                  class="flex align-items-center justify-content-between gap-2"
+                >
+                  <dt>
+                    {{
+                      i18n.t('bookings.bookings-terms.room-number', {
+                        number: room()?.number ?? '—',
+                      })
+                    }}
+                  </dt>
+                  <dd class="text-right font-medium">
+                    {{ i18n.t('bookings.booking-check-out.room-released') }}
+                  </dd>
+                </div>
+                @if (usableKeyCards().length) {
+                  <div
+                    class="flex align-items-center justify-content-between gap-2"
+                  >
+                    <dt>
+                      {{ i18n.t('bookings.booking-check-out.key-cards') }}
+                    </dt>
+                    <dd class="text-right font-medium text-red-600">
+                      {{
+                        i18n.t('bookings.booking-check-out.key-cards-ended', {
+                          count: usableKeyCards().length,
+                        })
+                      }}
+                    </dd>
+                  </div>
+                }
+                <div
+                  class="flex align-items-center justify-content-between gap-2"
+                >
+                  <dt>
+                    {{ i18n.t('bookings.booking-payment-summary.title') }}
+                  </dt>
+                  <dd
+                    class="font-medium"
+                    [class]="
+                      balanceDue() > 0 ? 'text-red-600' : 'text-green-700'
+                    "
+                  >
+                    {{
+                      balanceDue() > 0
+                        ? i18n.t('bookings.booking-check-out.outstanding')
+                        : i18n.t(
+                            'bookings.bookings-terms.payment-statuses.paid'
+                          )
+                    }}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </aside>
+
+          <div class="col-12">
+            @if (errorCode()) {
+              <app-message severity="error" icon="cancel" class="mb-3">
+                {{ i18n.t('bookings.bookings-terms.errors.' + errorCode()) }}
+              </app-message>
+            }
+            <div class="flex justify-content-between gap-2">
+              <a
+                mat-stroked-button
+                [routerLink]="['/bookings', booking.id]"
+                [class.pointer-events-none]="store.saving()"
+              >
+                {{ i18n.t('bookings.booking-check-in.back') }}
+              </a>
+              <button
+                mat-flat-button
+                type="submit"
+                [disabled]="store.saving() || balanceDue() > 0"
+              >
+                @if (store.saving()) {
+                  <mat-spinner diameter="18" />
+                } @else {
+                  <mat-icon>check</mat-icon>
+                }
+                {{ i18n.t('bookings.booking-check-out.complete') }}
+              </button>
+            </div>
+          </div>
+        </form>
+      }
+    } @else {
+      <app-message severity="warn" icon="search">
+        <div class="flex flex-column sm:flex-row sm:align-items-center gap-3">
+          <span>{{ i18n.t('bookings.booking-detail.not-found') }}</span>
+          <a routerLink="/bookings" class="font-medium">{{
+            i18n.t('bookings.booking-detail.back')
+          }}</a>
+        </div>
+      </app-message>
+    }
+  </ng-template>
+</app-bookings-layout>

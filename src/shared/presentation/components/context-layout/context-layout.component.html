@@ -1,0 +1,77 @@
+<div class="flex flex-column">
+  <header
+    class="sticky top-0 z-2 flex flex-wrap align-items-center gap-2 px-3 md:px-5 py-2 md:h-4rem surface-card border-bottom-1 surface-border"
+  >
+    <app-sidebar-toggle />
+    <mat-divider vertical class="h-1rem mx-1" />
+    @if (backLink()) {
+      <a
+        mat-icon-button
+        [routerLink]="backLink()"
+        [matTooltip]="backLabel()"
+        matTooltipPosition="below"
+        [attr.aria-label]="backLabel()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+    }
+    <h1
+      class="m-0 mr-auto text-xl font-semibold tracking-tight white-space-nowrap overflow-hidden text-overflow-ellipsis"
+    >
+      {{ title() }}
+    </h1>
+    <mat-select
+      class="property-select flex-order-1 md:flex-order-0 w-full md:w-14rem"
+      panelWidth="null"
+      [value]="currentPropertyId()"
+      [disabled]="propertyDisabled()"
+      [attr.aria-label]="propertyLabel()"
+      (selectionChange)="propertyChange.emit($event.value)"
+    >
+      <mat-select-trigger>
+        <span class="flex align-items-center gap-2">
+          <mat-icon class="text-color-secondary text-sm" aria-hidden="true"
+            >apartment</mat-icon
+          >
+          <span
+            class="font-medium white-space-nowrap overflow-hidden text-overflow-ellipsis"
+            >{{ currentPropertyName() }}</span
+          >
+        </span>
+      </mat-select-trigger>
+      @for (property of properties(); track property.id) {
+        <mat-option [value]="property.id">{{ property.name }}</mat-option>
+      }
+    </mat-select>
+    <ng-content select="[layoutActions]" />
+  </header>
+
+  <div class="flex flex-column gap-4 p-3 md:px-5 md:pt-4 md:pb-5">
+    <ng-content select="[layoutTabs]" />
+    @if (noProperties()) {
+      <app-message severity="warn">{{ noPropertiesMessage() }}</app-message>
+    } @else if (failed() && !loaded()) {
+      <app-message severity="error">
+        <div
+          class="flex flex-column sm:flex-row sm:align-items-center justify-content-between gap-3"
+        >
+          <span>{{ connectionMessage() }}</span>
+          <button mat-flat-button class="danger-button" (click)="retry.emit()">
+            <mat-icon>refresh</mat-icon>
+            {{ retryLabel() }}
+          </button>
+        </div>
+      </app-message>
+    } @else if (!loaded()) {
+      <div
+        class="flex flex-column align-items-center gap-3 py-8 text-color-secondary"
+        role="status"
+      >
+        <mat-spinner diameter="42" strokeWidth="4" aria-hidden="true" />
+        <span>{{ loadingLabel() }}</span>
+      </div>
+    } @else {
+      <ng-container [ngTemplateOutlet]="body() ?? null" />
+    }
+  </div>
+</div>

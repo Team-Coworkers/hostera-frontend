@@ -1,0 +1,130 @@
+<app-drawer-header
+  [title]="
+    isEdit
+      ? i18n.t('rooms.room-type-form.edit-title')
+      : i18n.t('rooms.room-type-form.new-title')
+  "
+  [subtitle]="
+    isEdit
+      ? i18n.t('rooms.room-type-form.rooms-count', { count: roomsCount })
+      : (store.currentProperty()?.name ?? '')
+  "
+  [busy]="store.saving()"
+  [closeLabel]="i18n.t('rooms.room-type-form.cancel')"
+/>
+
+<mat-dialog-content>
+  <form
+    id="room-type-form"
+    class="flex flex-column gap-3 pt-1"
+    (ngSubmit)="saveRoomType()"
+  >
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.room-type-form.name') }}</mat-label>
+      <input
+        matInput
+        name="name"
+        required
+        maxlength="60"
+        cdkFocusInitial
+        [placeholder]="i18n.t('rooms.room-type-form.name-placeholder')"
+        [(ngModel)]="name"
+      />
+    </mat-form-field>
+    <div class="grid">
+      <mat-form-field class="col-12 sm:col-5">
+        <mat-label>{{ i18n.t('rooms.room-type-form.capacity') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          name="capacity"
+          min="1"
+          step="1"
+          required
+          [max]="maxCapacity"
+          [(ngModel)]="capacity"
+        />
+        <span matTextSuffix class="ml-1">{{
+          i18n.t('rooms.room-type-form.guests')
+        }}</span>
+      </mat-form-field>
+      <mat-form-field class="col-12 sm:col-7">
+        <mat-label>{{ i18n.t('rooms.room-type-form.beds') }}</mat-label>
+        <input
+          matInput
+          name="bedConfiguration"
+          required
+          maxlength="60"
+          [placeholder]="i18n.t('rooms.room-type-form.beds-placeholder')"
+          [(ngModel)]="bedConfiguration"
+        />
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-full">
+      <mat-label>{{ i18n.t('rooms.room-type-form.base-rate') }}</mat-label>
+      <span matTextPrefix class="mr-1">{{ currencySymbol() }}</span>
+      <input
+        matInput
+        type="number"
+        name="baseNightlyRate"
+        class="font-mono"
+        min="0"
+        step="0.01"
+        required
+        [(ngModel)]="baseNightlyRate"
+      />
+      <mat-hint>{{ i18n.t('rooms.room-type-form.base-rate-help') }}</mat-hint>
+    </mat-form-field>
+    <div
+      class="flex align-items-center justify-content-between gap-3 p-3 border-1 surface-border border-round-lg"
+    >
+      <label for="room-type-active" class="flex flex-column gap-1">
+        <span class="font-medium">{{
+          i18n.t('rooms.room-type-form.active')
+        }}</span>
+        <span class="text-sm text-color-secondary">{{
+          i18n.t('rooms.room-type-form.active-help')
+        }}</span>
+      </label>
+      <mat-slide-toggle
+        id="room-type-active"
+        name="active"
+        [(ngModel)]="active"
+      />
+    </div>
+    @if (roomsCount) {
+      <app-message severity="secondary">
+        {{ i18n.t('rooms.room-type-form.in-use', { count: roomsCount }) }}
+      </app-message>
+    }
+    @if (errorCode()) {
+      <app-message severity="error" icon="cancel">
+        {{ i18n.t('rooms.rooms-terms.errors.' + errorCode()) }}
+      </app-message>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    type="button"
+    mat-dialog-close
+    [disabled]="store.saving()"
+  >
+    {{ i18n.t('rooms.room-type-form.cancel') }}
+  </button>
+  <button
+    mat-flat-button
+    type="submit"
+    form="room-type-form"
+    [disabled]="store.saving()"
+  >
+    @if (store.saving()) {
+      <mat-spinner diameter="18" />
+    } @else {
+      <mat-icon>save</mat-icon>
+    }
+    {{ i18n.t('rooms.room-type-form.save') }}
+  </button>
+</mat-dialog-actions>
