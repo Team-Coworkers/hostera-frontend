@@ -12,6 +12,7 @@ export const localeNamespaces: Record<string, string[]> = {
   shared: [
     'home',
     'app-layout',
+    'app-footer',
     'language-switcher',
     'sidebar-toggle',
     'primevue-locale',

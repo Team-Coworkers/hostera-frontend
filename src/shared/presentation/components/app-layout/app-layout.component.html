@@ -71,7 +71,10 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="overflow-y-auto">
-    <router-outlet />
+  <mat-sidenav-content class="overflow-y-auto flex flex-column">
+    <div class="flex-1">
+      <router-outlet />
+    </div>
+    <app-footer />
   </mat-sidenav-content>
 </mat-sidenav-container>
