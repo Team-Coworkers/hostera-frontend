@@ -10,6 +10,7 @@ import {
 } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LayoutService } from '../../services/layout.service';
+import { AppFooterComponent } from '../app-footer/app-footer.component';
 import { BrandLogoComponent } from '../brand-logo/brand-logo.component';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 
@@ -24,7 +25,7 @@ interface NavigationItem {
 
 /**
  * Application shell: a Material sidenav with the main navigation, the language switcher,
- * and the signed-in operator, around the routed workspace.
+ * and the signed-in operator, around the routed workspace and the site footer.
  *
  * On desktop the sidenav rests as an icon rail and expands over the content on hover;
  * below 992px it becomes an off-canvas overlay opened from each workspace header.
@@ -39,6 +40,7 @@ interface NavigationItem {
     RouterLinkActive,
     RouterOutlet,
     TranslatePipe,
+    AppFooterComponent,
     BrandLogoComponent,
     LanguageSwitcherComponent,
   ],
