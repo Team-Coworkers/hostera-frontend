@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   hosteraApiUrl: 'http://localhost:3000',
+  /** Answer API requests in the browser from `server/data` instead of JSON Server. */
+  demoApiEnabled: false,
   propertiesEndpointPath: '/properties',
   inventoryItemsEndpointPath: '/inventory-items',
   storageLocationsEndpointPath: '/storage-locations',
