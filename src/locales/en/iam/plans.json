@@ -1,0 +1,20 @@
+{
+  "starter": {
+    "name": "Starter",
+    "scope": "For one property with up to 10 rooms.",
+    "rate": "S/{price} per property / month",
+    "i1": "Basic reservations and availability",
+    "i2": "Warehouse without automatic alerts",
+    "i3": "One simulated RFID reader",
+    "i4": "One administrator"
+  },
+  "professional": {
+    "name": "Professional",
+    "scope": "For hotel chains with 2 to 5 locations.",
+    "rate": "S/{price} per room / month across your hotels",
+    "i1": "Unlimited rooms across locations",
+    "i2": "Automatic critical-stock alerts",
+    "i3": "Up to 25 RFID readers",
+    "i4": "Reports by location and five administrators with roles"
+  }
+}

@@ -1,0 +1,161 @@
+<app-auth-layout headingId="sign-up-heading" [wide]="true">
+  <h1 id="sign-up-heading" class="text-2xl font-semibold mt-0 mb-2">
+    {{ i18n.t('iam.sign-up.title') }}
+  </h1>
+  <p class="text-color-secondary mt-0 mb-4">
+    {{ i18n.t('iam.sign-up.subtitle') }}
+  </p>
+
+  <form class="grid" novalidate (ngSubmit)="register()">
+    <fieldset
+      class="col-12 md:col-6 border-none p-0 m-0 flex flex-column gap-3"
+    >
+      <legend class="font-medium mb-2">
+        {{ i18n.t('iam.sign-up.plan-legend') }}
+      </legend>
+      <mat-button-toggle-group
+        class="w-full"
+        hideSingleSelectionIndicator
+        [value]="selectedPlan().id"
+        [attr.aria-label]="i18n.t('iam.sign-up.plan-legend')"
+        (change)="choosePlan($event.value)"
+      >
+        @for (option of plans; track option.id) {
+          <mat-button-toggle class="flex-1" [value]="option.id">{{
+            i18n.t('iam.plans.' + option.id + '.name')
+          }}</mat-button-toggle>
+        }
+      </mat-button-toggle-group>
+
+      <div class="plan-summary p-3 border-round-lg">
+        <p class="m-0 text-color-secondary">
+          {{ i18n.t('iam.plans.' + selectedPlan().id + '.scope') }}
+        </p>
+        <p class="m-0 mt-2">
+          <output
+            class="text-3xl font-semibold"
+            aria-live="polite"
+            [attr.aria-label]="i18n.t('iam.sign-up.estimate-label')"
+            >{{ formattedPrice() }}</output
+          >
+          <span class="text-color-secondary">
+            {{ i18n.t('iam.sign-up.per-month') }}</span
+          >
+        </p>
+        <p class="m-0 mt-1 text-sm text-color-secondary">
+          {{
+            i18n.t('iam.plans.' + selectedPlan().id + '.rate', {
+              price: selectedPlan().unitPrice,
+            })
+          }}
+        </p>
+        <ul class="mt-3 mb-0 pl-3 flex flex-column gap-1 text-sm">
+          @for (index of [1, 2, 3, 4]; track index) {
+            <li>
+              {{ i18n.t('iam.plans.' + selectedPlan().id + '.i' + index) }}
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="grid">
+        <mat-form-field class="col-6">
+          <mat-label>{{ i18n.t('iam.sign-up.properties') }}</mat-label>
+          <input
+            matInput
+            type="number"
+            name="propertyCount"
+            inputmode="numeric"
+            step="1"
+            required
+            [min]="selectedPlan().minProperties"
+            [max]="selectedPlan().maxProperties"
+            [ngModel]="propertyCount()"
+            (ngModelChange)="propertyCount.set($event)"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-6">
+          <mat-label>{{ i18n.t('iam.sign-up.rooms') }}</mat-label>
+          <input
+            matInput
+            type="number"
+            name="roomCount"
+            inputmode="numeric"
+            step="1"
+            min="1"
+            required
+            [ngModel]="roomCount()"
+            (ngModelChange)="roomCount.set($event)"
+          />
+        </mat-form-field>
+      </div>
+    </fieldset>
+
+    <fieldset
+      class="col-12 md:col-6 border-none p-0 m-0 flex flex-column gap-3"
+    >
+      <legend class="font-medium mb-2">
+        {{ i18n.t('iam.sign-up.account-legend') }}
+      </legend>
+      <mat-form-field class="w-full">
+        <mat-label>{{ i18n.t('iam.sign-up.full-name') }}</mat-label>
+        <input
+          matInput
+          name="fullName"
+          autocomplete="name"
+          required
+          maxlength="100"
+          [(ngModel)]="fullName"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>{{ i18n.t('iam.sign-up.email') }}</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          autocomplete="email"
+          required
+          maxlength="120"
+          [(ngModel)]="email"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>{{ i18n.t('iam.sign-up.organization') }}</mat-label>
+        <input
+          matInput
+          name="organizationName"
+          autocomplete="organization"
+          required
+          maxlength="100"
+          [(ngModel)]="organizationName"
+        />
+      </mat-form-field>
+
+      @if (error()) {
+        <app-message severity="error">
+          {{
+            i18n.t('iam.sign-up.errors.' + error(), {
+              plan: i18n.t('iam.plans.' + selectedPlan().id + '.name'),
+            })
+          }}
+        </app-message>
+      }
+
+      <app-message severity="secondary">
+        {{ i18n.t('iam.sign-up.demo-notice') }}
+      </app-message>
+
+      <button mat-flat-button type="submit" class="w-full">
+        <mat-icon>person_add</mat-icon>
+        {{ i18n.t('iam.sign-up.submit') }}
+      </button>
+      <p class="m-0 text-center">
+        {{ i18n.t('iam.sign-up.has-account') }}
+        <a routerLink="/sign-in" class="text-primary font-medium">{{
+          i18n.t('iam.sign-up.sign-in')
+        }}</a>
+      </p>
+    </fieldset>
+  </form>
+</app-auth-layout>
