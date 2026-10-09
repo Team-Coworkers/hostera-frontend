@@ -2,7 +2,7 @@
 
 Hostera is a hotel operations web application for front desk and operations teams. It brings bookings, rooms and rates, supplies inventory, and RFID access control together for each property, with an overview of how the property is doing today.
 
-This repository holds the Angular single-page application (SPA) and a development-only mock API. The SPA is organized by bounded context, following a domain-driven design (DDD) structure. The interface is available in English and Spanish from the sidebar language selector.
+This repository holds the Angular single-page application (SPA) and a development-only mock API. The SPA is organized by bounded context, following a domain-driven design (DDD) structure. The interface is available in English (`en`, the default) and Latin American Spanish (`es-419`) from the sidebar language selector.
 
 ## Tech stack
 
@@ -67,7 +67,7 @@ src/
   inventory/         Inventory bounded context
   access-control/    Access Control bounded context
   shared/            Cross-context infrastructure and presentation
-  locales/           Translations by language and context
+  locales/           Translations by language (en, es-419) and context
   environments/      API URL and resource paths per build configuration
   app.routes.ts      Application routes composed from each context
   app.config.ts      Providers: router, HttpClient, Material defaults, i18n
