@@ -1,6 +1,6 @@
 # Local Mock API
 
-This is a mock API for development and demonstrations. It runs separately from the SPA. The deployed SPA reads the same fixtures in the browser through `demo-api.interceptor.ts`, and a demonstration copy can be published on Render (see [Demonstration deployment on Render](#demonstration-deployment-on-render)).
+This is a mock API for development and demonstrations. It runs separately from the SPA. A demonstration copy is published on Render for the deployed SPA, and the same fixtures can also be served in the browser through `demo-api.interceptor.ts` (see [Demonstration deployment on Render](#demonstration-deployment-on-render)).
 
 JSON Server `^0.17.4` serves the generated database at `http://localhost:3000`.
 
@@ -88,7 +88,7 @@ The frontend generates card IDs with a simulated encoder and keeps at most one u
 
 ## Demonstration deployment on Render
 
-The mock API can be published as a Render Web Service, as an alternative to the in-browser demonstration API of the deployed SPA. The service is described in `render.yaml` at the repository root:
+The mock API is published as a Render Web Service so that the SPA deployed on GitHub Pages has data to read. The service is described in `render.yaml` at the repository root:
 
 | Setting           | Value                                                 |
 | ----------------- | ----------------------------------------------------- |
@@ -99,7 +99,7 @@ The mock API can be published as a Render Web Service, as an alternative to the 
 | Start Command     | `npm run server:start -- --host 0.0.0.0 --port $PORT` |
 | Health Check Path | `/properties`                                         |
 
-To create it, sign in to Render, choose **New → Blueprint**, select this repository and apply it. The service is then published at `https://team-coworkers-hostera-api.onrender.com`, the URL already configured in `src/environments/environment.production.ts`. Set `demoApiEnabled` to false there and release again; if Render assigns a different URL, update `hosteraApiUrl` too.
+It was created as the Render Blueprint `hostera` from the public repository URL (**New → Blueprint → Public Git Repository**). The service is published at `https://team-coworkers-hostera-api.onrender.com`, the URL configured in `src/environments/environment.production.ts`. Auto-Deploy is set to **On Commit**, so each push to `main` redeploys it; a deploy can also be started by hand with **Manual Deploy** on the service page.
 
 JSON Server is a development dependency, so the build command installs development dependencies explicitly. Render provides `PORT`, and `--host 0.0.0.0` makes JSON Server accept external connections. JSON Server allows cross-origin requests, so the SPA can call it from `https://team-coworkers.github.io`.
 
