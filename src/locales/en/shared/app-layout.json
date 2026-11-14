@@ -5,5 +5,6 @@
   "inventory": "Inventory",
   "access-control": "Access control",
   "navigation": "Main navigation",
-  "operator-role": "Operations manager"
+  "operator-role": "Operations manager",
+  "sign-out": "Sign out"
 }

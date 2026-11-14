@@ -12,6 +12,13 @@ export type DayStatus =
   | 'out-of-service';
 
 /** Attributes of a {@link Room}, as exchanged with the API. */
+/**
+ * Housekeeping and occupancy state that the RESTful API keeps for a room. A room is `ready`
+ * once it was cleaned for the next arrival; after a check-out it is `needs-cleaning`.
+ */
+export type RoomStatus =
+  'available' | 'ready' | 'occupied' | 'needs-cleaning' | 'blocked';
+
 export interface RoomAttributes {
   /** Room identifier. */
   id: number | null;
@@ -23,6 +30,8 @@ export interface RoomAttributes {
   roomTypeId: number | null;
   /** Building level of the room. */
   floor: number | null;
+  /** Housekeeping and occupancy state kept by the RESTful API. */
+  status: RoomStatus;
 }
 
 /**
@@ -40,11 +49,21 @@ export class Room implements RoomAttributes {
     'out-of-service',
   ];
 
+  /** Statuses in the order of a stay: free, prepared, in use, to clean and out of sale. */
+  static readonly statuses: RoomStatus[] = [
+    'available',
+    'ready',
+    'occupied',
+    'needs-cleaning',
+    'blocked',
+  ];
+
   id: number | null;
   propertyId: number | null;
   number: string;
   roomTypeId: number | null;
   floor: number | null;
+  status: RoomStatus;
 
   /**
    * @param params - Entity attributes; the API may send the room number as a number.
@@ -55,6 +74,7 @@ export class Room implements RoomAttributes {
     number = '',
     roomTypeId = null,
     floor = null,
+    status = 'available',
   }: Partial<
     Omit<RoomAttributes, 'number'> & { number: string | number }
   > = {}) {
@@ -63,6 +83,12 @@ export class Room implements RoomAttributes {
     this.number = String(number).trim();
     this.roomTypeId = roomTypeId;
     this.floor = floor;
+    this.status = status;
+  }
+
+  /** Whether a guest can check in to the room: it is free or already prepared. */
+  get canReceiveGuests(): boolean {
+    return this.status === 'available' || this.status === 'ready';
   }
 
   /**

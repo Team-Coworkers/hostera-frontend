@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-11-14
+
+### Changed
+
+- The deployed SPA reads the Hostera Platform RESTful API, `https://hostera-platform-api.onrender.com/api/v1`, with sign-in enabled; the development environment points to the API at `http://localhost:8080/api/v1`.
+
+### Added
+
+- Housekeeping status of a room (`available`, `ready`, `occupied`, `needs-cleaning` or `blocked`) read from the RESTful API and shown in the room detail, in English and Spanish. A room is `ready` once it was cleaned; after a check-out it is `needs-cleaning`.
+
+### Fixed
+
+- The Rooms workspace reads the rooms again every time it opens, so the housekeeping status reflects a check-in or check-out made in Bookings without reloading the page.
+
 ## [0.5.0] - 2026-10-09
 
 ### Added

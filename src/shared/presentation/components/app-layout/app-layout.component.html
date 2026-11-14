@@ -54,12 +54,12 @@
           [class]="collapsed() ? 'justify-content-center' : 'p-2 surface-100'"
         >
           <span class="avatar bg-primary font-medium" aria-hidden="true">{{
-            currentOperator.initials
+            currentOperator().initials
           }}</span>
           @if (!collapsed()) {
             <div class="flex flex-column min-w-0">
               <span class="text-sm font-medium white-space-nowrap">{{
-                currentOperator.name
+                currentOperator().name
               }}</span>
               <span class="text-sm text-color-secondary white-space-nowrap">{{
                 'shared.app-layout.operator-role' | translate
@@ -67,6 +67,24 @@
             </div>
           }
         </div>
+        @if (signedIn()) {
+          <button
+            type="button"
+            class="nav-item w-full border-none surface-0 cursor-pointer"
+            [matTooltip]="
+              collapsed() ? ('shared.app-layout.sign-out' | translate) : ''
+            "
+            matTooltipPosition="right"
+            (click)="signOut()"
+          >
+            <mat-icon class="text-lg" aria-hidden="true">logout</mat-icon>
+            @if (!collapsed()) {
+              <span class="white-space-nowrap">{{
+                'shared.app-layout.sign-out' | translate
+              }}</span>
+            }
+          </button>
+        }
       </div>
     </div>
   </mat-sidenav>

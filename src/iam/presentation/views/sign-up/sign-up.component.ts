@@ -13,6 +13,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
+import { switchMap } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { SessionStore } from '../../../application/session.store';
+import { AuthenticationApiService } from '../../../infrastructure/authentication-api.service';
 import { MessageComponent } from '../../../../shared/presentation/components/message/message.component';
 import { formatMoney } from '../../../../shared/presentation/calendar-format';
 import { I18nService } from '../../../../shared/presentation/i18n.service';
@@ -60,6 +64,14 @@ export class SignUpComponent {
   protected readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
+  private readonly authentication = inject(AuthenticationApiService);
+  private readonly session = inject(SessionStore);
+
+  protected readonly authenticationEnabled = environment.authenticationEnabled;
+  protected readonly loading = signal(false);
+  protected readonly passwordError = signal<
+    'password-too-short' | 'account-exists' | null
+  >(null);
 
   /** `plan` query parameter. */
   readonly plan = input<string>();
@@ -72,6 +84,7 @@ export class SignUpComponent {
   protected fullName = '';
   protected email = '';
   protected organizationName = '';
+  protected password = '';
   protected readonly propertyCount = linkedSignal(
     () => this.selectedPlan().minProperties,
   );
@@ -111,7 +124,42 @@ export class SignUpComponent {
     );
     const error = registration.validate();
     this.error.set(error);
+    this.passwordError.set(null);
     if (error) return;
+    if (this.authenticationEnabled) {
+      if (this.password.length < 8) {
+        this.passwordError.set('password-too-short');
+        return;
+      }
+      const credentials = {
+        username: registration.email.trim(),
+        password: this.password,
+      };
+      this.loading.set(true);
+      this.authentication
+        .signUp(credentials)
+        .pipe(switchMap(() => this.authentication.signIn(credentials)))
+        .subscribe({
+          next: (user) => {
+            this.session.start({
+              userId: user.id,
+              username: user.username,
+              token: user.token,
+            });
+            this.loading.set(false);
+            this.notifyCreated(registration);
+          },
+          error: () => {
+            this.loading.set(false);
+            this.passwordError.set('account-exists');
+          },
+        });
+      return;
+    }
+    this.notifyCreated(registration);
+  }
+
+  private notifyCreated(registration: AccountRegistration): void {
     this.toast.add({
       severity: 'success',
       summary: this.i18n.t('iam.sign-up.created-summary'),

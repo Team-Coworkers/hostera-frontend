@@ -9,6 +9,13 @@
     "blocked": "Blocked",
     "out-of-service": "Out of service"
   },
+  "room-statuses": {
+    "available": "Available",
+    "ready": "Ready",
+    "occupied": "Occupied",
+    "needs-cleaning": "Needs cleaning",
+    "blocked": "Blocked"
+  },
   "room-type-statuses": {
     "active": "Active",
     "inactive": "Inactive"

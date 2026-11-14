@@ -4,11 +4,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   IsActiveMatchOptions,
+  Router,
   RouterLink,
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SessionStore } from '../../../../iam/application/session.store';
 import { LayoutService } from '../../services/layout.service';
 import { AppFooterComponent } from '../app-footer/app-footer.component';
 import { BrandLogoComponent } from '../brand-logo/brand-logo.component';
@@ -55,8 +57,24 @@ export class AppLayoutComponent {
     () => !this.layout.compact() && !this.layout.sidebarOpen(),
   );
 
-  /** Signed-in operator placeholder until the IAM context is implemented. */
-  protected readonly currentOperator = { name: 'Lucía Martín', initials: 'LM' };
+  private readonly session = inject(SessionStore);
+  private readonly router = inject(Router);
+
+  /** Whether a user signed in with the RESTful API (and can sign out). */
+  protected readonly signedIn = this.session.isAuthenticated;
+
+  /** Signed-in user, or the demonstration operator when the workspace runs on sample data. */
+  protected readonly currentOperator = computed(() => {
+    const username = this.session.username();
+    if (!username) return { name: 'Lucía Martín', initials: 'LM' };
+    return { name: username, initials: username.slice(0, 2).toUpperCase() };
+  });
+
+  /** Ends the session and returns to the sign-in view. */
+  protected signOut(): void {
+    this.session.end();
+    void this.router.navigateByUrl('/sign-in');
+  }
 
   protected readonly navigationItems: NavigationItem[] = [
     {
