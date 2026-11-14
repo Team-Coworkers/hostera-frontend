@@ -20,6 +20,11 @@ export const environment = {
   accessEventsEndpointPath: '/access-events',
   ratePlansEndpointPath: '/rate-plans',
   dailyRatesEndpointPath: '/daily-rates',
+  /** IAM endpoints of the Spring Boot RESTful API (sign-up and sign-in with JWT). */
+  usersEndpointPath: '/users',
+  tokensEndpointPath: '/tokens',
+  /** True once hosteraApiUrl points to the RESTful API: the workspace then requires signing in. */
+  authenticationEnabled: false,
   /** Nager.Date, the third-party public holidays API, and the properties' country. */
   publicHolidaysApiUrl: 'https://date.nager.at/api/v3',
   publicHolidaysCountryCode: 'PE',

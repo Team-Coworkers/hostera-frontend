@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authenticationGuard } from './iam/presentation/authentication.guard';
 import { iamRoutes } from './iam/presentation/iam.routes';
 import { AppLayoutComponent } from './shared/presentation/components/app-layout/app-layout.component';
 
@@ -58,6 +59,11 @@ const workspaceRoutes: Routes = [
  */
 export const routes: Routes = [
   ...iamRoutes,
-  { path: '', component: AppLayoutComponent, children: workspaceRoutes },
+  {
+    path: '',
+    component: AppLayoutComponent,
+    canActivate: [authenticationGuard],
+    children: workspaceRoutes,
+  },
   { path: '**', redirectTo: '' },
 ];
