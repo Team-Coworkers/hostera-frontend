@@ -29,7 +29,9 @@ This repository holds the Angular single-page application (SPA) and a developmen
    npm install
    ```
 
-2. Start the mock API at `http://localhost:3000`:
+2. Start the [Hostera Platform](https://github.com/Team-Coworkers/hostera-platform) RESTful API at
+   `http://localhost:8080` with `mvn spring-boot:run`. To work without it, start the mock API and
+   set `hosteraApiUrl` to `http://localhost:3000` in `src/environments/environment.ts`:
 
    ```bash
    npm run server:start

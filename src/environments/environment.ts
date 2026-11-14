@@ -1,10 +1,12 @@
 /**
- * Development environment: the SPA talks to the local JSON Server mock API.
+ * Development environment: the SPA talks to the Hostera Platform RESTful API running locally
+ * with its `dev` profile, which needs no sign-in. To use the JSON Server mock API instead,
+ * set `hosteraApiUrl` to `http://localhost:3000`.
  * Replaces the VITE_* variables of the Vue version (`.env.example`).
  */
 export const environment = {
   production: false,
-  hosteraApiUrl: 'http://localhost:3000',
+  hosteraApiUrl: 'http://localhost:8080/api/v1',
   /** Answer API requests in the browser from `server/data` instead of JSON Server. */
   demoApiEnabled: false,
   propertiesEndpointPath: '/properties',
