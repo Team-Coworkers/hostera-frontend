@@ -21,6 +21,7 @@ import {
 import { routes } from './app.routes';
 import { HosteraDateAdapter } from './shared/presentation/hostera-date-adapter';
 import { HosteraTitleStrategy } from './shared/presentation/hostera-title-strategy';
+import { bearerTokenInterceptor } from './iam/infrastructure/bearer-token.interceptor';
 import { demoApiInterceptor } from './shared/infrastructure/demo-api.interceptor';
 import { LocaleLoader } from './shared/infrastructure/locale-loader';
 import { VueI18nMessageParser } from './shared/infrastructure/vue-i18n-message-parser';
@@ -33,7 +34,9 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
     ),
-    provideHttpClient(withInterceptors([demoApiInterceptor])),
+    provideHttpClient(
+      withInterceptors([bearerTokenInterceptor, demoApiInterceptor]),
+    ),
     provideAnimationsAsync(),
     // Dates read as "Oct 8, 2026", as the PrimeVue date format of the Vue version.
     provideNativeDateAdapter({

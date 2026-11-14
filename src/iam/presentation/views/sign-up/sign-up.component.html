@@ -131,6 +131,21 @@
           [(ngModel)]="organizationName"
         />
       </mat-form-field>
+      @if (authenticationEnabled) {
+        <mat-form-field class="w-full">
+          <mat-label>{{ i18n.t('iam.sign-up.password') }}</mat-label>
+          <input
+            matInput
+            type="password"
+            name="password"
+            autocomplete="new-password"
+            required
+            minlength="8"
+            [(ngModel)]="password"
+          />
+          <mat-hint>{{ i18n.t('iam.sign-up.password-hint') }}</mat-hint>
+        </mat-form-field>
+      }
 
       @if (error()) {
         <app-message severity="error">
@@ -142,11 +157,24 @@
         </app-message>
       }
 
-      <app-message severity="secondary">
-        {{ i18n.t('iam.sign-up.demo-notice') }}
-      </app-message>
+      @if (passwordError()) {
+        <app-message severity="error">
+          {{ i18n.t('iam.sign-up.errors.' + passwordError()) }}
+        </app-message>
+      }
 
-      <button mat-flat-button type="submit" class="w-full">
+      @if (!authenticationEnabled) {
+        <app-message severity="secondary">
+          {{ i18n.t('iam.sign-up.demo-notice') }}
+        </app-message>
+      }
+
+      <button
+        mat-flat-button
+        type="submit"
+        class="w-full"
+        [disabled]="loading()"
+      >
         <mat-icon>person_add</mat-icon>
         {{ i18n.t('iam.sign-up.submit') }}
       </button>

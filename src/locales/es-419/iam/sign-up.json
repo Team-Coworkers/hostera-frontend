@@ -20,6 +20,10 @@
     "full-name-required": "Ingresa tu nombre completo.",
     "email-invalid": "Ingresa un correo de trabajo válido.",
     "organization-required": "Ingresa el nombre de tu hotel o de tu cadena.",
-    "plan-does-not-fit": "{plan} no cubre esa cantidad de propiedades y habitaciones. Revisa el alcance del plan o elige otro plan."
-  }
+    "plan-does-not-fit": "{plan} no cubre esa cantidad de propiedades y habitaciones. Revisa el alcance del plan o elige otro plan.",
+    "password-too-short": "La contraseña necesita al menos 8 caracteres.",
+    "account-exists": "Ese correo ya tiene una cuenta. Inicia sesión."
+  },
+  "password": "Contraseña",
+  "password-hint": "Al menos 8 caracteres."
 }

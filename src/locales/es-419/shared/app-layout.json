@@ -5,5 +5,6 @@
   "inventory": "Inventario",
   "access-control": "Control de acceso",
   "navigation": "Navegación principal",
-  "operator-role": "Gerente de operaciones"
+  "operator-role": "Gerente de operaciones",
+  "sign-out": "Cerrar sesión"
 }

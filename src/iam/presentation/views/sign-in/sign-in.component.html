@@ -53,15 +53,23 @@
       </app-message>
     }
 
-    <button mat-flat-button type="submit" class="w-full">
+    @if (failed()) {
+      <app-message severity="error">
+        {{ i18n.t('iam.sign-in.invalid') }}
+      </app-message>
+    }
+
+    <button mat-flat-button type="submit" class="w-full" [disabled]="loading()">
       <mat-icon>login</mat-icon>
       {{ i18n.t('iam.sign-in.submit') }}
     </button>
   </form>
 
-  <app-message severity="secondary" class="block mt-4">
-    {{ i18n.t('iam.sign-in.demo-notice') }}
-  </app-message>
+  @if (!authenticationEnabled) {
+    <app-message severity="secondary" class="block mt-4">
+      {{ i18n.t('iam.sign-in.demo-notice') }}
+    </app-message>
+  }
 
   <p class="mt-4 mb-0 text-center">
     {{ i18n.t('iam.sign-in.no-account') }}
