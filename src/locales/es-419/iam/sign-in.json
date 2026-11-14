@@ -11,5 +11,6 @@
   "demo-summary": "Sesión de demostración iniciada",
   "demo-detail": "Estás viendo datos de ejemplo.",
   "no-account": "¿Eres nuevo en Hostera?",
-  "create-account": "Elige un plan y crea una cuenta"
+  "create-account": "Elige un plan y crea una cuenta",
+  "invalid": "El correo o la contraseña no son correctos."
 }
