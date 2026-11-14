@@ -33,6 +33,7 @@
                 }}
               </h2>
               <app-day-status-tag [status]="todayStatus()" />
+              <app-room-status-tag [status]="room.status" />
             </div>
             <span class="text-sm text-color-secondary">
               {{ roomType()?.name }} ·

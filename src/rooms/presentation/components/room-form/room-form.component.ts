@@ -92,6 +92,7 @@ export class RoomFormComponent {
       number: this.number(),
       roomTypeId: this.roomTypeId(),
       floor: floor === null || (floor as unknown) === '' ? null : Number(floor),
+      status: this.room?.status ?? 'available',
     });
     try {
       const savedRoom = this.isEdit
