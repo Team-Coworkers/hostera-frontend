@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Housekeeping status of a room (`available`, `ready`, `occupied`, `needs-cleaning` or `blocked`) read from the RESTful API and shown in the room detail, in English and Spanish. A room is `ready` once it was cleaned; after a check-out it is `needs-cleaning`.
 
+### Fixed
+
+- The Rooms workspace reads the rooms again every time it opens, so the housekeeping status reflects a check-in or check-out made in Bookings without reloading the page.
+
 ## [0.5.0] - 2026-10-09
 
 ### Added

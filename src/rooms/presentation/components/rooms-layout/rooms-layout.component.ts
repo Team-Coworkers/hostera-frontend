@@ -106,6 +106,9 @@ export class RoomsLayoutComponent {
 
   constructor() {
     if (!this.store.propertiesLoaded()) this.store.fetchProperties();
+    // A check-in or a check-out in Bookings changes the room status in the API,
+    // so the rooms are read again every time the workspace opens.
+    else void this.store.fetchRooms();
   }
 
   /** Room details have no tab of their own and belong to Availability. */
