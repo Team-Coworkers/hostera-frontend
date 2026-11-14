@@ -1,12 +1,11 @@
 /**
- * Production environment: the SPA deployed on GitHub Pages reads the Team Coworkers
- * demonstration mock API, published on Render from `render.yaml` (see server/README.md).
- * Point `hosteraApiUrl` to the Spring Boot RESTful API once it is deployed. Setting
+ * Production environment: the deployed SPA reads the Hostera Platform RESTful API (Spring Boot),
+ * published on Render, and signs in with its JWT (`authenticationEnabled`). Setting
  * `demoApiEnabled` to true answers the requests in the browser instead (demo-api.interceptor.ts).
  */
 export const environment = {
   production: true,
-  hosteraApiUrl: 'https://team-coworkers-hostera-api.onrender.com',
+  hosteraApiUrl: 'https://hostera-platform-api.onrender.com/api/v1',
   demoApiEnabled: false,
   propertiesEndpointPath: '/properties',
   inventoryItemsEndpointPath: '/inventory-items',
@@ -25,7 +24,7 @@ export const environment = {
   usersEndpointPath: '/users',
   tokensEndpointPath: '/tokens',
   /** True once hosteraApiUrl points to the RESTful API: the workspace then requires signing in. */
-  authenticationEnabled: false,
+  authenticationEnabled: true,
   /** Nager.Date, the third-party public holidays API, and the properties' country. */
   publicHolidaysApiUrl: 'https://date.nager.at/api/v3',
   publicHolidaysCountryCode: 'PE',

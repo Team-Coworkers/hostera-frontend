@@ -27,6 +27,7 @@ import { DayStatusTagComponent } from '../../components/day-status-tag/day-statu
 import { RoomAvatarComponent } from '../../components/room-avatar/room-avatar.component';
 import { RoomFormComponent } from '../../components/room-form/room-form.component';
 import { RoomMonthCalendarComponent } from '../../components/room-month-calendar/room-month-calendar.component';
+import { RoomStatusTagComponent } from '../../components/room-status-tag/room-status-tag.component';
 import {
   RoomStatusFormComponent,
   RoomStatusFormData,
@@ -56,6 +57,7 @@ interface UpcomingEntry {
     LayoutBodyDirective,
     MessageComponent,
     DayStatusTagComponent,
+    RoomStatusTagComponent,
     RoomAvatarComponent,
     RoomMonthCalendarComponent,
   ],
